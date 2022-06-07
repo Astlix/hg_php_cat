@@ -1,7 +1,7 @@
 <?php
             $dominio = $_SERVER['HTTP_HOST'];
             // $directorio =  $_SERVER['REQUEST_URI'];
-            $directorio =  '/hg_cat/';
+            $directorio =  '/hg_php_cat/';
             $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
             $url = $protocol . $dominio . $directorio;
             define( 'SERVERURL', $url );

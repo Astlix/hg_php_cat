@@ -9,7 +9,7 @@ require_once ("./controllers/userController.php");
     </div>
     
     <div class="box-cont-blanco" id="box">
-    <button type="button" class="btn btn-warning" style="margin: 10px 0px; display: flex; align-items: center;">Agregar<i class='bx bxs-user-plus nav_icon' style="padding-left: 5px;"></i></button>
+    <a href="<?php echo SERVERURL;?>crearusuarios" type="button" class="btn btn-warning" style="margin: 10px 0px; display: flex; align-items: center; width: 100px;">Agregar<i class='bx bxs-user-plus nav_icon' style="padding-left: 5px;"></i></a>
 
       <?php
         $tb = new Usercontroller();

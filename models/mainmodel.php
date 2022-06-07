@@ -1,10 +1,4 @@
-^<?php
-
-// if ($peticionAjax) {
-//     require_once './config/server.php';
-// }else{
-//     require_once './config/server.php';
-// }
+<?php
 
 class Mainmodel{
 
@@ -13,7 +7,7 @@ class Mainmodel{
     ########################################################################
     public function conectar(){
         try{
-          $ini = './config.ini';
+          $ini = '../config.ini';
           $set = parse_ini_file($ini, TRUE);
           
           switch ($set["configuracion"]["driver_db"]) {
@@ -50,7 +44,7 @@ class Mainmodel{
       }
        // ========================== LIMPIAR CADENAS========================= //
       protected static function limpiar_cadena($cadena){
-        $cadena=trim($cadena);
+        $cadena=trim($cadena); //quitamos espacios
         $cadena=stripslashes($cadena);
         $cadena=str_ireplace('<script>','',$cadena);
         $cadena=str_ireplace('</script>','',$cadena);
@@ -97,8 +91,18 @@ class Mainmodel{
           return false; //no tiene errores
         } else {
           return true; //tiene errores
-        }
-        
+        }        
        }
 
-}
+       // ========================== VERIFICAR FECHA========================= //
+       public static function ejecutar_cosulta_simple($consulta){
+         $sql=self::conectar()->prepare($consulta);
+         $sql->execute();
+         return $sql->fetch();
+         $sql->close();
+       }
+
+      
+  
+  }
+
