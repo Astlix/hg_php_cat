@@ -7,7 +7,28 @@ class Mainmodel{
     ########################################################################
     public function conectar(){
         try{
+          
           $ini = '../config.ini';
+          $set = parse_ini_file($ini, TRUE);
+          
+          switch ($set["configuracion"]["driver_db"]) {
+            case "sql":
+              $link = new PDO($set['sqlsrv']['driver'].':Server='.$set['sqlsrv']['server'].'; Database='.$set['sqlsrv']['dbn']);
+              $link -> exec("SET CHARACTER SET utf8");
+              break;
+            case "mysql":
+              $link = new PDO($set['mysql']['driver'].":host=".$set['mysql']['server']."; charset=UTF8; dbname=".$set['mysql']['dbn'], $set['mysql']['db_user'], $set['mysql']['db_pass']);          
+              break;
+          }
+        } catch (PDOException $e){
+          echo $e;
+        }
+        return $link;
+      }
+    public function conectar2(){
+        try{
+          
+          $ini = './config.ini';
           $set = parse_ini_file($ini, TRUE);
           
           switch ($set["configuracion"]["driver_db"]) {

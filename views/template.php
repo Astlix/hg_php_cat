@@ -14,13 +14,24 @@
     <?php
     $peticionAjax = false;
     require_once "./controllers/viewcontroller.php";
+    require_once 'modals/editarusuario.php';   
+    require_once("./models/usermodel.php"); //para ver las notificaciones
+   
     $iv = new viewController();
     $vistas = $iv->obtener_vistas_controlador();
 
     if ($vistas == 'login' || $vistas == "404") {
         require_once "./views/contenidos/" . $vistas . '_view.php';
     } else {
-
+        session_start(['name' => 'SCA']); //iniciamos session para que nos muestre las variables
+        require_once "./controllers/loginController.php";
+        $lc = new loginController();
+        if (!isset($_SESSION['token_sca']) 
+        || !isset($_SESSION['nickname_sca']) 
+        ||  !isset($_SESSION['rol_sca'])) {
+            echo $lc->forzar_cierre_sesion_controller();
+            exit();
+        }
     ?>
         <?php include './views/inc/header.php'; ?>
         <?php include './views/inc/navlateral.php'; ?>

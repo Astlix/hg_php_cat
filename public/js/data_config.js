@@ -14,7 +14,7 @@ $(document).ready(function(){
         "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
         "sInfoPostFix":    "",
         "sSearch":         "",
-        "searchPlaceholder": "Buscar Articulo",
+        "searchPlaceholder": "Buscar Registro",
         "sUrl":            "",
         "sInfoThousands":  ",",
         "sLoadingRecords": '<i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>',

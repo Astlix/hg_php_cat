@@ -8,7 +8,7 @@
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" style="text-align: end;" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Usuario
+                                    <?php echo $_SESSION['rol_sca'].' | '. $_SESSION['nickname_sca']; ?>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="border-radius: 10px; background-color:#000000">
                                     <li><a class="dropdown-item" href="#" style="display: flex; align-items: center; color: #ffc400e1;" ><i style="padding-right: 5px;color: #ffc400e1;" class='bx bxs-user-detail nav_icon'></i> Perfil</a></li>

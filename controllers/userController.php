@@ -2,7 +2,6 @@
 
 if ($peticionAjax) {
   require_once("../models/usermodel.php"); //para ver las notificaciones
-  require_once '../models/mainmodel.php';
 } else {
   require_once("./models/usermodel.php");//para consultas
 }

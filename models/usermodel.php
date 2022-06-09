@@ -21,8 +21,8 @@ class UserModel extends Mainmodel{
   ########################################################################
     #                           Consulta Todos los Usuarios                             #
     ########################################################################
-    public function ver_usuarios(){
-        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblUser");
+    public static function ver_usuarios(){
+        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblUser");
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();
