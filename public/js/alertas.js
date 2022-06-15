@@ -98,7 +98,6 @@ function alertas_ajax(alerta){ //alerta sera un archibo json
             button: 'Aceptar'
           }).then((result) => {
             if (result) {
-                // document.querySelector(".FormularioAjax").reset();
                 location.reload();
             }
           })

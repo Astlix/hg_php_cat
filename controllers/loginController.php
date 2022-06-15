@@ -66,7 +66,7 @@ class logincontroller extends loginModel
             $_SESSION['nombre_sca']=$datos_cuenta['UserName']; 
             $_SESSION['nickname_sca']=$datos_cuenta['UserNickname']; 
             if ($datos_cuenta['UserRole']=='1'){
-               $rol = 'Administrador';}
+               $rol = 'Admin';}
             else
             {$rol = 'Guest';}
             $_SESSION['rol_sca']=$rol; 
@@ -100,4 +100,27 @@ class logincontroller extends loginModel
         return header("location:" .SERVERURL."login");
       }
     } // FIN CONTROLADOR
+
+    // CONTROLADOR DE CIERRE DE SESION
+    public function cierre_sesion_controlador() {
+      session_start(['name'=>'SCA']);
+      $token =Mainmodel::decryption($_POST['token']);
+      $usuario =Mainmodel::decryption($_POST['usuario']);
+      if ($token==$_SESSION['token_sca' && $usuario == $_SESSION['nickname_sca']]) {
+        session_unset();
+        session_destroy();
+        $alerta = [
+          "Alerta"=>"redireccionar",
+          "URL" => SERVERURL."login"
+        ];
+      }else{
+        $alerta=[
+          "Alerta" => "simple",
+          "Titulo" => "Ocurrio un error inesperado",
+          "Texto"  => "NO se ha podido cerrar sesión",
+          "Tipo"   => "error"
+        ];
+      }
+      echo json_encode($alerta);
+    }// FIN DEL CONTROLADOR
 }

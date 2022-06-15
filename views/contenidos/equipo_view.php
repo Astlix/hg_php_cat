@@ -1,1 +1,1 @@
-<H1>EQUIPO PAGE</H1>
+<H1>EQUIPO </H1>

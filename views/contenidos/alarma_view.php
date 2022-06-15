@@ -1,1 +1,1 @@
-<H1>ALARMA PAGE</H1>
+<H1>ALARMA </H1>

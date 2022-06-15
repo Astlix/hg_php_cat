@@ -13,10 +13,10 @@
 <body id="body-pd">
     <?php
     $peticionAjax = false;
-    require_once "./controllers/viewcontroller.php";
-    require_once 'modals/editarusuario.php';   
+    require_once "./controllers/viewcontroller.php";   
     require_once("./models/usermodel.php"); //para ver las notificaciones
-   
+    require_once("./models/activosmodel.php"); //para ver las notificaciones
+    
     $iv = new viewController();
     $vistas = $iv->obtener_vistas_controlador();
 
@@ -42,6 +42,7 @@
         </div>
         <!--Container Main end-->
     <?php
+    include './views/inc/logout.php';
     }
     include './views/inc/script.php';
     ?>

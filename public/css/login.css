@@ -63,12 +63,13 @@ body {
     box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
     text-align: center;
   }
-  #astlix{
+  /* imagen astlix */
+  #astlix{ 
     position: absolute;
-    width: 11vw;
+    width: 8vw;
     height:auto;
-    left:5%;
-    top:5%;
+    left:3%;
+    top:3%;
     }
   
   #formFooter {

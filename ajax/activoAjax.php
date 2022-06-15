@@ -3,13 +3,13 @@
     $peticionAjax=true;
     require_once '../config/config.php';//para poder incluir el SERVERURL
 
-    if (isset($_POST['name_reg'])) {
+    if (isset($_POST['asset_reg'])) {
         // INCLUIR CONTROLADOR
-        require_once '../controllers/userController.php';
-        $ins_usuario = new userController();
+        require_once '../controllers/activoscontroller.php';
+        $ins_usuario = new activosController();
         //AGREGAR UN USUARIO
-        if(isset($_POST['name_reg']) && isset($_POST['pass_reg'])&& isset($_POST['cpass_reg'])){
-            echo $ins_usuario->agregar_usuario_controller();
+        if(isset($_POST['asset_reg']) && isset($_POST['planta_reg'])&& isset($_POST['columna_reg'])&& isset($_POST['num_col_reg'])){
+            echo $ins_usuario->agregar_activo_controller();
         }
 
     }else{
