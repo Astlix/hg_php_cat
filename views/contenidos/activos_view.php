@@ -1,21 +1,20 @@
-
 <div id="seccion-wrap">
   <div class="box-cont-negro">
 
     <div class="box-cont-blanco titulo-box">
-      <h4>Lista de Activos
-      </h4>
+      <h1>Lista de Activos</h1>
     </div>
 
     <div class="box-cont-blanco" id="box">
-      
-      <div class="botones" style="width:100%;display: flex; ">
-          <a href="<?php echo SERVERURL; ?>crearactivos" type="button" class="btn btn-warning" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: 100px;">Agregar<i class='bx bxs-package nav_icon' style="padding-left: 5px;"></i></a>
-          <form action="" method="post">
-            <input type="file" class="form-control-file" id="exampleFormControlFile1">
-            <a href="subir_csv_activos.php" type="button" class="btn btn-success" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Importar CSV<i class='bx bxs-file-import' style="padding-left: 5px;"></i></a>
-          </form>
-        </div>
+
+      <div class="botones" style="width:100%;display: flex;justify-content:flex-start; ">
+        <a href="<?php echo SERVERURL; ?>crearactivos" type="button" class="btn btn-warning" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Agregar<i class='bx bx-add-to-queue nav_icon' style="padding-left: 5px;"></i></a>
+        <a href="<?php echo SERVERURL; ?>inventario" type="button" class="btn btn-warning" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Inventario<i class='bx bx-list-check nav_icon' style="padding-left: 5px;"></i></a>
+        <!-- <form action="" method="post" style="display:flex;justify-content: space-between; align-items: center;">
+          <input type="file" class="form-control-file" id="exampleFormControlFile1">
+          <a href="subir_csv_activos.php" type="button" class="btn btn-success" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Importar CSV<i class='bx bxs-file-import' style="padding-left: 5px;"></i></a>
+        </form> -->
+      </div>
       <hr class="my-2">
 
       <?php
@@ -26,7 +25,7 @@
         $elemento .= '</div>';
         echo $elemento;
       } else {
-        $tabla  = '<table style="border-radius:10px" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
+        $tabla  = '<table style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
         $tabla .= '<thead>';
         $tabla .= '<tr class="bg-warning">';
         $tabla .= '<th scope="col">#</th>';
@@ -43,6 +42,11 @@
         $i = 0;
 
         foreach ($rsp as $dato) {
+          $site = $dato['TagSite'];
+          $planta= substr($site,18,-4);
+          $columna= substr($site,20,-2);
+          $num_columna= substr($site,-2);
+
           $i++;
           $tabla .= '<tr class="elemento">';
           $tabla .= '<td scope="col">' . $i . '</td>';
@@ -58,19 +62,43 @@
                   <i class="bx bx-dots-vertical-rounded"></i>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ver_registro" href="#">Ver</a></li>
-                    <li><a class="dropdown-item" href="#">Editar</a></li>
+                    <li><a class="dropdown-item" id="ver_registro_act" 
+                    data-id="'.$dato['idCA'].'"
+                    data-asset="'.$dato['Asset'].'"
+                    data-description="'.$dato['Description'].'"
+                    data-epc="'.$dato['TagEpc'].'"
+                    data-serial="'.$dato['SerialNumber'].'"
+                    data-site="'.$dato['TagSite'].'"
+                    data-tagfind="'.$dato['TagSiteFound'].'"
+                    data-inventario="'.$dato['Inventory'].'"
+                    data-fecha="'.$dato['DateInventory'].'"
+                    data-s1="'.$dato['Service001'].'"
+                    data-s2="'.$dato['Service002'].'"
+                    data-s3="'.$dato['Service003'].'"
+                    data-s4="'.$dato['Service004'].'"
+                    data-s5="'.$dato['Service005'].'"
+                    data-planta="'.$planta.'"
+                    data-columna="'.$columna.'"
+                    data-num="'.$num_columna.'"
+                    
+                    ><i class="bx bx-show"></i> Ver</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                    <form action="' . SERVERURL . 'ajax/activoAjax.php" class="FormularioAjax" method="post" data-form="delete">
+                    <input type="hidden" name="activo_id_delete" value="'.Mainmodel::encryption($dato['idCA']).'">
+                    <button type="submit" class="btn btn-secondary" style="background-color:transparent; color:black; border-color:transparent;width:100%;"><i class="bx bx-basket" style="color:red;"></i> Eliminar</button>
+                    </form>
                   </ul>
                 </div>
           </td>';
           $tabla .= '</tr>';
+
         }
         $tabla .= '</tbody>';
         $tabla .= '</table>';
         echo $tabla;
       }
+      
+      include 'modal.php';
       ?>
 
 
@@ -78,54 +106,3 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="ver_registro" tabindex="-1" aria-labelledby="ver_registro" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ver_registro">Editar Usuario</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/usuarioAjax.php" method="POST" data-form="update">
-
-          <div class="form-group">
-            <label for="nombre">Nombre de Usuario</label>
-            <input type="text" class="form-control" id="nickname" name="nickname_reg" required>
-            <small id="emailHelp" class="form-text text-muted">Alias que se usara en la plataforma.</small>
-          </div>
-          <div class="form-group">
-            <label for="nombre">Nombre Completo</label>
-            <input type="text" class="form-control" pattern="[a-zA-Z].{1,}" title="El nombre debe ser minusculas o mayusculas." maxlength="35" id="nombre" name="name_reg" required>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Correo Electrónico</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email_reg" autocomplete="off">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Rol</label>
-            <!-- <input type="text" class="form-control" id="rol" name="rol_reg" autocomplete="off"> -->
-            <select class="form-control" name="rol_reg" aria-label="Default select example">
-              <option selected disabled>Seleccione</option>
-              <option value="1">Admin</option>
-              <option value="2">Guest</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Contraseña</label>
-            <input type="password" class="form-control" name="pass_reg" id="pass1" pattern='[a-zA-Z0-9!#$%&"()=@].{7,}' required>
-            <small class="form-text text-muted">Min 8 caracteres | Un numero | Un caracter especial | Mayusculas | Minusculas</small>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Repetir Contraseña</label>
-            <input type="password" class="form-control" name="cpass_reg" pattern='[a-zA-Z0-9!#$%&"()=@].{7,}' id="cpass_reg" required>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>

@@ -1,72 +1,57 @@
-$(document).ready(function(){
 
-	/*  Show/Hidden Submenus */
-	$('.nav-btn-submenu').on('click', function(e){
-		e.preventDefault();
-		var SubMenu=$(this).next('ul');
-		var iconBtn=$(this).children('.fa-chevron-down');
-		if(SubMenu.hasClass('show-nav-lateral-submenu')){
-			$(this).removeClass('active');
-			iconBtn.removeClass('fa-rotate-180');
-			SubMenu.removeClass('show-nav-lateral-submenu');
-		}else{
-			$(this).addClass('active');
-			iconBtn.addClass('fa-rotate-180');
-			SubMenu.addClass('show-nav-lateral-submenu');
-		}
-	});
+// ACTIVAR LOS INPUTS DE EDITAR ACTIVOS
+$(document).on("click", "#form_activar", function(e){
+	$("#modal_asset_upd").prop('disabled', false);
+	$("#modal_desc_upd").prop('disabled', false);
+	$("#modal_num_serial_upd").prop('disabled', false);
+	$("#modal_planta_upd").prop('disabled', false);
+	$("#modal_columna_upd").prop('disabled', false);
+	$("#modal_num_upd").prop('disabled', false);
+	$("#modal_serv_1_upd").prop('disabled', false);
+	$("#modal_serv_2_upd").prop('disabled', false);
+	$("#modal_serv_3_upd").prop('disabled', false);
+	$("#modal_serv_4_upd").prop('disabled', false);
+	$("#modal_serv_5_upd").prop('disabled', false);
+	$("#modal_inv_upd").prop('disabled', false);
+	$("#btn_act_upd").css("visibility", "visible");
 
-	/*  Show/Hidden Nav Lateral */
-	$('.show-nav-lateral').on('click', function(e){
-		e.preventDefault();
-		var NavLateral=$('.nav-lateral');
-		var PageConten=$('.page-content');
-		if(NavLateral.hasClass('active')){
-			NavLateral.removeClass('active');
-			PageConten.removeClass('active');
-		}else{
-			NavLateral.addClass('active');
-			PageConten.addClass('active');
-		}
-	});
-
-	/*  Exit system buttom */
-	$('.btn-exit-system').on('click', function(e){
-		e.preventDefault();
-		Swal.fire({
-			title: 'Are you sure to close the session?',
-			text: "You are about to close the session and exit the system",
-			type: 'question',
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: 'Yes, exit!',
-			cancelButtonText: 'No, cancel'
-		}).then((result) => {
-			if (result.value) {
-				window.location="index.html";
-			}
-		});
-	});
-    
 });
-(function($){
-    $(window).on("load",function(){
-        $(".nav-lateral-content").mCustomScrollbar({
-        	theme:"light-thin",
-        	scrollbarPosition: "inside",
-        	autoHideScrollbar: true,
-        	scrollButtons: {enable: true}
-        });
-        $(".page-content").mCustomScrollbar({
-        	theme:"dark-thin",
-        	scrollbarPosition: "inside",
-        	autoHideScrollbar: true,
-        	scrollButtons: {enable: true}
-        });
-    });
-})(jQuery);
 
-$(function(){
-  $('[data-toggle="popover"]').popover()
-});
+
+// MOSTRAL EL MODAL Y SUS DATOS
+   $(document).on("click", "#ver_registro_act", function(e){
+	let asset   = $(this).data("asset");
+	let description   = $(this).data("description");
+	let epc   = $(this).data("epc");
+	let tagfind   = $(this).data("tagfind");
+	let serial   = $(this).data("serial");
+	let inventario   = $(this).data("inventario");
+	let fecha   = $(this).data("fecha");
+	let id   = $(this).data("id");
+	let planta   = $(this).data("planta");
+	let columna   = $(this).data("columna");
+	let num_columna   = $(this).data("num");
+	let s1   = $(this).data("s1");
+	let s2   = $(this).data("s2");
+	let s3   = $(this).data("s3");
+	let s4   = $(this).data("s4");
+	let s5   = $(this).data("s5");
+	
+	$('#modal_planta_upd > option[value="'+planta+'"]').attr('selected', 'selected');
+	$('#modal_columna_upd > option[value="'+columna+'"]').attr('selected', 'selected');
+	$('#modal_num_upd > option[value="'+num_columna+'"]').attr('selected', 'selected');
+    $("#modal_asset_upd").val(asset);//mandamos los valores a los input para obtenerlos en js
+    $("#modal_desc_upd").val(description);
+    $("#modal_epc_upd").val(epc);
+    $("#modal_tagfind_upd").val(tagfind);
+    $("#modal_inv_upd").val(inventario);
+    $("#modal_date_upd").val(fecha);
+    $("#modal_num_serial_upd").val(serial);
+    $("#activo_id_upd").val(id);
+    $("#modal_serv_1_upd").val(s1);
+    $("#modal_serv_2_upd").val(s2);
+    $("#modal_serv_3_upd").val(s3);
+    $("#modal_serv_4_upd").val(s4);
+    $("#modal_serv_5_upd").val(s5);
+    $("#ver_registro").modal("show");
+  });

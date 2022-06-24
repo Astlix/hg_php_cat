@@ -7,7 +7,6 @@
          // INCLUIR CONTROLADOR
          require_once '../controllers/loginController.php';
          $ins_login = new loginController();
-
         echo $ins_login->cierre_sesion_controlador();
     }else{
         session_start(['name'=>'SCA']);

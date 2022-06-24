@@ -22,13 +22,13 @@ function enviar_formulario_ajax(e){
     
     if (tipo==="save") {
       texto_alerta = "Los datos quedaran guardados en el sistema.";
-    }else if(tipo.alerta==="delete"){
-      texto_alerta = "Los registro ha sido borrado exitosamente.";
-    }else if(tipo.alerta==="update"){
-      texto_alerta = "Los registro ha sido actualzado exitosamente.";
-    }else if(tipo.alerta==="search"){
-      texto_alerta = "Se eliminara el termino de busqueda y tendrasque escribir uno nuevo.";
-    }else if(tipo.alerta==="loans"){
+    }else if(tipo==="delete"){
+      texto_alerta = "Los datos seran eliminados permanentemente del sistema";
+    }else if(tipo==="update"){
+      texto_alerta = "Los datos seran actualizados permanentemente.";
+    }else if(tipo==="search"){
+      texto_alerta = "Se eliminara el termino de busqueda y tendras que escribir uno nuevo.";
+    }else if(tipo==="loans"){
       texto_alerta = "Desea eliminar los registros seleccionados.";
     }else{
       texto_alerta = "Quieres realizar la operacion solicitada.";

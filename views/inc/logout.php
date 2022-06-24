@@ -34,6 +34,8 @@
                 let data = new FormData();
                 data.append("token",token);
                 data.append("usuario",usuario);
+                
+                location.reload();
                 fetch(url,{
                     method: 'POST',
                     body: data

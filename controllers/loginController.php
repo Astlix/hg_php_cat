@@ -106,13 +106,12 @@ class logincontroller extends loginModel
       session_start(['name'=>'SCA']);
       $token =Mainmodel::decryption($_POST['token']);
       $usuario =Mainmodel::decryption($_POST['usuario']);
-      if ($token==$_SESSION['token_sca' && $usuario == $_SESSION['nickname_sca']]) {
+      if ($token == $_SESSION['token_sca'] && $usuario == $_SESSION['nickname_sca']) {
         session_unset();
-        session_destroy();
-        $alerta = [
-          "Alerta"=>"redireccionar",
-          "URL" => SERVERURL."login"
-        ];
+        session_destroy();        
+      return header("location:" .SERVERURL."login");
+      exit();
+        
       }else{
         $alerta=[
           "Alerta" => "simple",

@@ -18,7 +18,7 @@
     </div>
     <div class="row">
         <label for="nombre">Ubicación</label>
-        <div class="col-2">
+        <div class="col">
             <select class="form-select" name="planta_reg" aria-label="Default select example" title="Planta" required>
                 <option value="01" selected>Finsa1</option>
                 <option value="02">Finsa3</option>
@@ -26,7 +26,7 @@
                 <option value="04">CLS</option>
             </select>
         </div>-
-        <div class="col-2">
+        <div class="col">
             <select class="form-select" name="columna_reg" aria-label="Default select example" title="Columna" required>
                 <option value="01" selected>A</option>
                 <option value="02">B</option>
@@ -48,7 +48,7 @@
                 <option value="18">R</option>
             </select>
         </div>-
-        <div class="col-2">
+        <div class="col">
             <select class="form-select" name="num_col_reg" aria-label="Default select example" title="Número de la Coumna" required>
                 <option value="01" selected>1</option>
                 <option value="02">2</option>
@@ -91,6 +91,6 @@
 <br>
 
 <div class="row justify-content-around">
-    <button type="submit" class="btn btn-primary col-2">Agregar</button>
+    <button type="submit" class="btn btn-primary col-3">Agregar</button>
 </div>
 </form>
