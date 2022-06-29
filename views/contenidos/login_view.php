@@ -14,7 +14,7 @@
         <!-- Login Form -->
         <form method="post" action="" autocomplete="off">
             <input type="text" id="user" class="fadeIn second" pattern="[A-Za-z]+" name="user_login" placeholder="Usuario">
-            <input type="text" id="pass" class="fadeIn third"  name="pass_login" placeholder="Contraseña">
+            <input type="password" id="pass" class="fadeIn third"  name="pass_login" placeholder="Contraseña">
             <input type="submit" class="fadeIn fourth" value="Ingresar">
         </form>
 

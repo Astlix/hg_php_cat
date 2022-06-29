@@ -55,3 +55,29 @@ $(document).on("click", "#form_activar", function(e){
     $("#modal_serv_5_upd").val(s5);
     $("#ver_registro").modal("show");
   });
+
+  //modal para ver los activos especificos
+
+  $(document).on("click", "#btn_detalles_activo",function () {
+		
+    var planta =$(this).data('planta');
+    var columna =$(this).data('ubicacion');
+    var num_columna =$(this).data('numcolumna');
+	
+    
+	$("#activos_detalles").modal("show");
+ 
+ console.log(planta+columna+num_columna);
+
+$.ajax({
+  data: {"planta" : planta,
+  		 "columna": columna,
+  		 "num_columna": num_columna},
+  url: "./views/detalles_activos.php",
+  type: "post",
+  success:  function (response) {
+    data=$.parseJSON(response); //parse response string
+    $('#datos_activos').html(data.resp);
+  }  
+});
+});

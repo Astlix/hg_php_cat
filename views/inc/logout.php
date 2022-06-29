@@ -4,8 +4,8 @@
     btn_salida.addEventListener('click',function(e){
         e.preventDefault();
         swal({
-            title: "¿Estas seguro de dalir del sistema?",
-            text: "La sesion actual se cerrara y saldras del sistema.",
+            title: "¿Estas seguro de salir del sistema?",
+            text: "La sesion actual se cerrara.",
             icon: "info",
             buttons: {
                 cancel: {

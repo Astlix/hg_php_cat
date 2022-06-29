@@ -12,6 +12,14 @@ class ActivosModel extends MainModel{
         return $stmp->fetchAll();
         $stmp->close();
       }
+    public static function ver_activos2(){
+      $datos='010101';
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where TagSite like '%cad120140100000000".$datos."%'");
+        $stmp->execute();
+        return $stmp->fetchAll();
+        $stmp->close();
+      }
+
     ########################################################################
     #                           Consulta un activo solamente                             #
     ########################################################################
@@ -28,8 +36,13 @@ class ActivosModel extends MainModel{
         $stmp -> bindParam(":id", $id);
         $stmp->execute();
         return $stmp->fetch();
-        $stmp->close();
-      
+        $stmp->close();      
+      }
+    public static function ver_un_activos_especifico($datos){
+      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where TagSite like '%cad120140100000000".$datos."%'");
+      $stmp->execute();
+      return $stmp->fetchAll();
+      $stmp->close();
       }
 
        ########################################################################

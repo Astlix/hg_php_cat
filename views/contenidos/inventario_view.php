@@ -109,7 +109,6 @@
 
     </div>
 </div>
-</div>
 
 
 <!-- Resources -->
@@ -264,23 +263,19 @@
         var data = {
             "Finsa 1": {
                 "Fisico": <?php echo $finsa1; ?>,
-                "Hand Held": 0,
-                quantity: <?php echo $finsa1; ?>
+                "Hand Held": 0
             },
             "Finsa 3": {
                 "Fisico": <?php echo $finsa3; ?>,
-                "Hand Held": 0,
-                quantity: <?php echo $finsa3; ?>
+                "Hand Held": 0
             },
             "Oradel": {
                 "Fisico": <?php echo $oradel; ?>,
-                "Hand Held": 0,
-                quantity: <?php echo $oradel; ?>
+                "Hand Held": 0
             },
             "CLS": {
                 "Fisico": <?php echo $cls; ?>,
-                "Hand Held": 0,
-                quantity: <?php echo $cls; ?>
+                "Hand Held": 0
             }
         };
 
