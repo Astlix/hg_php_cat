@@ -1,8 +1,10 @@
  <!-- CSS only -->
  <link rel="stylesheet" href="<?php SERVERURL;?>public/css/menu.css">
+ <link rel="stylesheet" href="<?php SERVERURL;?>public/css/style.css">
  <link rel="stylesheet" href="<?php SERVERURL;?>public/css/sweetalert2.min.css">
  <link rel="stylesheet" href="<?php SERVERURL;?>public/css/dt-config.css">
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">

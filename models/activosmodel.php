@@ -49,7 +49,8 @@ class ActivosModel extends MainModel{
     #                           AGREGAR activo                            #
     ########################################################################
     public static function agregar_activo_modelo($datos){
-     
+    //  echo $datos['asset'].$datos['desc'].$datos['epc_activo'].$datos['epc_poste'].$datos['inventario'].$datos['fecha'].$datos['serv1'].$datos['serv2'].$datos['serv3'].
+    //       $datos['serv4'].$datos['serv5'].$datos['ruta'];
         $sql = Mainmodel::conectar()->prepare("INSERT INTO tblCA 
         (Asset
            ,Description
@@ -61,9 +62,10 @@ class ActivosModel extends MainModel{
            ,Service002
            ,Service003
            ,Service004
-           ,Service005)
+           ,Service005
+           ,Ruta)
          values 
-        (:asset,:desc,:epc_activo,:epc_poste,:inventario,:fecha,:serv1,:serv2,:serv3,:serv4,:serv5)");
+        (:asset,:desc,:epc_activo,:epc_poste,:inventario,:fecha,:serv1,:serv2,:serv3,:serv4,:serv5,:ruta)");
         
         $sql->bindParam(":asset",$datos['asset']);
         $sql->bindParam(":desc",$datos['desc']);
@@ -76,6 +78,7 @@ class ActivosModel extends MainModel{
         $sql->bindParam(":serv3",$datos['serv3']);
         $sql->bindParam(":serv4",$datos['serv4']);
         $sql->bindParam(":serv5",$datos['serv5']);
+        $sql->bindParam(":ruta",$datos['ruta']);
      
         if($sql->execute()){
           return true;
@@ -108,7 +111,7 @@ class ActivosModel extends MainModel{
       TagSiteFound = :epc_tagsitefound,
       Inventory = :inventory,
       Service001 = :s1,Service002 = :s2,Service003 = :s3,
-      Service004 = :s4,Service005 = :s5 where idCA = :id ');
+      Service004 = :s4,Service005 = :s5,Ruta =:ruta where idCA = :id ');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":asset",$datos['asset']);
       $sql->bindParam(":description",$datos['description']);
@@ -121,6 +124,7 @@ class ActivosModel extends MainModel{
       $sql->bindParam(":s3",$datos['s3']);
       $sql->bindParam(":s4",$datos['s4']);
       $sql->bindParam(":s5",$datos['s5']);
+      $sql->bindParam(":ruta",$datos['ruta']);
       if($sql->execute()){
         return true;
       } else {

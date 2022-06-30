@@ -14,6 +14,7 @@ $(document).on("click", "#form_activar", function(e){
 	$("#modal_serv_5_upd").prop('disabled', false);
 	$("#modal_inv_upd").prop('disabled', false);
 	$("#btn_act_upd").css("visibility", "visible");
+	$("#inputimg").css("visibility", "visible");
 
 });
 
@@ -36,6 +37,11 @@ $(document).on("click", "#form_activar", function(e){
 	let s3   = $(this).data("s3");
 	let s4   = $(this).data("s4");
 	let s5   = $(this).data("s5");
+	let ruta   = $(this).data("ruta");
+	let newruta = ruta.slice(1); //quitamos el primer caracter de la ruta
+	if (newruta=='' || newruta == './public/img/activos/') {
+		newruta ="./public/img/activos/cat.png";
+	}
 	
 	$('#modal_planta_upd > option[value="'+planta+'"]').attr('selected', 'selected');
 	$('#modal_columna_upd > option[value="'+columna+'"]').attr('selected', 'selected');
@@ -53,6 +59,8 @@ $(document).on("click", "#form_activar", function(e){
     $("#modal_serv_3_upd").val(s3);
     $("#modal_serv_4_upd").val(s4);
     $("#modal_serv_5_upd").val(s5);
+    $("#imagen").attr("src",newruta);
+	
     $("#ver_registro").modal("show");
   });
 
@@ -80,4 +88,22 @@ $.ajax({
     $('#datos_activos').html(data.resp);
   }  
 });
+});
+
+const avatarInput = document.querySelector('#avatarInput');
+const avatarName = document.querySelector('.input-file__name');
+const imagePreview = document.querySelector('.image-preview');
+
+avatarInput.addEventListener('change', e => {
+	let input = e.currentTarget;
+	let fileName = input.files[0].name;
+	avatarName.innerText = `${fileName}`;
+
+	const fileReader = new FileReader();
+	fileReader.addEventListener('load', e => {
+		let imageData = e.target.result;
+		imagePreview.setAttribute('src', imageData);
+	})
+
+	fileReader.readAsDataURL(input.files[0]);
 });

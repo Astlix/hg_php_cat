@@ -7,13 +7,16 @@
 
     <div class="box-cont-blanco" id="box">
 
-      <div class="botones" style="width:100%;display: flex;justify-content:flex-start; ">
-        <a href="<?php echo SERVERURL; ?>crearactivos" type="button" class="btn btn-warning" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Agregar<i class='bx bx-add-to-queue nav_icon' style="padding-left: 5px;"></i></a>
-        <a href="<?php echo SERVERURL; ?>inventario" type="button" class="btn btn-warning" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Inventario<i class='bx bx-list-check nav_icon' style="padding-left: 5px;"></i></a>
-        <!-- <form action="" method="post" style="display:flex;justify-content: space-between; align-items: center;">
-          <input type="file" class="form-control-file" id="exampleFormControlFile1">
-          <a href="subir_csv_activos.php" type="button" class="btn btn-success" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Importar CSV<i class='bx bxs-file-import' style="padding-left: 5px;"></i></a>
-        </form> -->
+      <div class="botones" style="width:100%;display: flex;justify-content:space-between; ">
+        <div class="btn1" style="display: flex;">
+          <a href="<?php echo SERVERURL; ?>crearactivos" type="button" class="btn btn-warning" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Agregar<i class='bx bx-add-to-queue nav_icon' style="padding-left: 5px;"></i></a>
+          <a href="<?php echo SERVERURL; ?>inventario" type="button" class="btn btn-warning" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Inventario<i class='bx bx-list-check nav_icon' style="padding-left: 5px;"></i></a>
+        </div>
+        <form class="FormularioAjax" action="<?php echo SERVERURL; ?>ajax/activoAjax.php" method="post" id="subirexcel" style="display:flex;justify-content: space-between; align-items: center;" enctype="multipart/form-data">
+          <input type="file" class="form-control-file" id="exampleFormControlFile1" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="name_doc">
+          <!-- <a  type="submit" class="btn btn-success" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Importar CSV<i class='bx bxs-file-import' style="padding-left: 5px;"></i></a> -->
+          <button type="submit" class="btn btn-success" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Importar CSV<i class='bx bxs-file-import' style="padding-left: 5px;"></i></button>
+        </form>
       </div>
       <hr class="my-2">
 
@@ -47,6 +50,10 @@
           $columna= substr($site,20,-2);
           $num_columna= substr($site,-2);
 
+          $searchString = " ";
+          $replaceString = "";          
+          $nombre_img = str_replace($searchString, $replaceString, $dato['Ruta']); 
+          
           $i++;
           $tabla .= '<tr class="elemento">';
           $tabla .= '<td scope="col">' . $i . '</td>';
@@ -80,12 +87,18 @@
                     data-planta="'.$planta.'"
                     data-columna="'.$columna.'"
                     data-num="'.$num_columna.'"
+                    data-ruta="'.$nombre_img.'"
                     
                     ><i class="bx bx-show"></i> Ver</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <form action="' . SERVERURL . 'ajax/activoAjax.php" class="FormularioAjax" method="post" data-form="delete">
                     <input type="hidden" name="activo_id_delete" value="'.Mainmodel::encryption($dato['idCA']).'">
-                    <button type="submit" class="btn btn-secondary" style="background-color:transparent; color:black; border-color:transparent;width:100%;"><i class="bx bx-basket" style="color:red;"></i> Eliminar</button>
+                    <button type="submit" class="btn btn-secondary" style="background-color:transparent; color:black; border-color:transparent;width:100%;">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/dovoajyj.json"
+                        trigger="loop-on-hover"
+                        style="width:25px;height:25px">
+                    </lord-icon> Eliminar</button>
                     </form>
                   </ul>
                 </div>

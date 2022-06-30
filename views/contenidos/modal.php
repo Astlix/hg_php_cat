@@ -4,43 +4,53 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ver_registro">Ver Activo </h5>
-        <button  id="form_activar" class="btn btn-primary" style="width:50px;margin-left: 10px;"><i class="bx bx-edit-alt"></i></button>
+        <button id="form_activar" class="btn btn-primary" style="width:50px;margin-left: 10px;"><i class="bx bx-edit-alt"></i></button>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/activoAjax.php" method="POST" data-form="update">
 
-        <!-- este  input es el que almacena el id para que el sistema sepa que se trata de un update -->
-        
-        <input type="hidden" class="form-control"  name="activo_id_upd" id="activo_id_upd"> 
+          <!-- este  input es el que almacena el id para que el sistema sepa que se trata de un update -->
 
+          <input type="hidden" class="form-control" name="activo_id_upd" id="activo_id_upd">
+
+          <div class="input-file-container">
+            <div class="input-file" style="cursor: pointer;visibility:hidden;" id="inputimg">
+              <p class="input-file__name">Selecciona una imagen...</p>
+              <button type="button" class="input-file__button">
+                <i class='bx bx-upload'></i>
+              </button>
+              <input type="file" class="form-control" accept="image/png,image/jpeg" name="avatar" id="avatarInput" >
+            </div>
+            <img src="https://i.ibb.co/0Jmshvb/no-image.png"  class="image-preview" alt="preview image" id="imagen">
+          </div>
           <div class="row">
             <div class="col-md-12">
               <label for="nombre">Asset</label>
-              <input type="text" class="form-control" id="modal_asset_upd" name="asset_upd"  required disabled>
+              <input type="text" class="form-control" id="modal_asset_upd" name="asset_upd" required disabled>
             </div>
             <div class="col-md-6">
               <label for="nombre">Descripción</label>
-              <input type="text" class="form-control" id="modal_desc_upd" name="desc_upd"  required disabled>
+              <input type="text" class="form-control" id="modal_desc_upd" name="desc_upd" required disabled>
             </div>
             <div class="col-md-6">
               <label for="nombre">Numero Serial</label>
-              <input type="text" class="form-control" id="modal_num_serial_upd"  name="num_serial_upd" value="" required disabled>
+              <input type="text" class="form-control" id="modal_num_serial_upd" name="num_serial_upd" value="" required disabled>
             </div>
             <div class="col-md-6">
               <label for="nombre">Tag EPC</label>
-              <input type="text" class="form-control" id="modal_epc_upd"  name="epc_upd" value="" required disabled>
+              <input type="text" class="form-control" id="modal_epc_upd" name="epc_upd" value="" required disabled>
             </div>
             <div class="col-md-6">
               <label for="nombre">Tag EPC Found</label>
-              <input type="text" class="form-control" id="modal_tagfind_upd"  name="tagfind_upd" value="" required disabled>
+              <input type="text" class="form-control" id="modal_tagfind_upd" name="tagfind_upd" value="" required disabled>
             </div>
           </div>
           <div class="row">
             <label for="nombre">Ubicación</label>
             <div class="col">
               <select class="form-select" id="modal_planta_upd" name="planta_upd" aria-label="Default select example" title="Planta" value="03" required disabled>
-                <option value="01" >Finsa1</option>
+                <option value="01">Finsa1</option>
                 <option value="02">Finsa3</option>
                 <option value="03">Oradel</option>
                 <option value="04">CLS</option>
@@ -69,7 +79,7 @@
               </select>
             </div>-
             <div class="col">
-              <select class="form-select"  id="modal_num_upd" name="num_col_upd" aria-label="Default select example" title="Número de la Coumna" required disabled>
+              <select class="form-select" id="modal_num_upd" name="num_col_upd" aria-label="Default select example" title="Número de la Coumna" required disabled>
                 <option value="01" selected>1</option>
                 <option value="02">2</option>
                 <option value="03">3</option>
@@ -119,7 +129,7 @@
           <br>
 
           <div class="row justify-content-around">
-            <button type="submit" id="btn_act_upd" class="btn btn-success col-4" style="cursor: pointer;visibility:hidden;" >Actualizar</button>
+            <button type="submit" id="btn_act_upd" class="btn btn-success col-4" style="cursor: pointer;visibility:hidden;">Actualizar</button>
           </div>
         </form>
       </div>
@@ -137,7 +147,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-            <div id="datos_activos"></div>
+        <div id="datos_activos"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -1,11 +1,18 @@
-
-
 <h2>CREAR ACTIVO</h2>
-<br/>
+<br />
 
 <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/activoAjax.php" method="POST" data-form="save">
 
-
+    <div class="input-file-container">
+        <div class="input-file">
+            <p class="input-file__name">Selecciona una imagen...</p>
+            <button type="button" class="input-file__button">
+            <i class='bx bx-upload'></i>
+            </button>
+            <input type="file" class="form-control" accept="image/png,image/jpeg" name="avatar" id="avatarInput">
+        </div>
+        <img src="https://i.ibb.co/0Jmshvb/no-image.png" class="image-preview" alt="preview image">
+    </div>
     <div class="row">
         <div class="col-md-6">
             <label for="nombre">Asset</label>
@@ -62,35 +69,35 @@
             </select>
         </div>
     </div>
-<div class="row">
-    <div class="col-6">
-        <label for="nombre">Servicio 1</label>
-        <input type="text" class="form-control" id="serv_1_reg" name="serv_1_reg" >
+    <div class="row">
+        <div class="col-6">
+            <label for="nombre">Servicio 1</label>
+            <input type="text" class="form-control" id="serv_1_reg" name="serv_1_reg">
+        </div>
+        <div class="col-6">
+            <label for="nombre">Servicio 2</label>
+            <input type="text" class="form-control" id="serv_2_reg" name="serv_2_reg">
+        </div>
     </div>
-    <div class="col-6">
-        <label for="nombre">Servicio 2</label>
-        <input type="text" class="form-control" id="serv_2_reg" name="serv_2_reg" >
+    <div class="row">
+        <div class="col-6">
+            <label for="nombre">Servicio 3</label>
+            <input type="text" class="form-control" id="serv_3_reg" name="serv_3_reg">
+        </div>
+        <div class="col-6">
+            <label for="nombre">Servicio 4</label>
+            <input type="text" class="form-control" id="serv_4_reg" name="serv_4_reg">
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-6">
-        <label for="nombre">Servicio 3</label>
-        <input type="text" class="form-control" id="serv_3_reg" name="serv_3_reg" >
+    <div class="row">
+        <div class="col-12">
+            <label for="nombre">Servicio 5</label>
+            <input type="text" class="form-control" id="serv_5_reg" name="serv_5_reg">
+        </div>
     </div>
-    <div class="col-6">
-        <label for="nombre">Servicio 4</label>
-        <input type="text" class="form-control" id="serv_4_reg" name="serv_4_reg" >
-    </div>
-</div>
-<div class="row">
-    <div class="col-12">
-        <label for="nombre">Servicio 5</label>
-        <input type="text" class="form-control" id="serv_5_reg" name="serv_5_reg" >
-    </div>
-</div>
-<br>
+    <br>
 
-<div class="row justify-content-around">
-    <button type="submit" class="btn btn-primary col-3">Agregar</button>
-</div>
+    <div class="row justify-content-around">
+        <button type="submit" class="btn btn-success col-3">AGREGAR</button>
+    </div>
 </form>
