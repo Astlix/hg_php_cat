@@ -12,13 +12,6 @@ class ActivosModel extends MainModel{
         return $stmp->fetchAll();
         $stmp->close();
       }
-    public static function ver_activos2(){
-      $datos='010101';
-        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where TagSite like '%cad120140100000000".$datos."%'");
-        $stmp->execute();
-        return $stmp->fetchAll();
-        $stmp->close();
-      }
 
     ########################################################################
     #                           Consulta un activo solamente                             #
@@ -44,13 +37,25 @@ class ActivosModel extends MainModel{
       return $stmp->fetchAll();
       $stmp->close();
       }
+    public static function ver_un_activos_por_asset($asset){
+      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where Asset = :asset");
+      $stmp -> bindParam(":asset", $asset);
+      $stmp->execute();
+      return $stmp->fetch();
+      $stmp->close();
+      }
+    public static function ver_un_activos_por_epc($epc){
+      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where TagEpc = :epc");
+      $stmp -> bindParam(":epc", $epc);
+      $stmp->execute();
+      return $stmp->fetch();
+      $stmp->close();
+      }
 
        ########################################################################
     #                           AGREGAR activo                            #
     ########################################################################
     public static function agregar_activo_modelo($datos){
-    //  echo $datos['asset'].$datos['desc'].$datos['epc_activo'].$datos['epc_poste'].$datos['inventario'].$datos['fecha'].$datos['serv1'].$datos['serv2'].$datos['serv3'].
-    //       $datos['serv4'].$datos['serv5'].$datos['ruta'];
         $sql = Mainmodel::conectar()->prepare("INSERT INTO tblCA 
         (Asset
            ,Description

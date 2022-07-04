@@ -16,42 +16,124 @@ class activosController extends activosmodel
     $temporal = $_FILES['name_doc']['tmp_name'];
     $tamaño = $_FILES['name_doc']['size'];
     $nombre_archivo = $_FILES['name_doc']['name'];
+    $partes = explode(".", $nombre_archivo);
+    if(end($partes) != 'csv'){
+      $alerta = [
+        "Alerta" => "limpiar",
+        "Titulo" => "Error de Archivo",
+        "Texto"  => "El archivo que intentas insertar no es CSV.",
+        "Tipo"   => "error"
+      ];
+      echo json_encode($alerta);
+      exit();
+    }
+
 
     if ($nombre_archivo != '') {
       $lineas = file($temporal);
       $i = 0;
+      $agregados = 0;
+      $actualizados = 0;
       foreach ($lineas as $linea) {
         $cantidad_registros = count($lineas);
-        $cantidad_reg_agregados = ($cantidad_registros - 1);
+        // $cantidad_reg_agregados = ($cantidad_registros - 1);
         $i = $i + 1; //contador de lineas en caso qeu este mal un registro, le diga al usuaraio en que linea esta mal.
-
+        $existe="";
 
         $datos = explode(",", $linea);
 
+        /////VERIFICAMOS QUE EL DOCUMENTO TENGA LAS COLUMNAS IGUALES A LA BD
+        $tamaño_arreglo = count($datos); 
+        if ($tamaño_arreglo > 11 || $tamaño_arreglo < 11) {
+          $alerta = [
+            "Alerta" => "simple",
+            "Titulo" => "Error de Archivo",
+            "Texto"  => "Verifique que el archivo .csv tenga el formato correspondiente asi como las columnas.",
+            "Tipo"   => "error"
+          ];
+          echo json_encode($alerta);
+          exit();
+        }
+        ////FIN DE LA VERIFICACION
+
         $asset               = !empty($datos[0])  ? ($datos[0]) : '';
         $desc                = !empty($datos[1])  ? ($datos[1]) : '';
-        $epc_activo          = !empty($datos[2])  ? ($datos[2]) : '';
-        $epc_poste           = !empty($datos[3])  ? ($datos[3]) : '';
+        $serial              = !empty($datos[2])  ? ($datos[2]) : '';
+        $epc_activo          = !empty($datos[3])  ? ($datos[3]) : '';
+        $epc_poste           = !empty($datos[4])  ? ($datos[4]) : '';
         $fecha               = date("Y-m-d H:i:s");
-        $inventario          = !empty($datos[4])  ? ($datos[4]) : '';
-        $serv1               = !empty($datos[5])  ? ($datos[5]) : '';
-        $serv2               = !empty($datos[6])  ? ($datos[6]) : '';
-        $serv3               = !empty($datos[7])  ? ($datos[7]) : '';
-        $serv4               = !empty($datos[8])  ? ($datos[8]) : '';
-        $serv5               = !empty($datos[9])  ? ($datos[9]) : '';
+        $inventario          = !empty($datos[5])  ? ($datos[5]) : '0';
+        $serv1               = !empty($datos[6])  ? ($datos[6]) : '';
+        $serv2               = !empty($datos[7])  ? ($datos[7]) : '';
+        $serv3               = !empty($datos[8])  ? ($datos[8]) : '';
+        $serv4               = !empty($datos[9])  ? ($datos[9]) : '';
+        $serv5               = !empty($datos[10])  ? ($datos[10]) : '';
         $ruta                = '../public/img/activos/cat.png';
-
         if ($i > 1) {
-          if (strlen($inventario) > 1) {
+          $activo_asset = ActivosModel::ver_un_activos_por_asset($asset);
+          if ($activo_asset) {
+            $existe=true;
+          } else {
+            $existe=false;
+          }
+
+          ///////////////VERIFICAMOS SI EXISTE EL ACTIVO EN LA BD
+          if ($epc_activo != '') {
+            $tag_existe = ActivosModel::ver_un_activos_por_epc($epc_activo);
+            if ($tag_existe) {
+             $tag_esite=true;
+            }else{$tag_esite=false;}
+          }
+
+          if (strlen($inventario) > 1) {//tiene que ser mayor a 1 para que no tome en cuenta el encabezado del archivo csv
+            
             $alerta = [
               "Alerta" => "limpiar",
               "Titulo" => "Error de registro",
-              "Texto"  => "Error en la registro " . $i . ' de tu archivo csv.',
+              "Texto"  => "Error en la fila " . $i . ' de tu archivo csv.',
               "Tipo"   => "error"
             ];
             echo json_encode($alerta);
             exit();
-          } else {
+
+          } elseif($existe==true || $tag_existe==true) { //validamos si ya existe en la BD true = existe, false = no existe            
+
+            $id = $activo_asset['idCA'];
+            if (isset($asset))      {$asset_upd = mainmodel::limpiar_cadena($asset);} else {$asset_upd = $activo_asset['Asset'];}
+            if (isset($desc))       {$desc_upd = mainmodel::limpiar_cadena($desc);} else {$desc_upd = $activo_asset['Description'];}
+            if (isset($serial))       {$serial_upd = mainmodel::limpiar_cadena($serial);} else {$serial_upd = $activo_asset['SerialNumber'];}
+            if (isset($epc_activo)) {$epc_activo_upd = mainmodel::limpiar_cadena($epc_activo);} else {$epc_activo_upd = $activo_asset['TagEpc'];}
+            if (isset($epc_poste))  {$epc_poste_upd = mainmodel::limpiar_cadena($epc_poste);} else {$epc_poste_upd = $activo_asset['TagSite'];}
+            // if (isset($fecha))      {$fecha_upd = mainmodel::limpiar_cadena($fecha);} else {$fecha_upd = $activo_asset['DateInventory'];}
+            if (isset($inventario)) {$inventario_upd = mainmodel::limpiar_cadena($inventario);} else {$inventario_upd = $activo_asset['Inventory'];}
+            if (isset($serv1)) {$serv1_upd = mainmodel::limpiar_cadena($serv1);} else {$serv1_upd = $activo_asset['Service001'];}
+            if (isset($serv2)) {$serv2_upd = mainmodel::limpiar_cadena($serv2);} else {$serv2_upd = $activo_asset['Service002'];}
+            if (isset($serv3)) {$serv3_upd = mainmodel::limpiar_cadena($serv3);} else {$serv3_upd = $activo_asset['Service003'];}
+            if (isset($serv4)) {$serv4_upd = mainmodel::limpiar_cadena($serv4);} else {$serv4_upd = $activo_asset['Service004'];}
+            if (isset($serv5)) {$serv5_upd = mainmodel::limpiar_cadena($serv5);} else {$serv5_upd = $activo_asset['Service005'];}
+            if (isset($ruta)) {$ruta_upd = $ruta;} else {$ruta_upd = $activo_asset['Ruta'];}
+            
+
+          $datos_activos_upd = [
+            "id" => $id,
+            "asset" => $asset_upd,
+            "description" => $desc_upd,
+            "serialnumber" => $serial_upd,
+            "epc_tag" => $epc_activo_upd,
+            "epc_tagsitefound" => $epc_poste_upd,
+            "inventory" => $inventario_upd,
+            "s1" => $serv1_upd,
+            "s2" => $serv2_upd,
+            "s3" => $serv3_upd,
+            "s4" => $serv4_upd,
+            "s5" => $serv5_upd,
+            "ruta" => $ruta_upd,
+          ];
+          $update_activo = ActivosModel::actualizar_activo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
+           $actualizados = $actualizados + 1;
+
+          }else{
+          //  echo "Nuevo ".$asset;
             $datos_activos_reg = [
               "asset" => $asset,
               "desc" => $desc,
@@ -65,25 +147,26 @@ class activosController extends activosmodel
               "serv4" => $serv4,
               "serv5" => $serv5,
               "ruta" => $ruta,
-            ];
-
+            ];    
             $agregar_activo = ActivosModel::agregar_activo_modelo($datos_activos_reg);
-          }
+            $agregados = $agregados + 1;
+          } 
+          
         }
       }
-
-      if ($agregar_activo) {
+      // *******ALERTA DE SE AGREGO O NO LOS ACTIVOS 
+      if (isset($agregar_activo) || isset($update_activo)) {
         $alerta = [
           "Alerta" => "limpiar",
           "Titulo" => "Activo Registrado",
-          "Texto"  => "Se han agregado " . $cantidad_reg_agregados . " registros en el sistema.",
+          "Texto"  => "Se han agregado " . $agregados . " activos y se han actualizado ".$actualizados." registros en el sistema.",
           "Tipo"   => "success"
         ];
-      } else {
+      }else{ 
         $alerta = [
           "Alerta" => "simple",
           "Titulo" => "Error de archivo",
-          "Texto"  => "No se ha podido registrar los activos, revise el formato y que sea extensión .csv" . $cantidad_reg_agregados,
+          "Texto"  => "No se ha podido registrar los activos, revise el formato y que sea extensión .csv",
           "Tipo"   => "error"
         ];
       }
@@ -99,7 +182,7 @@ class activosController extends activosmodel
     }
   }
   ########################################################################
-  #                           AGREGAR USUARIO                            #
+  #                           AGREGAR ACTIVO                            #
   ########################################################################
   public function agregar_activo_controller()
   {
@@ -165,7 +248,7 @@ class activosController extends activosmodel
 
 
     // *************+COMPROBAR SI EL USUARIO EXISTE
-    $check_epc = Mainmodel::ejecutar_cosulta_simple("SELECT top(1) TagEpc from tblCA order by DateInventory DESC");
+    $check_epc = Mainmodel::ejecutar_cosulta_simple("SELECT top(1) TagEpc from tblCA order by TagEpc DESC");
     if ($check_epc['TagEpc'] == "") { //si la consulta devuelve vacio empezara a 1
       $consecutivo =  1;
       $length = 14;
@@ -188,8 +271,6 @@ class activosController extends activosmodel
       // exit();
     }
 
-
-
     $datos_activos_reg = [
       "asset" => $asset,
       "desc" => $desc,
@@ -204,7 +285,6 @@ class activosController extends activosmodel
       "serv5" => $serv5,
       "ruta" => $ruta,
     ];
-
 
     $agregar_activo = ActivosModel::agregar_activo_modelo($datos_activos_reg);
 
@@ -282,7 +362,7 @@ class activosController extends activosmodel
   } // ****FIN DEL CONTROLADOR***
 
   ########################################################################
-  #                           Eliminar Activo                            #
+  #                           Actualizar Activo                            #
   ########################################################################
 
   public function actualizar_activo_controller()
@@ -332,7 +412,6 @@ class activosController extends activosmodel
     } else {
       $num_serial = $activo['SerialNumber'];
     }
-    // if(isset($_POST['epc_upd'])){$epc_upd = mainmodel::limpiar_cadena($_POST['epc_upd']);}else{$epc_upd = $activo['TagEpc'];}
     $epc = $activo['TagEpc'];
     if (isset($_POST['planta_upd']) && isset($_POST['columna_upd']) && isset($_POST['num_col_upd'])) {
       $planta_upd = mainmodel::limpiar_cadena($_POST['planta_upd']);
