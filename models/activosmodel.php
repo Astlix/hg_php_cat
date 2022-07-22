@@ -12,6 +12,29 @@ class ActivosModel extends MainModel{
         return $stmp->fetchAll();
         $stmp->close();
       }
+    ########################################################################
+    #                           Saber de que Ubicacion es el activo        #
+    ########################################################################
+    public static function ver_ubicacion_activo($dato){
+        if($dato=='01'){return 'A';}
+        if($dato=='02'){return 'B';}
+        if($dato=='03'){return 'C';}
+        if($dato=='04'){return 'D';}
+        if($dato=='05'){return 'E';}
+        if($dato=='06'){return 'F';}
+        if($dato=='07'){return 'G';}
+        if($dato=='08'){return 'H';}
+        if($dato=='09'){return 'I';}
+        if($dato=='10'){return 'J';}
+        if($dato=='11'){return 'K';}
+        if($dato=='12'){return 'L';}
+        if($dato=='13'){return 'M';}
+        if($dato=='14'){return 'N';}
+        if($dato=='15'){return 'O';}
+        if($dato=='16'){return 'P';}
+        if($dato=='17'){return 'Q';}
+        if($dato=='18'){return 'R';}else{return 'No asignado';}
+      }
 
     ########################################################################
     #                           Consulta un activo solamente                             #
@@ -136,4 +159,51 @@ class ActivosModel extends MainModel{
         return false;
       }
     }
+  ########################################################################
+    #                           Actualziar activo masivo                         #
+    ########################################################################
+  
+    public static function actualizar_activo_masivo_modelo($datos){
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblCA set Asset = :asset,
+      Description = :description, DateInventory = :date_inventory,
+      Planta = :site, TagEpc= :epc where idCA = :id');
+      $sql->bindParam(":id",$datos['id']);
+      $sql->bindParam(":asset",$datos['asset']);
+      $sql->bindParam(":description",$datos['description']);
+      $sql->bindParam(":date_inventory",$datos['date_inventory']);
+      $sql->bindParam(":site",$datos['site']);
+      $sql->bindParam(":epc",$datos['epc']);
+      if($sql->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+  ########################################################################
+    #                           AGREGAR activo  masivo                          #
+    ########################################################################
+    public static function agregar_activo_masivo_modelo($datos){
+      $sql = Mainmodel::conectar()->prepare("INSERT INTO tblCA 
+      (Asset
+         ,Description
+         ,DateInventory
+         ,Planta,TagEpc)
+       values 
+      (:asset,:desc,:fecha,:planta,:epc)");
+      
+      $sql->bindParam(":asset",$datos['asset']);
+      $sql->bindParam(":desc",$datos['description']);
+      $sql->bindParam(":fecha",$datos['date_inventory']);
+      $sql->bindParam(":planta",$datos['site']);
+      $sql->bindParam(":epc",$datos['epc']);
+   
+      if($sql->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
 }

@@ -1,13 +1,12 @@
 <link rel="stylesheet" href="./public/css/login.css">
 
 
-<img src="./public/img/astlix.png" id="astlix" alt="">
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="./public/img/logo2.png" id="icon" alt="User Icon" />
-            <p>Astlix 2022 ©</p>
+            <img src="./public/img/astlix.png" id="icon" alt="User Icon" />
+            <!-- <p>Astlix 2022 ©</p> -->
         </div>
 
 

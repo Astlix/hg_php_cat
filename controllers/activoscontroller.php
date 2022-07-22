@@ -44,7 +44,7 @@ class activosController extends activosmodel
 
         /////VERIFICAMOS QUE EL DOCUMENTO TENGA LAS COLUMNAS IGUALES A LA BD
         $tamaño_arreglo = count($datos); 
-        if ($tamaño_arreglo > 11 || $tamaño_arreglo < 11) {
+        if ($tamaño_arreglo > 4 || $tamaño_arreglo < 4) {
           $alerta = [
             "Alerta" => "simple",
             "Titulo" => "Error de Archivo",
@@ -56,99 +56,56 @@ class activosController extends activosmodel
         }
         ////FIN DE LA VERIFICACION
 
-        $asset               = !empty($datos[0])  ? ($datos[0]) : '';
-        $desc                = !empty($datos[1])  ? ($datos[1]) : '';
-        $serial              = !empty($datos[2])  ? ($datos[2]) : '';
-        $epc_activo          = !empty($datos[3])  ? ($datos[3]) : '';
-        $epc_poste           = !empty($datos[4])  ? ($datos[4]) : '';
-        $fecha               = date("Y-m-d H:i:s");
-        $inventario          = !empty($datos[5])  ? ($datos[5]) : '0';
-        $serv1               = !empty($datos[6])  ? ($datos[6]) : '';
-        $serv2               = !empty($datos[7])  ? ($datos[7]) : '';
-        $serv3               = !empty($datos[8])  ? ($datos[8]) : '';
-        $serv4               = !empty($datos[9])  ? ($datos[9]) : '';
-        $serv5               = !empty($datos[10])  ? ($datos[10]) : '';
-        $ruta                = '../public/img/activos/cat.png';
+        
         if ($i > 1) {
+          $asset               = !empty($datos[0])  ? ($datos[0]) : '';
+          $desc                = !empty($datos[1])  ? ($datos[1]) : '';
+          $date                = !empty($datos[2])  ? ($datos[2]) : '';
+          $site                = !empty($datos[3])  ? ($datos[3]) : '';
+          // $locacion          = !empty($datos[4])  ? ($datos[4]) : '';
+  
+          $datearray = explode("/", $date);
+          $mes = $datearray[0];
+          $dia = $datearray[1];
+          $año = $datearray[2];  
+          $newdate = $año.'-'.$mes.'-'.$dia;
+
           $activo_asset = ActivosModel::ver_un_activos_por_asset($asset);
           if ($activo_asset) {
             $existe=true;
           } else {
             $existe=false;
-          }
+          }          
 
-          ///////////////VERIFICAMOS SI EXISTE EL ACTIVO EN LA BD
-          if ($epc_activo != '') {
-            $tag_existe = ActivosModel::ver_un_activos_por_epc($epc_activo);
-            if ($tag_existe) {
-             $tag_esite=true;
-            }else{$tag_esite=false;}
-          }
-
-          if (strlen($inventario) > 1) {//tiene que ser mayor a 1 para que no tome en cuenta el encabezado del archivo csv
-            
-            $alerta = [
-              "Alerta" => "limpiar",
-              "Titulo" => "Error de registro",
-              "Texto"  => "Error en la fila " . $i . ' de tu archivo csv.',
-              "Tipo"   => "error"
-            ];
-            echo json_encode($alerta);
-            exit();
-
-          } elseif($existe==true || $tag_existe==true) { //validamos si ya existe en la BD true = existe, false = no existe            
+         if($existe==true) { //validamos si ya existe en la BD true = existe, false = no existe            
 
             $id = $activo_asset['idCA'];
-            if (isset($asset))      {$asset_upd = mainmodel::limpiar_cadena($asset);} else {$asset_upd = $activo_asset['Asset'];}
-            if (isset($desc))       {$desc_upd = mainmodel::limpiar_cadena($desc);} else {$desc_upd = $activo_asset['Description'];}
-            if (isset($serial))       {$serial_upd = mainmodel::limpiar_cadena($serial);} else {$serial_upd = $activo_asset['SerialNumber'];}
-            if (isset($epc_activo)) {$epc_activo_upd = mainmodel::limpiar_cadena($epc_activo);} else {$epc_activo_upd = $activo_asset['TagEpc'];}
-            if (isset($epc_poste))  {$epc_poste_upd = mainmodel::limpiar_cadena($epc_poste);} else {$epc_poste_upd = $activo_asset['TagSite'];}
-            // if (isset($fecha))      {$fecha_upd = mainmodel::limpiar_cadena($fecha);} else {$fecha_upd = $activo_asset['DateInventory'];}
-            if (isset($inventario)) {$inventario_upd = mainmodel::limpiar_cadena($inventario);} else {$inventario_upd = $activo_asset['Inventory'];}
-            if (isset($serv1)) {$serv1_upd = mainmodel::limpiar_cadena($serv1);} else {$serv1_upd = $activo_asset['Service001'];}
-            if (isset($serv2)) {$serv2_upd = mainmodel::limpiar_cadena($serv2);} else {$serv2_upd = $activo_asset['Service002'];}
-            if (isset($serv3)) {$serv3_upd = mainmodel::limpiar_cadena($serv3);} else {$serv3_upd = $activo_asset['Service003'];}
-            if (isset($serv4)) {$serv4_upd = mainmodel::limpiar_cadena($serv4);} else {$serv4_upd = $activo_asset['Service004'];}
-            if (isset($serv5)) {$serv5_upd = mainmodel::limpiar_cadena($serv5);} else {$serv5_upd = $activo_asset['Service005'];}
-            if (isset($ruta)) {$ruta_upd = $ruta;} else {$ruta_upd = $activo_asset['Ruta'];}
+            if (isset($asset))      {$asset_upd = mainmodel::limpiar_cadena($asset);} 
+            if (isset($desc))       {$desc_upd = mainmodel::limpiar_cadena($desc);} 
+            if (isset($date))       {$date_upd = mainmodel::limpiar_cadena($newdate);} 
+            if (isset($site))       {$site_upd = mainmodel::limpiar_cadena($site);} 
             
-
           $datos_activos_upd = [
             "id" => $id,
             "asset" => $asset_upd,
             "description" => $desc_upd,
-            "serialnumber" => $serial_upd,
-            "epc_tag" => $epc_activo_upd,
-            "epc_tagsitefound" => $epc_poste_upd,
-            "inventory" => $inventario_upd,
-            "s1" => $serv1_upd,
-            "s2" => $serv2_upd,
-            "s3" => $serv3_upd,
-            "s4" => $serv4_upd,
-            "s5" => $serv5_upd,
-            "ruta" => $ruta_upd,
+            "date_inventory" => $date_upd,
+            "site" => $site_upd,
+            "epc" => 'No asignado',
           ];
-          $update_activo = ActivosModel::actualizar_activo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
+          $update_activo = ActivosModel::actualizar_activo_masivo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
            $actualizados = $actualizados + 1;
 
           }else{
           //  echo "Nuevo ".$asset;
             $datos_activos_reg = [
               "asset" => $asset,
-              "desc" => $desc,
-              "epc_activo" => $epc_activo,
-              "epc_poste" => $epc_poste,
-              "fecha" => $fecha,
-              "inventario" => $inventario,
-              "serv1" => $serv1,
-              "serv2" => $serv2,
-              "serv3" => $serv3,
-              "serv4" => $serv4,
-              "serv5" => $serv5,
-              "ruta" => $ruta,
+              "description" => $desc,
+              "date_inventory" => $newdate,
+              "site" => $site,
+            "epc" => 'No asignado',
             ];    
-            $agregar_activo = ActivosModel::agregar_activo_modelo($datos_activos_reg);
+            $agregar_activo = ActivosModel::agregar_activo_masivo_modelo($datos_activos_reg);
             $agregados = $agregados + 1;
           } 
           

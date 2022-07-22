@@ -1,4 +1,4 @@
-<!-- Modal -->
+<!-- Modal para ver registros-->
 <div class="modal fade" id="ver_registro" tabindex="-1" aria-labelledby="ver_registro" aria-hidden="true">
   <div class="modal-dialog  modal-lg">
     <div class="modal-content">
@@ -20,9 +20,9 @@
               <button type="button" class="input-file__button">
                 <i class='bx bx-upload'></i>
               </button>
-              <input type="file" class="form-control" accept="image/png,image/jpeg" name="avatar" id="avatarInput" >
+              <input type="file" class="form-control" accept="image/png,image/jpeg" name="avatar" id="avatarInput">
             </div>
-            <img src="https://i.ibb.co/0Jmshvb/no-image.png"  class="image-preview" alt="preview image" id="imagen">
+            <img src="https://i.ibb.co/0Jmshvb/no-image.png" class="image-preview" alt="preview image" id="imagen">
           </div>
           <div class="row">
             <div class="col-md-12">
@@ -137,7 +137,6 @@
   </div>
 </div>
 
-
 <!-- Modal  activos detalles -->
 <div class="modal fade" id="activos_detalles" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -155,3 +154,55 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Ver Correo -->
+<div class="modal fade" id="ver_correo" tabindex="-1" aria-labelledby="ver_registro" aria-hidden="true">
+  <div class="modal-dialog  ">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title" id="ver_registro">Editar Cuenta de Correo Electrónico </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/correoAjax.php" method="POST" data-form="update">
+
+          <!-- este  input es el que almacena el id para que el sistema sepa que se trata de un update -->
+
+          <input type="hidden" class="form-control" name="correo_id_upd" id="correo_id_upd">
+
+          <div class="row">
+            <div class="col-md-12">
+              <label for="nombre">Nombre</label>
+              <input type="text" class="form-control" id="modal_nombre_upd" name="nombre_upd" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Apellido Paterno</label>
+              <input type="text" class="form-control" id="modal_apellidop_upd" name="apellidop_upd" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Apellido Materno</label>
+              <input type="text" class="form-control" id="modal_apellidom_upd" name="apellidom_upd" value="" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Correo Electrónico</label>
+              <input type="email" class="form-control" id="modal_correo_upd" name="correo_upd" value="" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Estado</label>
+              <div class="col-md-12">
+                <select class="form-select" id="modal_estado_upd" name="estado_upd" aria-label="Default select example" title="Planta" value="03" required>
+                  <option value="1">Activo </option>
+                  <option value="0">Bloqueado</option>
+                </select>
+              </div>
+              <br>
+
+              <div class="row justify-content-around">
+                <button type="submit" id="btn_act_upd" class="btn btn-success col-4" style="cursor: pointer;display: flex;justify-content: space-around;">Actualizar <i class='bx bx-refresh' style="font-size: 25px;"></i></button>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

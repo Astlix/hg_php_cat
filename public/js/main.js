@@ -90,6 +90,8 @@ $.ajax({
 });
 });
 
+
+//codigo para mostrar imagen al seleccionar un activo 
 const avatarInput = document.querySelector('#avatarInput');
 const avatarName = document.querySelector('.input-file__name');
 const imagePreview = document.querySelector('.image-preview');
@@ -106,4 +108,31 @@ avatarInput.addEventListener('change', e => {
 	})
 
 	fileReader.readAsDataURL(input.files[0]);
+});
+
+// ****************CORREOS*****************
+
+// MOSTRAL EL MODAL Y SUS DATOS
+$(document).on("click", "#ver_registro_correo", function(e){
+	let id   = $(this).data("id");
+	let nombre   = $(this).data("nombre");
+	let apellidop   = $(this).data("apellidop");
+	let apellidom   = $(this).data("apellidom");
+	let correo   = $(this).data("correo");
+	let estado   = $(this).data("estado");
+	
+    $("#correo_id_upd").val(id);
+    $("#modal_nombre_upd").val(nombre);//mandamos los valores a los input para obtenerlos en js
+    $("#modal_apellidop_upd").val(apellidop);
+    $("#modal_apellidom_upd").val(apellidom);
+    $("#modal_correo_upd").val(correo);
+	$('#modal_estado_upd > option[value="'+estado+'"]').attr('selected', 'selected');
+	
+    $("#ver_correo").modal("show");	
+  });
+  
+// MOSTRAL EL MODAL Y SUS DATOS
+$(document).on("click", "#crear_cuenta_correo", function(e){
+	console.log('Click en crear correo');	
+    $("#correo").modal("show");	
 });

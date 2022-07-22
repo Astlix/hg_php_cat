@@ -7,10 +7,7 @@ body {
     padding: 0%;
     font-display: fallback;
     width: 100vw;
-    background-image: url("../img/fondo.jpg");
-    background-image: opacity(.7);
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-color:#393f44;
     height:100vh;
   }
   
