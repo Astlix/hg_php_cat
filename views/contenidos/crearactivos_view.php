@@ -70,29 +70,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-6">
-            <label for="nombre">Servicio 1</label>
-            <input type="text" class="form-control" id="serv_1_reg" name="serv_1_reg">
-        </div>
-        <div class="col-6">
-            <label for="nombre">Servicio 2</label>
-            <input type="text" class="form-control" id="serv_2_reg" name="serv_2_reg">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <label for="nombre">Servicio 3</label>
-            <input type="text" class="form-control" id="serv_3_reg" name="serv_3_reg">
-        </div>
-        <div class="col-6">
-            <label for="nombre">Servicio 4</label>
-            <input type="text" class="form-control" id="serv_4_reg" name="serv_4_reg">
-        </div>
-    </div>
-    <div class="row">
         <div class="col-12">
-            <label for="nombre">Servicio 5</label>
-            <input type="text" class="form-control" id="serv_5_reg" name="serv_5_reg">
+            <label for="nombre">Comentario</label>
+            <input type="text" class="form-control" id="serv_1_reg" name="serv_1_reg">
         </div>
     </div>
     <br>

@@ -24,7 +24,7 @@
     $cls = $cls_st = $cls_ct = 0;
     $total=0;
     foreach ($rsp as $dato) {
-      $planta2 = $dato['Planta'];
+      $planta2 = $dato['Service002'];
       $site = $dato['TagSite'];
       $planta = substr($site, 18, -4);
       $columna = substr($site, 20, -2);
@@ -66,11 +66,11 @@
     <div class="box-cont-blanco" id="box">
       <div id="cabecera-activos">
 
-        <div id="card" class="card col-md-3" style="height:auto;">
-          <div class="card-header text-dark bg-warning" style="text-align:center;">
-            <h5>Dashboard 1</h5>
+        <div id="card" class="card col-md-3" style="height:auto;align-items: center;">
+          <div class="card-header text-dark bg-warning" style="width:100%;">
+            <h5 style="width:100%;">Dashboard 1</h5>
           </div>
-          <canvas id="myChart"></canvas>
+          <canvas id="myChart" style="max-width:320px;max-height: 350px;"></canvas>
           <h3>Total: <?php echo $total;?></h3>
         </div>
 
@@ -89,7 +89,6 @@
                   <option value="Finsa 3">Finsa 3</option>
                   <option value="Oradel">Oradel</option>
                   <option value="CLS">CLS</option>
-                  <option value="No asignado">No asignado</option>
                 </select>
 
                 <label for="" class="form-label">EPC:</label>
@@ -153,16 +152,34 @@
 
           foreach ($rsp as $dato) {
             $site = $dato['TagSite'];
-            $planta2 = $dato['Planta'];
+            $planta2 = $dato['Service002'];
             $planta = substr($site, 18, -4);
             $columna = substr($site, 20, -2);
             $num_columna = substr($site, -2);
 
-            $ubi = ActivosModel::ver_ubicacion_activo($columna);
+      
+            //FILTROO PARA SABER QUE TIPO DE FORMATO ES LA IMAGEN 
 
+            $img = $dato['Asset'];
             $searchString = " ";
-            $replaceString = "";
-            $nombre_img = str_replace($searchString, $replaceString, $dato['Ruta']);
+            $replaceString = "";            
+            $newimg = str_replace($searchString, $replaceString, $img);
+            $RUTA_IMG = dirname(__FILE__,3).'/public/img/activos/';
+
+            $filejpg = $RUTA_IMG . $newimg . '.jpg';
+            $filejpeg =$RUTA_IMG . $newimg . '.jpeg';
+            $filepng =$RUTA_IMG . $newimg . '.png';
+
+            $formato =  "";
+            $f1 = $f2 = $f3 = true;
+
+            if (file_exists($filejpg)) {$formato = 'jpg';}
+            elseif (file_exists($filejpeg)) {$formato = 'jpeg';}
+            elseif (file_exists($filepng)) {$formato = 'png';}else{$formato = 'error';}   
+            
+            // FIN DEL FILTRO PARA SABER EL FORMATO DE LA IMAGEN 
+
+            $ubi = ActivosModel::ver_ubicacion_activo($columna);
 
             $i++;
             $tabla .= '<tr class="elemento">';
@@ -207,7 +224,7 @@
                     data-planta="' . $planta . '"
                     data-columna="' . $columna . '"
                     data-num="' . $num_columna . '"
-                    data-ruta="' . $nombre_img . '"
+                    data-img="' . $formato . '"
                     
                     ><i class="bx bx-show"></i> Ver</a></li>
                     <li><hr class="dropdown-divider"></li>

@@ -86,14 +86,9 @@ class ActivosModel extends MainModel{
            ,TagSite
            ,Inventory
            ,DateInventory
-           ,Service001
-           ,Service002
-           ,Service003
-           ,Service004
-           ,Service005
-           ,Ruta)
+           ,Service001)
          values 
-        (:asset,:desc,:epc_activo,:epc_poste,:inventario,:fecha,:serv1,:serv2,:serv3,:serv4,:serv5,:ruta)");
+        (:asset,:desc,:epc_activo,:epc_poste,:inventario,:fecha,:serv1)");
         
         $sql->bindParam(":asset",$datos['asset']);
         $sql->bindParam(":desc",$datos['desc']);
@@ -102,11 +97,6 @@ class ActivosModel extends MainModel{
         $sql->bindParam(":inventario",$datos['inventario']);
         $sql->bindParam(":fecha",$datos['fecha']);
         $sql->bindParam(":serv1",$datos['serv1']);
-        $sql->bindParam(":serv2",$datos['serv2']);
-        $sql->bindParam(":serv3",$datos['serv3']);
-        $sql->bindParam(":serv4",$datos['serv4']);
-        $sql->bindParam(":serv5",$datos['serv5']);
-        $sql->bindParam(":ruta",$datos['ruta']);
      
         if($sql->execute()){
           return true;
@@ -139,7 +129,7 @@ class ActivosModel extends MainModel{
       TagSiteFound = :epc_tagsitefound,
       Inventory = :inventory,
       Service001 = :s1,Service002 = :s2,Service003 = :s3,
-      Service004 = :s4,Service005 = :s5,Ruta =:ruta where idCA = :id ');
+      Service004 = :s4,Service005 = :s5 where idCA = :id ');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":asset",$datos['asset']);
       $sql->bindParam(":description",$datos['description']);
@@ -152,7 +142,6 @@ class ActivosModel extends MainModel{
       $sql->bindParam(":s3",$datos['s3']);
       $sql->bindParam(":s4",$datos['s4']);
       $sql->bindParam(":s5",$datos['s5']);
-      $sql->bindParam(":ruta",$datos['ruta']);
       if($sql->execute()){
         return true;
       } else {
@@ -166,7 +155,7 @@ class ActivosModel extends MainModel{
     public static function actualizar_activo_masivo_modelo($datos){
       $sql = Mainmodel::conectar()->prepare('UPDATE tblCA set Asset = :asset,
       Description = :description, DateInventory = :date_inventory,
-      Planta = :site, TagEpc= :epc where idCA = :id');
+      Service002 = :site, TagEpc= :epc where idCA = :id');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":asset",$datos['asset']);
       $sql->bindParam(":description",$datos['description']);
@@ -189,7 +178,7 @@ class ActivosModel extends MainModel{
       (Asset
          ,Description
          ,DateInventory
-         ,Planta,TagEpc)
+         ,Service002,TagEpc)
        values 
       (:asset,:desc,:fecha,:planta,:epc)");
       

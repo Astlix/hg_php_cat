@@ -37,11 +37,24 @@ $(document).on("click", "#form_activar", function(e){
 	let s3   = $(this).data("s3");
 	let s4   = $(this).data("s4");
 	let s5   = $(this).data("s5");
-	let ruta   = $(this).data("ruta");
-	let newruta = ruta.slice(1); //quitamos el primer caracter de la ruta
-	if (newruta=='' || newruta == './public/img/activos/') {
-		newruta ="./public/img/activos/cat.png";
+	let formato   = $(this).data("img");
+	let newruta = "";
+
+	if (formato == 'jpg') {
+	 newruta = './public/img/activos/'+asset.trim()+'.jpg';	
 	}
+	if (formato == 'jpeg') {
+	 newruta = './public/img/activos/'+asset.trim()+'.jpeg';	
+	}
+	if (formato == 'png') {
+	 newruta = './public/img/activos/'+asset.trim()+'.png';	
+	}
+	if (formato == 'error') {
+	 newruta = './public/img/activos/'+formato+'.jpg';	
+	}
+
+	
+
 	
 	$('#modal_planta_upd > option[value="'+planta+'"]').attr('selected', 'selected');
 	$('#modal_columna_upd > option[value="'+columna+'"]').attr('selected', 'selected');

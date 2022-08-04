@@ -70,7 +70,7 @@ $(document).ready(function(){
     
     $('#filtro_asset').on('keyup change', function () {
       table
-          .column(1)
+          .column(0)
           .search( this.value )
           .draw();
     } );
