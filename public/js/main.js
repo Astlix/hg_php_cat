@@ -104,24 +104,6 @@ $.ajax({
 });
 
 
-//codigo para mostrar imagen al seleccionar un activo 
-const avatarInput = document.querySelector('#avatarInput');
-const avatarName = document.querySelector('.input-file__name');
-const imagePreview = document.querySelector('.image-preview');
-
-avatarInput.addEventListener('change', e => {
-	let input = e.currentTarget;
-	let fileName = input.files[0].name;
-	avatarName.innerText = `${fileName}`;
-
-	const fileReader = new FileReader();
-	fileReader.addEventListener('load', e => {
-		let imageData = e.target.result;
-		imagePreview.setAttribute('src', imageData);
-	})
-
-	fileReader.readAsDataURL(input.files[0]);
-});
 
 // ****************CORREOS*****************
 
@@ -144,8 +126,36 @@ $(document).on("click", "#ver_registro_correo", function(e){
     $("#ver_correo").modal("show");	
   });
   
-// MOSTRAL EL MODAL Y SUS DATOS
-$(document).on("click", "#crear_cuenta_correo", function(e){
-	console.log('Click en crear correo');	
-    $("#correo").modal("show");	
+  // MOSTRAL EL MODAL Y SUS DATOS
+  $(document).on("click", "#crear_cuenta_correo", function(e){
+	  // console.log('Click en crear correo');	
+	  $("#correo").modal("show");	
+});
+// MOSTRAL GRAFICA DE FINSA 1
+$(document).on("click", "#finsa1_start_inv", function(e){
+	$("#chartdiv2").css("display", "block");
+	$("#chartdiv").css("display", "none");	
+});
+$(document).on("click", "#finsa1_stop_inv", function(e){
+	$("#chartdiv2").css("display", "none");
+	$("#chartdiv").css("display", "block");	
+	$("#finsa1_stop_inv").css("display", "block");	
+});
+//codigo para mostrar imagen al seleccionar un activo 
+const avatarInput = document.querySelector('#avatarInput');
+const avatarName = document.querySelector('.input-file__name');
+const imagePreview = document.querySelector('.image-preview');
+
+avatarInput.addEventListener('change', e => {
+	let input = e.currentTarget;
+	let fileName = input.files[0].name;
+	avatarName.innerText = `${fileName}`;
+
+	const fileReader = new FileReader();
+	fileReader.addEventListener('load', e => {
+		let imageData = e.target.result;
+		imagePreview.setAttribute('src', imageData);
+	})
+
+	fileReader.readAsDataURL(input.files[0]);
 });

@@ -6,10 +6,20 @@
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/plugins/exporting.js"></script>
-<!-- <script src="./public/js/activos.js"></script> -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-<div id="seccion-wrap">
+<script>
+  // Display a success toast, with a title
+  toastr.options.escapeHtml = true;
+  toastr.options.closeButton = true;
+  toastr.options.newestOnTop = false;
+  toastr.options.closeDuration = 10000;
+  toastr.options.positionClass = "toast-bottom-right";
+  toastr.success('El correo se envio, exitosamente', 'Envio Correcto');
+</script>
+
   <div class="box-cont-negro">
 
     <div class="box-cont-blanco titulo-box">

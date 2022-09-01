@@ -6,8 +6,8 @@ require_once("../models/correosmodel.php"); //para ver las notificaciones
 require_once '../config/config.php';//para poder incluir el SERVERURL
 ?>
 
-<link rel="stylesheet" href="../public/css/sweetalert2.min.css">
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
 <?php
@@ -61,10 +61,17 @@ use PHPMailer\PHPMailer\SMTP;
   
             //Avisar si fue enviado o no y dirigir al index
             if ($mail->Send()) {
-                echo '<script type="text/javascript">
-                    alert("Correo enviado");                                    
-                  </script>';
-                  header("Location: ". SERVERURL . "correos");
+              echo '<script type="text/javascript">
+              // Display a success toast, with a title
+              toastr.options.escapeHtml = true;
+              toastr.options.closeButton = true;
+              toastr.options.newestOnTop = false;
+              toastr.options.closeDuration = 10000;
+              toastr.options.positionClass = "toast-bottom-right";
+              toastr.success("El correo se envio, exitosamente", "Envio Correcto");              
+              </script>';
+              header("Location: ". SERVERURL . "correos");
+                  
             }else{
               echo '<script type="text/javascript">
               alert("Error al enviar el correo");

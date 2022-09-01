@@ -1,9 +1,13 @@
  <!-- CSS only -->
+ 
  <link rel="stylesheet" href="<?php SERVERURL;?>public/css/menu.css">
  <link rel="stylesheet" href="<?php SERVERURL;?>public/css/style.css">
  <link rel="stylesheet" href="<?php SERVERURL;?>public/css/sweetalert2.min.css">
  <link rel="stylesheet" href="<?php SERVERURL;?>public/css/dt-config.css">
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referr erpolicy="no-referrer"></script>
+
+
+ <!-- jquery -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
  <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.css"/>
