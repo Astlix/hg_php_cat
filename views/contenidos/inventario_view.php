@@ -26,10 +26,10 @@
                     <h5>Iniciar Inventario</h5>
                 </div>
                 <div class="card-body" style="display:flex;flex-flow: row wrap;">
-                    <h5 class="card-title" style="width:50%;">Finsa 1</h5><a type="button" id="finsa1_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></a> <a type="button" id="finsa1_stop_inv" class="btn btn-danger" style="margin: 0px 0px; display:none;">Detener </a>
-                    <h5 class="card-title" style="width:50%;">Finsa 3</h5><a type="button" id="finsa3_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></a>
-                    <h5 class="card-title" style="width:50%;">Oradel</h5><a type="button" id="oradel_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></a>
-                    <h5 class="card-title" style="width:50%;">CLS</h5><a type="button" id="cls_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></a>
+                    <h5 class="card-title" style="width:50%;">Finsa 1</h5><button type="button" id="finsa1_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></button> <a type="button" id="finsa1_stop_inv" class="btn btn-danger" style="margin: 0px 0px;display:none; ">Detener </a>
+                    <h5 class="card-title" style="width:50%;">Finsa 3</h5><button type="button" id="finsa3_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></button><a type="button" id="finsa3_stop_inv" class="btn btn-danger" style="margin: 0px 0px;display:none; ">Detener </a>
+                    <h5 class="card-title" style="width:50%;">Oradel</h5><button type="button" id="oradel_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></button><a type="button" id="oradel_stop_inv" class="btn btn-danger" style="margin: 0px 0px;display:none; ">Detener </a>
+                    <h5 class="card-title" style="width:50%;">CLS</h5><button type="button" id="cls_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></button><a type="button" id="cls_stop_inv" class="btn btn-danger" style="margin: 0px 0px;display:none; ">Detener </a>
                 </div>
             </div>
             <!--  INVENTARIO ACTUAL -->
@@ -147,7 +147,14 @@
 
         <!-- HTML -->
         <div id="chartdiv"></div>
-        <div id="chartdiv2"></div>
+        <!-- fimsa 1 -->
+        <div id="chartdiv2"></div> 
+        <!-- fimsa3 -->
+        <div id="chartdiv3"></div>
+        <!-- oradel -->
+        <div id="chartdiv4"></div>
+        <!-- cls -->
+        <div id="chartdiv5"></div>
 
     </div>
 </div>

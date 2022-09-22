@@ -49,7 +49,7 @@ class activosController extends activosmodel
             "Alerta" => "simple",
             "Titulo" => "Error de Archivo",
             "Texto"  => "Verifique que el archivo .csv tenga el formato correspondiente asi como las columnas.",
-            "Tipo"   => "error"
+            "Tipo"   => "error"  
           ];
           echo json_encode($alerta);
           exit();
@@ -65,8 +65,8 @@ class activosController extends activosmodel
           // $locacion          = !empty($datos[4])  ? ($datos[4]) : '';
 
           $datearray = explode("/", $date);
-          $mes = $datearray[0];
-          $dia = $datearray[1];
+          $dia = $datearray[0];
+          $mes = $datearray[1];
           $año = $datearray[2];
           $newdate = $año . '-' . $mes . '-' . $dia;
 
