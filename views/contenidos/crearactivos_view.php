@@ -1,5 +1,5 @@
 <h2>CREAR ACTIVO</h2>
-<br />
+<br/>
 
 <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/activoAjax.php" method="POST" data-form="save">
 
