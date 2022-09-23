@@ -39,7 +39,7 @@
       if ($site != '' && $planta == '02') {$finsa3_ct++;$total_ct++;}
 
       if ($site == '' && $planta2 == 3) {$oradel_st++;$total_st++;}
-      if ($site != '' && $planta == '03') {$oradel_st++;$total_ct++;}
+      if ($site != '' && $planta == '03') {$oradel_ct++;$total_ct++;}
 
       if ($site == '' && $planta2 == 4) {$cls_st++;$total_st++;}
       if ($site != '' && $planta == '04') {$cls_ct++;$total_ct++;}

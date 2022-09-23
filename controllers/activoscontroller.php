@@ -44,11 +44,11 @@ class activosController extends activosmodel
 
         /////VERIFICAMOS QUE EL DOCUMENTO TENGA LAS COLUMNAS IGUALES A LA BD
         $tamaño_arreglo = count($datos);
-        if ($tamaño_arreglo > 4 || $tamaño_arreglo < 4) {
+        if ($tamaño_arreglo != 4) {
           $alerta = [
             "Alerta" => "simple",
             "Titulo" => "Error de Archivo",
-            "Texto"  => "Verifique que el archivo .csv tenga el formato correspondiente asi como las columnas.",
+            "Texto"  => "Verifique que el archivo tenga el formato correspondiente asi como las columnas. Error en linea: ".$i."",
             "Tipo"   => "error"  
           ];
           echo json_encode($alerta);

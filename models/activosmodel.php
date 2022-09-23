@@ -44,9 +44,9 @@ class ActivosModel extends MainModel{
         $stmp -> bindParam(":id", $id);
         $stmp->execute();
         return $stmp->fetch();
-        $stmp->close();
-      
+        $stmp->close();      
       }
+      
     public static function ver_un_activo2($id){
         $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where idCA = :id");
         $stmp -> bindParam(":id", $id);
@@ -74,6 +74,12 @@ class ActivosModel extends MainModel{
       return $stmp->fetch();
       $stmp->close();
       }
+      public static function ver_activo_inv($dato){
+        $stmp = Mainmodel::conectar()->prepare("  select * from tblCA where TagEpc = 'No asignado' and Service002 = ".$dato."");
+        $stmp->execute();
+        return $stmp->fetchAll();
+        $stmp->close();
+        }
 
        ########################################################################
     #                           AGREGAR activo                            #

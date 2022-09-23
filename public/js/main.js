@@ -152,6 +152,26 @@ $(document).on("click", "#finsa3_start_inv", function(e){
 	$("#cls_start_inv").attr("disabled", true);	
 });
 
+$(document).on("click", "#oradel_start_inv", function(e){
+	$("#chartdiv4").css("display", "block");;
+	$("#chartdiv").css("display", "none");	
+	$("#oradel_stop_inv").css("display", "block");	
+
+	$("#finsa1_start_inv").attr("disabled", true);	
+	$("#finsa3_start_inv").attr("disabled", true);	
+	$("#cls_start_inv").attr("disabled", true);	
+});
+
+$(document).on("click", "#cls_start_inv", function(e){
+	$("#chartdiv5").css("display", "block");;
+	$("#chartdiv").css("display", "none");	
+	$("#cls_stop_inv").css("display", "block");	
+
+	$("#finsa1_start_inv").attr("disabled", true);	
+	$("#finsa3_start_inv").attr("disabled", true);	
+	$("#oradel_start_inv").attr("disabled", true);	
+});
+
 // BOTONES DE STOP GRAFICAS 
 $(document).on("click", "#finsa1_stop_inv", function(e){
 	$("#chartdiv2").css("display", "none");;
@@ -171,10 +191,33 @@ $(document).on("click", "#finsa3_stop_inv", function(e){
 	$("#oradel_start_inv").attr("disabled", false);	
 	$("#cls_start_inv").attr("disabled", false);	
 });
+
+$(document).on("click", "#oradel_stop_inv", function(e){
+	$("#chartdiv4").css("display", "none");;
+	$("#chartdiv").css("display", "block");	
+	$("#oradel_stop_inv").css("display", "none");	
+	
+	$("#finsa1_start_inv").attr("disabled", false);	
+	$("#finsa3_start_inv").attr("disabled", false);	
+	$("#cls_start_inv").attr("disabled", false);	
+});
+
+$(document).on("click", "#cls_stop_inv", function(e){
+	$("#chartdiv5").css("display", "none");;
+	$("#chartdiv").css("display", "block");	
+	$("#cls_stop_inv").css("display", "none");	
+	
+	$("#finsa1_start_inv").attr("disabled", false);	
+	$("#finsa3_start_inv").attr("disabled", false);	
+	$("#oradel_start_inv").attr("disabled", false);	
+});
+
+
 //codigo para mostrar imagen al seleccionar un activo 
 const avatarInput = document.querySelector('#avatarInput');
 const avatarName = document.querySelector('.input-file__name');
 const imagePreview = document.querySelector('.image-preview');
+
 
 avatarInput.addEventListener('change', e => {
 	let input = e.currentTarget;
