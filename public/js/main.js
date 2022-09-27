@@ -53,9 +53,6 @@ $(document).on("click", "#form_activar", function(e){
 	 newruta = './public/img/activos/'+formato+'.jpg';	
 	}
 
-	
-
-	
 	$('#modal_planta_upd > option[value="'+planta+'"]').attr('selected', 'selected');
 	$('#modal_columna_upd > option[value="'+columna+'"]').attr('selected', 'selected');
 	$('#modal_num_upd > option[value="'+num_columna+'"]').attr('selected', 'selected');
@@ -126,11 +123,34 @@ $(document).on("click", "#ver_registro_correo", function(e){
     $("#ver_correo").modal("show");	
   });
   
-  // MOSTRAL EL MODAL Y SUS DATOS
   $(document).on("click", "#crear_cuenta_correo", function(e){
-	  // console.log('Click en crear correo');	
-	  $("#correo").modal("show");	
+	// console.log('Click en crear correo');	
+	$("#correo").modal("show");	
 });
+
+ 
+
+// ****************EQUIPOS*****************
+ // MOSTRAL MODAL HH
+  $(document).on("click", "#ver_dato_hh", function(e){
+	  let id   = $(this).data("id");
+	  let mac   = $(this).data("mac");
+	  let marca   = $(this).data("marca");
+	  let modelo   = $(this).data("modelo");
+	  
+	  $("#hh_id_upd").val(id);
+	  $("#modal_mac_upd").val(mac);//mandamos los valores a los input para obtenerlos en js
+	  $("#modal_marca_upd").val(marca);
+	  $("#modal_modelo_upd").val(modelo);
+	  
+	  $("#ver_hh").modal("show");	
+	});
+  // AGREGAR HANDHELD
+  $(document).on("click", "#crear_hh", function(e){
+	  console.log('Click en crear hh');	
+	  $("#modal_crear_hh").modal("show");	
+});
+
 // BOTONES DE INICIAR GRAFICAS 
 $(document).on("click", "#finsa1_start_inv", function(e){
 	$("#chartdiv2").css("display", "block");;
@@ -180,6 +200,7 @@ $(document).on("click", "#finsa1_stop_inv", function(e){
 	
 	$("#finsa3_start_inv").attr("disabled", false);	
 	$("#oradel_start_inv").attr("disabled", false);	
+	$("#f1export").attr("disabled", false);	
 	$("#cls_start_inv").attr("disabled", false);	
 });
 $(document).on("click", "#finsa3_stop_inv", function(e){
@@ -189,6 +210,8 @@ $(document).on("click", "#finsa3_stop_inv", function(e){
 	
 	$("#finsa1_start_inv").attr("disabled", false);	
 	$("#oradel_start_inv").attr("disabled", false);	
+	$("#f3export").attr("disabled", false);	
+
 	$("#cls_start_inv").attr("disabled", false);	
 });
 
@@ -199,6 +222,8 @@ $(document).on("click", "#oradel_stop_inv", function(e){
 	
 	$("#finsa1_start_inv").attr("disabled", false);	
 	$("#finsa3_start_inv").attr("disabled", false);	
+	$("#oradelexport").attr("disabled", false);	
+
 	$("#cls_start_inv").attr("disabled", false);	
 });
 
@@ -209,7 +234,9 @@ $(document).on("click", "#cls_stop_inv", function(e){
 	
 	$("#finsa1_start_inv").attr("disabled", false);	
 	$("#finsa3_start_inv").attr("disabled", false);	
-	$("#oradel_start_inv").attr("disabled", false);	
+	$("#oradel_start_inv").attr("disabled", false);
+	$("#clsexport").attr("disabled", false);	
+
 });
 
 

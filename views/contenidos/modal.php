@@ -1,9 +1,9 @@
 <!-- Modal para ver registros-->
-<div class="modal fade" id="ver_registro" tabindex="-1" aria-labelledby="ver_registro" aria-hidden="true">
+<div class="modal fade" id="ver_registro" tabindex="-1" aria-labelledby="ver_registro2" aria-hidden="true">
   <div class="modal-dialog  modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ver_registro">Ver Activo </h5>
+        <h5 class="modal-title" >Ver Activo </h5>
         <button id="form_activar" class="btn btn-primary" style="width:50px;margin-left: 10px;"><i class="bx bx-edit-alt"></i></button>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -156,11 +156,11 @@
 </div>
 
 <!-- Modal Ver Correo -->
-<div class="modal fade" id="ver_correo" tabindex="-1" aria-labelledby="ver_registro" aria-hidden="true">
+<div class="modal fade" id="ver_correo" tabindex="-1" aria-labelledby="ver_correo" aria-hidden="true">
   <div class="modal-dialog  ">
     <div class="modal-content">
       <div class="modal-header bg-warning">
-        <h5 class="modal-title" id="ver_registro">Editar Cuenta de Correo Electrónico </h5>
+        <h5 class="modal-title" >Editar Cuenta de Correo Electrónico </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -200,9 +200,53 @@
               <div class="row justify-content-around">
                 <button type="submit" id="btn_act_upd" class="btn btn-success col-4" style="cursor: pointer;display: flex;justify-content: space-around;">Actualizar <i class='bx bx-refresh' style="font-size: 25px;"></i></button>
               </div>
+            </div>
+          </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+
+<!-- Modal Ver HH Detalles -->
+<div class="modal fade" id="ver_hh" tabindex="-1" aria-labelledby="ver_hh" aria-hidden="true">
+  <div class="modal-dialog  ">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title" id="ver_hhlabel">Editar Datos de Hand Held </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/equipoAjax.php" method="POST" data-form="update">
+
+          <!-- este  input es el que almacena el id para que el sistema sepa que se trata de un update -->
+
+          <input type="hidden" class="form-control" name="hh_id_upd" id="hh_id_upd">
+
+          <div class="row">
+            <div class="col-md-12">
+              <label for="nombre">MAC</label>
+              <input type="text" class="form-control" id="modal_mac_upd" name="mac_upd" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Marca</label>
+              <input type="text" class="form-control" id="modal_marca_upd" name="marca_upd" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Modelo</label>
+              <input type="text" class="form-control" id="modal_modelo_upd" name="modelo_upd" value="" required>
+            </div>
+              <br>
+
+            <div class="row justify-content-around">
+                <button type="submit" id="btn_hh_upd" class="btn btn-success col-4" style="cursor: pointer; margin-top:10px;display: flex;justify-content: space-around;">Actualizar <i class='bx bx-refresh' style="font-size: 25px;"></i></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 

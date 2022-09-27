@@ -11,11 +11,9 @@
                                     <?php echo $_SESSION['nombre_sca']; ?>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="border-radius: 10px; background-color:black">
-                                <h5 class="mb-2" style="color:#fff"><strong> <?php echo $_SESSION['nickname_sca']; ?></strong></h5>
-<p class="text-muted"><span class="badge bg-primary"> <?php echo $_SESSION['rol_sca'] ?></span></p>
-                                    <li><a class="dropdown-item" href="#" style="display: flex; align-items: center; color: #fff;" ><i style="padding-right: 5px;color: #ffc400e1;" class='bx bxs-user-detail nav_icon'></i> Perfil</a></li>
-                                    <li><a class="dropdown-item" href="#" style="display: flex; align-items: center; color: #fff;" ><i style="padding-right: 5px;color: #ffc400e1;" class='bx bx-cog nav_icon'></i> Propiedades</a></li>
-                                    <li><a class="dropdown-item" href="#" style="display: flex; align-items: center; color: #fff;" ><i style="padding-right: 5px;color: #ffc400e1;" class='bx bx-log-out nav_icon'></i> Cerrar Sesión</a></li>
+                                <h5 class="mb-2" style="color:#fff;text-align:center;"><strong> <?php echo $_SESSION['nickname_sca']; ?></strong></h5>
+                                <p class="text-muted" style="text-align:center;"><span class="badge bg-primary"> <?php echo $_SESSION['rol_sca'] ?></span></p>
+                                    <li><a class="dropdown-item" href="#" style="display: flex; align-items: center; color: #ffc107;" ><i style="padding-right: 5px;color: #ffc400e1;" class='bx bx-code-alt nav_icon'></i> Acerca del Software</a></li>
                                 </ul>
                             </li>
                         </ul>

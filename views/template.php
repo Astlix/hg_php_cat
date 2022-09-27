@@ -17,6 +17,7 @@
     require_once("./models/usermodel.php"); 
     require_once("./models/activosmodel.php"); 
     require_once("./models/correosmodel.php");
+    require_once("./models/equipomodel.php");
     
     $iv = new viewController();
     $vistas = $iv->obtener_vistas_controlador();

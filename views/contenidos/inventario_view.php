@@ -62,6 +62,7 @@
 
                     if ($fecha_activo == $fecha_actual) {
                         $flag = 1;
+                        // echo $flag;
                       }else{$flag=0;}
 
                 
@@ -156,25 +157,25 @@
                     <h5 class="card-title" style="width:50%;">Finsa 1</h5>
                     <form action="./views/excel.php" method="post">
                         <input type="hidden" name="tabla" value="finsa1">
-                        <button type="submit" class="btn btn-success" style="margin: 2px 0px;"><i class='bx bxs-file'></i></button>
+                        <button type="submit" id="f1export" class="btn btn-success" style="margin: 2px 0px;" disabled><i class='bx bxs-file'></i></button>
                     </form>
 
                     <h5 class="card-title" style="width:50%;">Finsa 3</h5>
                     <form action="./views/excel.php" method="post">
                         <input type="hidden" name="tabla" value="finsa3">
-                        <button type="submit" class="btn btn-success" style="margin: 2px 0px;"><i class='bx bxs-file'></i></button>
+                        <button type="submit" id="f3export" class="btn btn-success" style="margin: 2px 0px;" disabled><i class='bx bxs-file'></i></button>
                     </form>
 
                     <h5 class="card-title" style="width:50%;">Oradel</h5>
                     <form action="./views/excel.php" method="post">
                         <input type="hidden" name="tabla" value="oradel">
-                        <button type="submit" class="btn btn-success" style="margin: 2px 0px;"><i class='bx bxs-file'></i></button>
+                        <button type="submit" id="oradelexport" class="btn btn-success" style="margin: 2px 0px;" disabled><i class='bx bxs-file'></i></button>
                     </form>
 
                     <h5 class="card-title" style="width:50%;">CLS</h5>
                     <form action="./views/excel.php" method="post">
                         <input type="hidden" name="tabla" value="cls">
-                        <button type="submit" class="btn btn-success" style="margin: 2px 0px;"><i class='bx bxs-file'></i></button>
+                        <button type="submit"  id="clsexport" class="btn btn-success" style="margin: 2px 0px;" disabled><i class='bx bxs-file'></i></button>
                     </form>
                 </div>
             </div>
