@@ -116,7 +116,7 @@ class Usercontroller extends UserModel
 
       // *************+COMPROBAR SI EL USUARIO EXISTE
       $check_user = Mainmodel::ejecutar_cosulta_simple("SELECT UserName from tblUser where UserName ='$name'");
-      if($check_user['UserName']!=""){
+      if(is_array($check_user)){
         $alerta=[
           "Alerta" => "simple",
           "Titulo" => "Ocurrio un error inesperado",

@@ -20,9 +20,9 @@ class EquipoModel extends MainModel{
         return $stmp->fetch();
         $stmp->close();      
       }
-    public static function ver_reader_esp($id){
-        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblReaders where idReader = :id");
-        $stmp -> bindParam(":id", $id);
+    public static function ver_reader_esp($mac){
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblReaders where MAC = :mac");
+        $stmp -> bindParam(":mac", $mac);
         $stmp->execute();
         return $stmp->fetch();
         $stmp->close();      
@@ -43,7 +43,7 @@ class EquipoModel extends MainModel{
 
         
     #####################################################################
-    #                           AGREGAR Hand Held                             #
+    #                           AGREGAR Reader                             #
     ########################################################################
     public static function agregar_hh_reg($datos){
         $sql = Mainmodel::conectar()->prepare("INSERT INTO tblHandhelds 
@@ -52,6 +52,44 @@ class EquipoModel extends MainModel{
         (:mac,:modelo,:marca)");
         
         $sql->bindParam(":mac",$datos['mac']);
+        $sql->bindParam(":marca",$datos['marca']);
+        $sql->bindParam(":modelo",$datos['modelo']);
+     
+        if($sql->execute()){
+          return true;
+        } else {
+          return false;
+        }
+
+      }
+    public static function agregar_reader_reg($datos){
+        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblReaders 
+         ([MAC]
+           ,[DNSName]
+           ,[Planta]
+           ,[Columna]
+           ,[IPAddress]
+           ,[SubnetMask]
+           ,[Gateway]
+           ,[App]
+           ,[TxPower]
+           ,[Marca]
+           ,[Modelo]
+           ,[Locacion])
+         values 
+        (:mac,:dns,:planta,:columna,:ip,:mask,:gateway,:app,
+        :tx,:marca,:modelo,:loc)");
+        
+        $sql->bindParam(":mac",$datos['mac']);
+        $sql->bindParam(":dns",$datos['dns']);
+        $sql->bindParam(":planta",$datos['planta']);
+        $sql->bindParam(":columna",$datos['columna']);
+        $sql->bindParam(":loc",$datos['loc']);
+        $sql->bindParam(":ip",$datos['ip']);
+        $sql->bindParam(":mask",$datos['mask']);
+        $sql->bindParam(":gateway",$datos['gateway']);
+        $sql->bindParam(":app",$datos['app']);
+        $sql->bindParam(":tx",$datos['tx']);
         $sql->bindParam(":marca",$datos['marca']);
         $sql->bindParam(":modelo",$datos['modelo']);
      
@@ -87,6 +125,40 @@ class EquipoModel extends MainModel{
       $sql->bindParam(":mac",$datos['mac']);
       $sql->bindParam(":marca",$datos['marca']);
       $sql->bindParam(":modelo",$datos['modelo']);
+      if($sql->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+    public static function actualizar_reader_modelo($datos){
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblReaders set MAC = :mac,
+      Modelo = :modelo, Marca = :marca, DNSName = :dns,
+      Planta = :planta, Columna = :columna, Locacion = :loc,
+      IPAddress = :ip, SubnetMask = :mask, Gateway = :gateway,
+      App = :app, TxPower = :tx where idReader = :id ');
+      $sql->bindParam(":id",$datos['id']);
+      $sql->bindParam(":mac",$datos['mac']);
+      $sql->bindParam(":dns",$datos['dns']);
+      $sql->bindParam(":planta",$datos['planta']);
+      $sql->bindParam(":columna",$datos['columna']);
+      $sql->bindParam(":loc",$datos['loc']);
+      $sql->bindParam(":ip",$datos['ip']);
+      $sql->bindParam(":mask",$datos['mask']);
+      $sql->bindParam(":gateway",$datos['gateway']);
+      $sql->bindParam(":app",$datos['app']);
+      $sql->bindParam(":tx",$datos['tx']);
+      $sql->bindParam(":marca",$datos['marca']);
+      $sql->bindParam(":modelo",$datos['modelo']);
+      if($sql->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+    public static function eliminar_reader_modelo($id){
+      $sql = Mainmodel::conectar()->prepare('DELETE from tblReaders where idReader = :id');
+      $sql->bindParam(":id",$id);
       if($sql->execute()){
         return true;
       } else {

@@ -147,9 +147,45 @@ $(document).on("click", "#ver_registro_correo", function(e){
 	});
   // AGREGAR HANDHELD
   $(document).on("click", "#crear_hh", function(e){
-	  console.log('Click en crear hh');	
 	  $("#modal_crear_hh").modal("show");	
 });
+
+  // AGREGAR READER
+  $(document).on("click", "#crear_reader", function(e){
+	  $("#modal_crear_reader").modal("show");	
+});
+// MOSTRAL MODAL READER
+$(document).on("click", "#ver_dato_reader", function(e){
+	let id   = $(this).data("id");
+	let mac   = $(this).data("mac");
+	let dns   = $(this).data("dns");
+	let ip   = $(this).data("ip");
+	let mask   = $(this).data("mask");
+	let planta   = $(this).data("planta");
+	let columna   = $(this).data("columna");
+	let app   = $(this).data("app");
+	let loc   = $(this).data("loc");
+	let marca   = $(this).data("marca");
+	let modelo   = $(this).data("modelo");
+	let gateway   = $(this).data("gateway");
+	let tx   = $(this).data("tx");
+	
+	$("#id_reader").val(id);
+	$("#modal_mac_read_upd").val(mac);
+	$("#modal_dns_read_upd").val(dns);
+	$('#modal_planta_read_upd > option[value="'+planta+'"]').attr('selected', 'selected');
+	$('#modal_columna_read_upd > option[value="'+columna+'"]').attr('selected', 'selected');
+	$("#modal_loc_read_upd").val(loc);
+	$("#modal_ip_read_upd").val(ip);
+	$("#modal_mask_read_upd").val(mask);
+	$("#modal_gateway_read_upd").val(gateway);
+	$("#modal_app_read_upd").val(app);
+	$("#modal_marca_read_upd").val(marca);
+	$("#modal_modelo_read_upd").val(modelo);
+	$("#modal_tx_read_upd").val(tx);
+	
+	$("#modal_ver_reader").modal("show");	
+  });
 
 // BOTONES DE INICIAR GRAFICAS 
 $(document).on("click", "#finsa1_start_inv", function(e){

@@ -208,7 +208,6 @@
   </div>
 </div>
 
-
 <!-- Modal Ver HH Detalles -->
 <div class="modal fade" id="ver_hh" tabindex="-1" aria-labelledby="ver_hh" aria-hidden="true">
   <div class="modal-dialog  ">
@@ -249,4 +248,99 @@
   </div>
 </div>
 
+<!-- Modal editar Reader -->
+<div class="modal fade hh" id="modal_ver_reader" tabindex="-1" aria-labelledby="crear_read" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title" id="crear_read">Editar Reader </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/equipoAjax.php" method="POST" data-form="save">
+          <div class="row">
+            <div class="col-md-12">
+              <label for="nombre">MAC</label>
+              <input type="hidden" id="id_reader" name="id_reader_upd">
+              <input type="text" class="form-control" id="modal_mac_read_upd" name="mac_read_upd" title="MAC" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">DNSName</label>
+              <input type="text" class="form-control" id="modal_dns_read_upd" name="dns_read_upd" title="Marca" required>
+            </div>
+            <!-- //ubicacion -->
+            <div class="row"> 
+              <label for="nombre">Ubicación</label>
+              <div class="col-md-6">
+                <select class="form-control" id="modal_planta_read_upd" name="planta_read_upd" title="Planta" required>
+                  <option value="f1">Finsa 1</option>
+                  <option value="f3">Finsa 3</option>
+                  <option value="or">Oradel</option>
+                  <option value="cls">CLS</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <select class="form-control" id="modal_columna_read_upd" name="columna_read_upd" title="Columna" required>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                  <option value="F">F</option>
+                  <option value="G">G</option>
+                  <option value="H">H</option>
+                  <option value="I">I</option>
+                  <option value="J">J</option>
+                  <option value="L">L</option>
+                  <option value="M">M</option>
+                  <option value="N">N</option>
+                  <option value="O">O</option>
+                  <option value="P">P</option>
+                  <option value="Q">Q</option>
+                  <option value="R">R</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Locación</label>
+              <input type="text" class="form-control" id="modal_loc_read_upd" name="loc_read_upd" title="Locación" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">IPAdress</label>
+              <input type="text" class="form-control" id="modal_ip_read_upd" name="ip_read_upd" title="IpAddress" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">SubnetMask</label>
+              <input type="text" class="form-control" id="modal_mask_read_upd" name="mask_read_upd" title="SubnetMask" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Gateway</label>
+              <input type="text" class="form-control" id="modal_gateway_read_upd" name="gateway_read_upd" title="Gateway" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">App</label>
+              <input type="text" class="form-control" id="modal_app_read_upd" name="app_read_upd" title="Gateway" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Tx Power</label>
+              <input type="text" class="form-control" id="modal_tx_read_upd" name="tx_read_upd" title="Tx Power" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Marca</label>
+              <input type="text" class="form-control" id="modal_marca_read_upd" name="marca_read_upd" title="Marca" required>
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Modelo</label>
+              <input type="text" class="form-control" id="modal_modelo_read_upd" name="modelo_read_upd" title="Modelo" required>
+            </div>
+              <br><br>
+            <div class="row justify-content-around">
+                <button type="submit" id="btn_upd_read_reg" class="btn btn-success col-4" style="cursor: pointer;display: flex;justify-content: space-around; margin-top:10px">Actualizar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
