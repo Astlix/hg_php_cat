@@ -1,5 +1,5 @@
 <?php
-$planta = $_POST['tabla'];
+$planta = $_POST['exampleRadios'];
 include("../models/activosmodel.php"); //para consultas
 header('Content-type: application/vnd.ms-excel;charset=iso-8859-15');
 header('Content-Disposition: attachment; filename='.$planta.'.xls');

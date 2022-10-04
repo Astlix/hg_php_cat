@@ -252,7 +252,7 @@ $(document).on("click", "#finsa3_stop_inv", function(e){
 });
 
 $(document).on("click", "#oradel_stop_inv", function(e){
-	$("#chartdiv4").css("display", "none");;
+	$("#chartdiv4").css("display", "none");
 	$("#chartdiv").css("display", "block");	
 	$("#oradel_stop_inv").css("display", "none");	
 	
@@ -275,6 +275,18 @@ $(document).on("click", "#cls_stop_inv", function(e){
 
 });
 
+let startDate = document.getElementById('startDate')
+let endDate = document.getElementById('endDate')
+
+startDate.addEventListener('change',(e)=>{
+  let startDateVal = e.target.value
+  document.getElementById('startDateSelected').innerText = startDateVal
+})
+
+endDate.addEventListener('change',(e)=>{
+  let endDateVal = e.target.value
+  document.getElementById('endDateSelected').innerText = endDateVal
+})  
 
 //codigo para mostrar imagen al seleccionar un activo 
 const avatarInput = document.querySelector('#avatarInput');

@@ -23,13 +23,48 @@
 
             <div class="card col-md-3" style="height:250px;">
                 <div class="card-header text-dark bg-warning" style="text-align:center;">
-                    <h5>Iniciar Inventario</h5>
+                    <h5>Reporte Inventario</h5>
                 </div>
-                <div class="card-body" style="display:flex;flex-flow: row wrap;">
-                    <h5 class="card-title" style="width:50%;">Finsa 1</h5><button type="button" id="finsa1_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></button> <a type="button" id="finsa1_stop_inv" class="btn btn-danger" style="margin: 0px 0px;display:none; ">Detener </a>
-                    <h5 class="card-title" style="width:50%;">Finsa 3</h5><button type="button" id="finsa3_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></button><a type="button" id="finsa3_stop_inv" class="btn btn-danger" style="margin: 0px 0px;display:none; ">Detener </a>
-                    <h5 class="card-title" style="width:50%;">Oradel</h5><button type="button" id="oradel_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></button><a type="button" id="oradel_stop_inv" class="btn btn-danger" style="margin: 0px 0px;display:none; ">Detener </a>
-                    <h5 class="card-title" style="width:50%;">CLS</h5><button type="button" id="cls_start_inv" class="btn btn-primary" style="margin: 2px 10px;"><i class='bx bx-file'></i></button><a type="button" id="cls_stop_inv" class="btn btn-danger" style="margin: 0px 0px;display:none; ">Detener </a>
+                <div class="card-body" style="display:flex;flex-flow: row wrap; justify-content:center;">
+                    <form action="./views/excel.php" method="post">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6">
+                                <label for="startDate">Inicio</label>
+                                <input id="startDate" class="form-control" type="date" required/>
+                                <!-- <span id="startDateSelected"></span> -->
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <label for="endDate">Termino</label>
+                                <input id="endDate" class="form-control" type="date" required/>
+                                <!-- <span id="endDateSelected"></span> -->
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row" >
+                            <div class="col-lg-3">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="finsa1" checked>
+                                <label class="form-check-label" for="exampleRadios1">F1</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="finsa3">
+                                <label class="form-check-label" for="exampleRadios2">F3</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="oradel">
+                                <label class="form-check-label" for="exampleRadios3">Oradel</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="cls">
+                                <label class="form-check-label" for="exampleRadios4">Cls</label>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="boton" style="display:flex;justify-content:center;">
+                            <button type="submit" class="btn btn-success">Generar Reporte <i class='bx bxs-file'></i></button>
+                        </div>
+                    </form>
+                    
                 </div>
             </div>
             <!--  INVENTARIO ACTUAL -->
@@ -148,37 +183,7 @@
                     </tbody>
                 </table>
             </div>
-            <!-- REPORTE INVENTARIO -->
-            <div class="card col-md-3" style="margin: 0px 10px;height:250px;">
-                <div class="card-header text-dark bg-warning" style="text-align:center;">
-                    <h5>Reporte Inventario</h5>
-                </div>
-                <div class="card-body" style="display:flex;flex-flow: row wrap;">
-                    <h5 class="card-title" style="width:50%;">Finsa 1</h5>
-                    <form action="./views/excel.php" method="post">
-                        <input type="hidden" name="tabla" value="finsa1">
-                        <button type="submit" id="f1export" class="btn btn-success" style="margin: 2px 0px;" disabled><i class='bx bxs-file'></i></button>
-                    </form>
-
-                    <h5 class="card-title" style="width:50%;">Finsa 3</h5>
-                    <form action="./views/excel.php" method="post">
-                        <input type="hidden" name="tabla" value="finsa3">
-                        <button type="submit" id="f3export" class="btn btn-success" style="margin: 2px 0px;" disabled><i class='bx bxs-file'></i></button>
-                    </form>
-
-                    <h5 class="card-title" style="width:50%;">Oradel</h5>
-                    <form action="./views/excel.php" method="post">
-                        <input type="hidden" name="tabla" value="oradel">
-                        <button type="submit" id="oradelexport" class="btn btn-success" style="margin: 2px 0px;" disabled><i class='bx bxs-file'></i></button>
-                    </form>
-
-                    <h5 class="card-title" style="width:50%;">CLS</h5>
-                    <form action="./views/excel.php" method="post">
-                        <input type="hidden" name="tabla" value="cls">
-                        <button type="submit"  id="clsexport" class="btn btn-success" style="margin: 2px 0px;" disabled><i class='bx bxs-file'></i></button>
-                    </form>
-                </div>
-            </div>
+           
         </div>
 
         <!-- HTML -->
