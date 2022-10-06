@@ -31,12 +31,12 @@
                             <div class="col-lg-6 col-sm-6">
                                 <label for="startDate">Inicio</label>
                                 <input id="startDate" class="form-control" type="date" required/>
-                                <!-- <span id="startDateSelected"></span> -->
+                                <input id="startDateSelected" name="startDateSelected" type="hidden"></input>
                             </div>
                             <div class="col-lg-6 col-sm-6">
                                 <label for="endDate">Termino</label>
                                 <input id="endDate" class="form-control" type="date" required/>
-                                <!-- <span id="endDateSelected"></span> -->
+                                <input id="endDateSelected" name="endDateSelected" type="hidden"></input>
                             </div>
                         </div>
                         <br>

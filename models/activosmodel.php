@@ -75,7 +75,10 @@ class ActivosModel extends MainModel{
       $stmp->close();
       }
       public static function ver_activo_inv($dato){
-        $stmp = Mainmodel::conectar()->prepare("  select * from tblCA where TagEpc = 'No asignado' and Service002 = ".$dato."");
+        $stmp = Mainmodel::conectar()->prepare("select * from tblCA where DateInventory between :fechastart and :fechaend and Service002 = :planta");
+        $stmp -> bindParam(":fechastart", $dato['fechasstart']);
+        $stmp -> bindParam(":fechaend", $dato['fechaend']);
+        $stmp -> bindParam(":planta", $dato['planta']);
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();

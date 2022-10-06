@@ -154,6 +154,10 @@ $(document).on("click", "#ver_registro_correo", function(e){
   $(document).on("click", "#crear_reader", function(e){
 	  $("#modal_crear_reader").modal("show");	
 });
+  // AGREGAR INCIDENCIA ACTIVO
+  $(document).on("click", "#boton_incidencia_activo", function(e){
+	  $("#modal_incidencia_activo").modal("show");	
+});
 // MOSTRAL MODAL READER
 $(document).on("click", "#ver_dato_reader", function(e){
 	let id   = $(this).data("id");
@@ -278,15 +282,51 @@ $(document).on("click", "#cls_stop_inv", function(e){
 let startDate = document.getElementById('startDate')
 let endDate = document.getElementById('endDate')
 
-startDate.addEventListener('change',(e)=>{
-  let startDateVal = e.target.value
-  document.getElementById('startDateSelected').innerText = startDateVal
-})
+if (startDate) {
+	startDate.addEventListener('change',(e)=>{
+	  let startDateVal = e.target.value
+	//   document.getElementById('startDateSelected').innerText = startDateVal
+	  document.getElementById('startDateSelected').value = startDateVal
+	})
+}
+if (endDate) {
+	endDate.addEventListener('change',(e)=>{
+	  let endDateVal = e.target.value
+	//   document.getElementById('endDateSelected').innerText = endDateVal
+	  document.getElementById('endDateSelected').value = endDateVal
+	})  
+}
 
-endDate.addEventListener('change',(e)=>{
-  let endDateVal = e.target.value
-  document.getElementById('endDateSelected').innerText = endDateVal
-})  
+
+//CAMBIO DE SELECT PARA REGISTRAR INCIDENCIAS EN ASSET
+let asset = document.getElementById('modal_asset_reg');
+if(asset){
+	asset.addEventListener('change',(e)=>{
+		let assetVal = e.target.value
+		// document.getElementById('modal_nombre_reg').value = assetVal
+	
+		$data = {
+			"asset" : assetVal,
+			"action": 'ver_asset'
+		}
+	
+		$.ajax ({
+			url         : './ajax/alarmaAjax.php',
+			type      : 'POST',
+			data        : {"asset" : assetVal},
+			success     : function(response){
+				let data=$.parseJSON(response); //parse response string
+				let json = JSON.stringify(data.resp);
+	
+				description = data.description;
+				dateinv = data.dateinventory;
+	
+				document.getElementById('modal_description_reg').innerHTML = description;
+				$("#modal_description_reg").val(description);
+			}
+		  });	
+	  }); 
+}
 
 //codigo para mostrar imagen al seleccionar un activo 
 const avatarInput = document.querySelector('#avatarInput');
@@ -294,16 +334,18 @@ const avatarName = document.querySelector('.input-file__name');
 const imagePreview = document.querySelector('.image-preview');
 
 
-avatarInput.addEventListener('change', e => {
-	let input = e.currentTarget;
-	let fileName = input.files[0].name;
-	avatarName.innerText = `${fileName}`;
-
-	const fileReader = new FileReader();
-	fileReader.addEventListener('load', e => {
-		let imageData = e.target.result;
-		imagePreview.setAttribute('src', imageData);
-	})
-
-	fileReader.readAsDataURL(input.files[0]);
-});
+if (avatarInput) {
+	avatarInput.addEventListener('change', e => {
+		let input = e.currentTarget;
+		let fileName = input.files[0].name;
+		avatarName.innerText = `${fileName}`;
+	
+		const fileReader = new FileReader();
+		fileReader.addEventListener('load', e => {
+			let imageData = e.target.result;
+			imagePreview.setAttribute('src', imageData);
+		})
+	
+		fileReader.readAsDataURL(input.files[0]);
+	});
+}
