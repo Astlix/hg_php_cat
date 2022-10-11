@@ -89,6 +89,15 @@ $(document).ready(function(){
           .draw();
     } );
 
+
+    // FILTRO PARA TABLA DE BITACORA
+    $('#filtro_tipo').change(function () {
+      table
+          .column(1)
+          .search( this.value )
+          .draw();
+    } );
+
     table.on( 'draw', function () {
     });
     

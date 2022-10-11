@@ -158,6 +158,32 @@ $(document).on("click", "#ver_registro_correo", function(e){
   $(document).on("click", "#boton_incidencia_activo", function(e){
 	  $("#modal_incidencia_activo").modal("show");	
 });
+  // AGREGAR INCIDENCIA ACTIVO ALARMA
+  $(document).on("click", "#ver_dato_alarma", function(e){
+	let id   = $(this).data("id");
+	let asset   = $(this).data("asset");
+	let comentario	= $(this).data("comentario");
+	let planta	= $(this).data("tipo");
+	let description   = $(this).data("description");
+	let tagepc   = $(this).data("tagepc");
+	let tagsite   = $(this).data("tagsite");
+	let tagsitefound   = $(this).data("tagsitefound");
+	let inventory   = $(this).data("inventory");
+
+	$("#id_alarma").val(id);
+	$("#modal_asset_reg_alarm").val(asset);
+	$("#modal_comentarios_alarma").val(comentario);
+	$('#modal_tipo_alarma > option[value="' + planta + '"]').attr('selected', 'selected');
+
+
+	$("#modal_description_reg").val(description);
+	$("#modal_tagepc_reg").val(tagepc);
+	$("#modal_tagsite_reg").val(tagsite);
+	$("#modal_tagsitefound_reg").val(tagsitefound);
+	$("#modal_inventory_reg").val(inventory);
+
+	$("#modal_reg_inc_alarma").modal("show");	
+});
 // MOSTRAL MODAL READER
 $(document).on("click", "#ver_dato_reader", function(e){
 	let id   = $(this).data("id");
@@ -321,7 +347,6 @@ if(asset){
 				description = data.description;
 				dateinv = data.dateinventory;
 	
-				document.getElementById('modal_description_reg').innerHTML = description;
 				$("#modal_description_reg").val(description);
 			}
 		  });	

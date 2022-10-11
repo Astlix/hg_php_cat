@@ -6,13 +6,7 @@ class AlarmaModel extends MainModel{
  ########################################################################
     #                           Consulta un Equipos                             #
     ########################################################################
-    public static function ver_hh_mac($mac){
-        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where MAC = :mac");
-        $stmp -> bindParam(":mac", $mac);
-        $stmp->execute();
-        return $stmp->fetch();
-        $stmp->close();      
-      }
+
     public static function ver_hh_id($id){
         $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where idHandheld = :id");
         $stmp -> bindParam(":id", $id);
@@ -27,9 +21,17 @@ class AlarmaModel extends MainModel{
         return $stmp->fetch();
         $stmp->close();
         }
+      public static function ver_un_activos_por_asset2($asset){
+        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblCA where Asset = :asset");
+        $stmp -> bindParam(":asset", $asset);
+        $stmp->execute();
+        return $stmp->fetch();
+        $stmp->close();
+        }
 
       public static function ver_alarma_general(){
-        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblComentariosAlarma");
+        $stmp = Mainmodel::conectar2()->prepare("SELECT idBitacora,Asset,isnull(TipoSalida,'5') as TipoSalida, isnull(Comentarios,'Sin registro') as Comentarios, 
+                                                FechaRegistro,FechaAlarma,Ubicacion FROM tblBitacora");
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();
@@ -43,64 +45,43 @@ class AlarmaModel extends MainModel{
 
         
     #####################################################################
-    #                           AGREGAR Reader                             #
+    #                           AGREGAR alarma                             #
     ########################################################################
-    public static function agregar_hh_reg($datos){
-        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblHandhelds 
-        (MAC,Modelo,Marca)
+    public static function agregarAlarma($datos){
+        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblBitacora 
+        (Asset,FechaAlarma,Ubicacion)
          values 
-        (:mac,:modelo,:marca)");
+        (:asset,:fecha,:id_puerta)");
         
-        $sql->bindParam(":mac",$datos['mac']);
-        $sql->bindParam(":marca",$datos['marca']);
-        $sql->bindParam(":modelo",$datos['modelo']);
+        $sql->bindParam(":asset",$datos['asset']);
+        $sql->bindParam(":fecha",$datos['fecha']);
+        $sql->bindParam(":id_puerta",$datos['id_puerta']);
      
         if($sql->execute()){
           return true;
         } else {
           return false;
         }
-
       }
-    public static function agregar_reader_reg($datos){
-        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblReaders 
-            ([MAC]
-           ,[DNSName]
-           ,[Planta]
-           ,[Columna]
-           ,[IPAddress]
-           ,[SubnetMask]
-           ,[Gateway]
-           ,[App]
-           ,[TxPower]
-           ,[Marca]
-           ,[Modelo]
-           ,[Locacion])
+
+    public static function agregar_incidencias($datos){
+        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblBitacora 
+        (Asset,TipoSalida,Comentarios,FechaRegistro)
          values 
-        (:mac,:dns,:planta,:columna,:ip,:mask,:gateway,:app,
-        :tx,:marca,:modelo,:loc)");
+        (:asset,:tipo,:comentarios,:fecha)");
         
-        $sql->bindParam(":mac",$datos['mac']);
-        $sql->bindParam(":dns",$datos['dns']);
-        $sql->bindParam(":planta",$datos['planta']);
-        $sql->bindParam(":columna",$datos['columna']);
-        $sql->bindParam(":loc",$datos['loc']);
-        $sql->bindParam(":ip",$datos['ip']);
-        $sql->bindParam(":mask",$datos['mask']);
-        $sql->bindParam(":gateway",$datos['gateway']);
-        $sql->bindParam(":app",$datos['app']);
-        $sql->bindParam(":tx",$datos['tx']);
-        $sql->bindParam(":marca",$datos['marca']);
-        $sql->bindParam(":modelo",$datos['modelo']);
+        $sql->bindParam(":asset",$datos['asset']);
+        $sql->bindParam(":tipo",$datos['tipo']);
+        $sql->bindParam(":comentarios",$datos['comentarios']);
+        $sql->bindParam(":fecha",$datos['fecha']);
      
         if($sql->execute()){
           return true;
         } else {
           return false;
         }
-
       }
-
+   
       ########################################################################
     #                           Eliminar HH                            #
     ########################################################################
@@ -115,41 +96,17 @@ class AlarmaModel extends MainModel{
       }
     }
  ########################################################################
-    #                           Actualziar hand held                            #
+    #                      Agregar Comentario de Alarma                 #
     ########################################################################
   
-    public static function actualizar_hh_modelo($datos){
-      $sql = Mainmodel::conectar()->prepare('UPDATE tblHandhelds set MAC = :mac,
-      Modelo = :modelo, Marca = :marca where idHandheld = :id ');
+    public static function comentario_alarma($datos){
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblBitacora set Asset = :asset,
+      TipoSalida = :tipo, Comentarios = :comentarios, FechaRegistro = :fecha where idBitacora = :id ');
       $sql->bindParam(":id",$datos['id']);
-      $sql->bindParam(":mac",$datos['mac']);
-      $sql->bindParam(":marca",$datos['marca']);
-      $sql->bindParam(":modelo",$datos['modelo']);
-      if($sql->execute()){
-        return true;
-      } else {
-        return false;
-      }
-    }
-    public static function actualizar_reader_modelo($datos){
-      $sql = Mainmodel::conectar()->prepare('UPDATE tblReaders set MAC = :mac,
-      Modelo = :modelo, Marca = :marca, DNSName = :dns,
-      Planta = :planta, Columna = :columna, Locacion = :loc,
-      IPAddress = :ip, SubnetMask = :mask, Gateway = :gateway,
-      App = :app, TxPower = :tx where idReader = :id ');
-      $sql->bindParam(":id",$datos['id']);
-      $sql->bindParam(":mac",$datos['mac']);
-      $sql->bindParam(":dns",$datos['dns']);
-      $sql->bindParam(":planta",$datos['planta']);
-      $sql->bindParam(":columna",$datos['columna']);
-      $sql->bindParam(":loc",$datos['loc']);
-      $sql->bindParam(":ip",$datos['ip']);
-      $sql->bindParam(":mask",$datos['mask']);
-      $sql->bindParam(":gateway",$datos['gateway']);
-      $sql->bindParam(":app",$datos['app']);
-      $sql->bindParam(":tx",$datos['tx']);
-      $sql->bindParam(":marca",$datos['marca']);
-      $sql->bindParam(":modelo",$datos['modelo']);
+      $sql->bindParam(":asset",$datos['asset']);
+      $sql->bindParam(":tipo",$datos['tipo']);
+      $sql->bindParam(":comentarios",$datos['comentarios']);
+      $sql->bindParam(":fecha",$datos['fecha']);
       if($sql->execute()){
         return true;
       } else {
@@ -164,6 +121,13 @@ class AlarmaModel extends MainModel{
       } else {
         return false;
       }
+    }
+
+    public static function ver_correos(){
+      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCorreo");
+      $stmp->execute();
+      return $stmp->fetchAll();
+      $stmp->close();
     }
 
 }

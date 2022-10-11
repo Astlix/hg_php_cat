@@ -32,34 +32,84 @@
             $i = 0;
 
             foreach ($rsp as $dato) {
+              if ($dato['FechaAlarma']=='') {
+                continue;
+              }
+
+              $sql = AlarmaModel::ver_un_activos_por_asset2(trim($dato['Asset']));
+              if ($sql) {
+                $descripcion = $sql['Description'];
+                $tag_activo = $sql['TagEpc'];
+                $tag_ubicacion = $sql['TagSite'];
+                $tag_nueva_ubicacion = $sql['TagSiteFound'];
+                $s1 = $sql['Service001'];
+                $inventory = $sql['DateInventory'];
+              }else{
+                $descripcion = 'n/a';
+                $tag_activo = 'n/a';
+                $tag_ubicacion = 'n/a';
+                $tag_nueva_ubicacion = 'n/a';
+                $s1 = 'n/a';
+                $inventory = 'n/a';
+              }
+
+              //FILTRO PARA SABER SI YA HAY COMENTARIOS DE LA ALARMA O NO 
+              if(trim($dato['Comentarios'])!='Sin registro'){
+                $linea = '<td style="cursor:not-allowed;">
+                                  <div class="btn-group" >
+                                  <button type="button" style="width:50px;cursor: not-allowed;pointer-events: none;" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                                  <i class="bx bx-dots-vertical-rounded"></i>
+                                  </button>
+                                      <ul class="dropdown-menu">
+                                          <li><a class="dropdown-item" type="button" id="ver_dato_alarma" 
+                                          data-id="'.trim($dato['idBitacora']).'"
+                                          data-asset="'.trim($dato['Asset']).'"
+                                          data-comentario="'.trim($dato['Comentarios']).'"
+                                          data-tipo="'.trim($dato['TipoSalida']).'"
+                                          data-description="'.$descripcion.'"                    
+                                          data-tagepc="'.$tag_activo.'"                    
+                                          data-tagsite="'.$tag_ubicacion.'"                    
+                                          data-tagsitefound="'.$tag_nueva_ubicacion.'"                    
+                                          data-s1="'.$s1.'"                    
+                                          data-inventory="'.$inventory.'"                    
+                                          ><i class="bx bx-message-dots" style="color:blue;margin-right:15px;"></i> Crear Comentario</a></li>
+                                          
+                                      </ul>
+                                  </div>
+                          </td>';
+              }else{
+                $linea = '<td>
+                              <div class="btn-group">
+                              <button type="button" stlyle="width:50px;" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                              <i class="bx bx-dots-vertical-rounded"></i>
+                              </button>
+                                  <ul class="dropdown-menu">
+                                      <li><a class="dropdown-item" type="button" id="ver_dato_alarma" 
+                                      data-id="'.trim($dato['idBitacora']).'"
+                                      data-asset="'.trim($dato['Asset']).'"
+                                      data-comentario="'.trim($dato['Comentarios']).'"
+                                      data-tipo="'.trim($dato['TipoSalida']).'"
+                                      data-description="'.$descripcion.'"                    
+                                      data-tagepc="'.$tag_activo.'"                    
+                                      data-tagsite="'.$tag_ubicacion.'"                    
+                                      data-tagsitefound="'.$tag_nueva_ubicacion.'"                    
+                                      data-s1="'.$s1.'"                    
+                                      data-inventory="'.$inventory.'"                    
+                                      ><i class="bx bx-message-dots" style="color:blue;margin-right:15px;"></i> Crear Comentario</a></li>
+                                      
+                                  </ul>
+                              </div>
+                          </td>';
+              }
 
                 // echo $planta.$columna.$num_columna.'<br>';
                 $i++;
                 $tabla .= '<tr class="elemento">';
                 $tabla .= '<td scope="col" class="salida">'. $i . '</td>';
                 $tabla .= '<td scope="col" class="lote">'. $dato['Asset'] .'</td>';
-                $tabla .= '<td scope="col" class="lote">'. $dato['Comentario'] .'</td>';
+                $tabla .= '<td scope="col" class="lote">'. $dato['Comentarios'] .'</td>';
                 $tabla .= '<td scope="col" class="lote">'. $dato['FechaAlarma'] .'</td>';
-                $tabla .= '<td>
-                                <div class="btn-group">
-                                <button type="button" stlyle="width:50px;" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                                </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" type="button" id="ver_dato_hh" 
-                                        data-id="'.trim($dato['idComentarioAlarma']).'"
-                                        data-asset="'.trim($dato['Asset']).'"
-                                        data-comentario="'.trim($dato['Comentario']).'"
-                                        data-fechaalarma="'.trim($dato['FechaAlarma']).'"                    
-                                        ><i class="bx bx-pencil"></i> Editar</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <form action="' . SERVERURL . 'ajax/alarmaAjax.php" class="FormularioAjax" method="post" data-form="delete">
-                                        <input type="hidden" name="hh_id_delete" value="'.$dato['idComentarioAlarma'].'">
-                                        <button type="submit" class="btn btn-secondary" style="background-color:transparent; color:black; border-color:transparent;width:100%;"><i class="bx bx-trash" style="color:red;"></i> Eliminar</button>
-                                        </form>
-                                    </ul>
-                                </div>
-                        </td>';
+                $tabla .= $linea;
                 $tabla .= '</tr>';
             }           
 
@@ -77,129 +127,61 @@
 </div>
 
 <!-- Modal Crear Hand Held -->
-<div class="modal fade hh" id="modal_crear_hh" tabindex="-1" aria-labelledby="ver_registro" aria-hidden="true">
+<div class="modal fade hh" id="modal_reg_inc_alarma" tabindex="-1" aria-labelledby="ver_alarma" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header bg-warning">
-        <h5 class="modal-title" id="ver_registro">Agregar Hand Held </h5>
+        <h5 class="modal-title" id="ver_registro">Crear Bitacora de Alarma </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/equipoAjax.php" method="POST" data-form="save">
-          <div class="row">
-            <div class="col-md-12">
-              <label for="nombre">MAC</label>
-              <input type="text" class="form-control" id="modal_mac_hh_reg" name="mac_hh_reg" title="MAC" required>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">Marca</label>
-              <input type="text" class="form-control" id="modal_marca_hh_reg" name="marca_hh_reg" title="Marca" required>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">Modelo</label>
-              <input type="text" class="form-control" id="modal_modelo_hh_reg" name="modelo_hh_reg" title="Modelo" required>
-            </div>
-              <br><br>
-            <div class="row justify-content-around">
-                <button type="submit" id="btn_agregar_hh_reg" class="btn btn-success col-4" style="cursor: pointer;display: flex;justify-content: space-around; margin-top:10px">Crear </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+            <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/alarmaAjax.php" method="POST" data-form="save">
+                    <div class="col-md-12">
+                      <label for="nombre">Aseet</label>
+                      <input type="hidden" id="id_alarma" name="id_alarma">
+                      <input  type="text" class="form-control" id="modal_asset_reg_alarm" name="asset_reg_alarm" title="Asset" required readonly> </input>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="nombre">Descripción</label>
+                      <input  type="text" class="form-control" id="modal_description_reg" title="Descripcion" required readonly> </input>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="nombre">Tag activo</label>
+                      <input  type="text" class="form-control" id="modal_tagepc_reg" title="tagepc" required readonly> </input>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="nombre">Tag ubicación</label>
+                      <input  type="text" class="form-control" id="modal_tagsite_reg" title="tagsite" required readonly> </input>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="nombre">Tag nueva ubicación</label>
+                      <input  type="text" class="form-control" id="modal_tagsitefound_reg" title="tagsitefound" required readonly> </input>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="nombre">Fecha de ultimo inventario</label>
+                      <input  type="text" class="form-control" id="modal_inventory_reg" title="inventory" required readonly> </input>
+                    </div>
+                    <hr>
+                    <div class="col-md-12">
+                      <label for="nombre">Tipo de salida</label>
+                        <select class="form-select" id="modal_tipo_alarma" name="tipo_alarma" aria-label="Default select example" title="Tipo de salida" >
+                            <option value=""selected disabled>Seleccione un Tipo de Salida</option>
+                            <option value="1">Mantenimiento</option>
+                            <option value="2">Reparación</option>
+                            <option value="3">Traspaso</option>
+                            <option value="4">Baja</option>                      
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="nombre">Comentarios</label>
+                      <textarea  type="text" class="form-control" id="modal_comentarios_alarma" name="comentarios_alarma" value="" title="Comentarios" required> </textarea>
+                    </div>
+                      <br>
 
-<!-- Modal Crear Reader -->
-<div class="modal fade hh" id="modal_crear_reader" tabindex="-1" aria-labelledby="crear_read" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-warning">
-        <h5 class="modal-title" id="crear_read">Agregar Reader </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/equipoAjax.php" method="POST" data-form="save">
-          <div class="row">
-            <div class="col-md-12">
-              <label for="nombre">MAC</label>
-              <input type="text" class="form-control" id="modal_mac_read_reg" name="mac_read_reg" title="MAC" required>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">DNSName</label>
-              <input type="text" class="form-control" id="modal_dns_read_reg" name="dns_read_reg" title="Marca" required>
-            </div>
-            <!-- //ubicacion -->
-            <div class="row"> 
-              <label for="nombre">Ubicación</label>
-              <div class="col-md-6">
-                <select class="form-control" id="modal_planta_read_reg" name="planta_read_reg" title="Planta" required>
-                  <option value="f1">Finsa 1</option>
-                  <option value="f3">Finsa 3</option>
-                  <option value="or">Oradel</option>
-                  <option value="cls">CLS</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <select class="form-control" id="modal_planta_read_reg" name="columna_read_reg" title="Planta" required>
-                <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
-                  <option value="E">E</option>
-                  <option value="F">F</option>
-                  <option value="G">G</option>
-                  <option value="H">H</option>
-                  <option value="I">I</option>
-                  <option value="J">J</option>
-                  <option value="L">L</option>
-                  <option value="M">M</option>
-                  <option value="N">N</option>
-                  <option value="O">O</option>
-                  <option value="P">P</option>
-                  <option value="Q">Q</option>
-                  <option value="R">R</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">Locación</label>
-              <input type="text" class="form-control" id="modal_loc_read_reg" name="loc_read_reg" title="Locación" required>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">IPAdress</label>
-              <input type="text" class="form-control" id="modal_ip_read_reg" name="ip_read_reg" title="IpAddress" required>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">SubnetMask</label>
-              <input type="text" class="form-control" id="modal_mask_read_reg" name="mask_read_reg" title="SubnetMask" required>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">Gateway</label>
-              <input type="text" class="form-control" id="modal_gateway_read_reg" name="gateway_read_reg" title="Gateway" required>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">App</label>
-              <input type="text" class="form-control" id="modal_app_read_reg" name="app_read_reg" title="App" required>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">Tx Power</label>
-              <input type="text" class="form-control" id="modal_tx_read_reg" name="tx_read_reg" title="TxPower" required>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">Marca</label>
-              <input type="text" class="form-control" id="modal_marca_read_reg" name="marca_read_reg" title="Marca" required>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">Modelo</label>
-              <input type="text" class="form-control" id="modal_modelo_read_reg" name="modelo_read_reg" title="Modelo" required>
-            </div>
-              <br><br>
-            <div class="row justify-content-around">
-                <button type="submit" id="btn_agregar_read_reg" class="btn btn-success col-4" style="cursor: pointer;display: flex;justify-content: space-around; margin-top:10px">Agregar </button>
-            </div>
-          </div>
-        </form>
+                    <div class="row justify-content-around">
+                      <button type="submit" id="btn_crear_incidencias_alarma" class="btn btn-success col-4" style="cursor: pointer;display: flex;justify-content: space-around;">Crear</button>
+                    </div>
+              </form>
       </div>
     </div>
   </div>

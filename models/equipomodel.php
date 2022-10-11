@@ -28,16 +28,31 @@ class EquipoModel extends MainModel{
         $stmp->close();      
       }
 
-      public static function ver_hh_general(){
+    public static function ver_hh_general(){
         $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblHandhelds");
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();
         }
-      public static function ver_reader_general(){
+    public static function ver_reader_general(){
         $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblReaders");
         $stmp->execute();
         return $stmp->fetchAll();
+        $stmp->close();
+        }
+
+    public static function ver_reader_general_id($id){
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblReaders where idReader = :id");
+        $stmp -> bindParam(":id", $id);
+        $stmp->execute();
+        return $stmp->fetch();
+        $stmp->close();
+        }
+    public static function ver_reader_general_id2($id){
+        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblReaders where idReader = :id");
+        $stmp -> bindParam(":id", $id);
+        $stmp->execute();
+        return $stmp->fetch();
         $stmp->close();
         }
 

@@ -12,7 +12,42 @@
       <h1>Bitacora</h1>
     </div>
     <?php
-    $rsp = ActivosModel::ver_activos();
+    $sql = AlarmaModel::ver_alarma_general();
+    $mantenimiento = $baja = $traspaso = $reparacion = $sin_registro = $default = 0;
+    $total = 0;    
+
+    foreach ($sql as $dato){
+      if ($dato['FechaRegistro']=='') {
+        continue;
+      }
+      switch (trim($dato['TipoSalida'])) {
+        case '1':
+          $mantenimiento = $mantenimiento + 1;
+          $total = $total + 1;
+          break;
+        case '2':
+          $reparacion = $reparacion + 1;
+          $total = $total + 1;
+          break;
+        case '3':
+          $traspaso = $traspaso + 1;
+          $total = $total + 1;
+          break;
+          case '4':
+          $baja = $baja + 1; 
+          $total = $total + 1;
+          break;
+        case '5':
+          $sin_registro = $sin_registro + 1;
+          $total = $total + 1;
+          break;
+        
+        default:
+          $default = $default + 1;
+          break;
+      }
+    }
+
  
     ?>
     <div class="box-cont-blanco" id="box">
@@ -23,7 +58,7 @@
             <h5 style="width:100%;">Dashboard 1</h5>
           </div>
           <canvas id="myChart" style="max-width:95%;max-height: auto;"></canvas>
-          <h3>Total: 10</h3>
+          <h3>Total: <?php echo $total;?></h3>
         </div>
 
         <div id="card" class="card col-md-4">
@@ -47,20 +82,23 @@
                     <tbody>
                         <tr>
                             <th scope="row">Mantenimiento</th>
-                            <td>5</td>
+                            <td><?php echo $mantenimiento;?></td>
                         </tr>
                         <tr>
                             <th scope="row">Reparación</th>
-                            <td>3</td>
+                            <td><?php echo $reparacion;?></td>
                         </tr>
                         <tr>
                             <th scope="row">Traspaso</th>
-                            <td>4</td>
-                        </tr>
+                            <td><?php echo $traspaso;?></td>
                         </tr>
                         <tr>
                             <th scope="row">Baja</th>
-                            <td>10</td>
+                            <td><?php echo $baja;?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Sin Registro</th>
+                            <td><?php echo $sin_registro;?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -80,12 +118,13 @@
                                 
 
                 <label for="" class="form-label">Tipo de Salida:</label>
-                <select class="form-select" name="filtro_epc" id="filtro_epc">
+                <select class="form-select" name="filtro_tipo" id="filtro_tipo">
                   <option value="" selected>Todos</option>
-                  <option value="1">Mantenimiento</option>
-                  <option value="2">Reparación</option>
-                  <option value="3">Traspaso</option>
-                  <option value="4">Baja</option>
+                  <option value="Mantenimiento">Mantenimiento</option>
+                  <option value="Reparación">Reparación</option>
+                  <option value="Traspaso">Traspaso</option>
+                  <option value="Baja">Baja</option>
+                  <option value="Sin registro">Sin Registros</option>
                 </select>
             </form>
         </div>
@@ -98,7 +137,7 @@
         </div>
 
         <?php
-        $rsp = ActivosModel::ver_activos();
+        $rsp = AlarmaModel::ver_alarma_general();
         if (empty($rsp)) {
           $elemento  = '<div class="box-cont-negro titulo-box m-0">';
           $elemento .= '<h4>No se han cargado datos<hr><small>Esperando Registros de Bitacora </small></h4>';
@@ -110,7 +149,7 @@
           $tabla .= '<tr class="bg-warning">';
           $tabla .= '<th scope="col">Asset</th>';       
           $tabla .= '<th scope="col">Tipo de Salida</th>';        
-          $tabla .= '<th scope="col">Comentarios</th>';        
+          $tabla .= '<th scope="col">Comentarios</th>';     
           $tabla .= '<th scope="col">Fecha</th>';           
           $tabla .= '</tr>';
           $tabla .= '</thead>';
@@ -118,13 +157,30 @@
           $i = 0;
 
           foreach ($rsp as $dato) {
+            if ($dato['FechaRegistro']=='') {
+              continue;
+            }
+            if (trim($dato['Ubicacion'])==null) {
+              $ubicacion = 'n/a';
+            }else{
+              $ubi = EquipoModel::ver_reader_general_id2(trim($dato['Ubicacion']));
+              $ubicacion = $ubi['Locacion'];
+            }
+            
+
+            $tipo = "";
+            if($dato['TipoSalida']==1){$tipo = 'Mantenimiento';}
+            if($dato['TipoSalida']==2){$tipo = 'Reparación';}
+            if($dato['TipoSalida']==3){$tipo = 'Traspaso';}
+            if($dato['TipoSalida']==4){$tipo = 'Baja';}
+            if($dato['TipoSalida']==5){$tipo = 'Sin registro';}
            
             $i++;
-            $tabla .= '<tr class="elemento">';
+            $tabla .= '<tr class="elemento" >';
             $tabla .= '<td scope="col" class="salida">' . $dato['Asset'] . '</td>';
-            $tabla .= '<td scope="col" class="lote">' . $dato['Description'] . '</td>';
-            $tabla .= '<td scope="col" class="lote">' . $dato['SerialNumber'] . '</td>';
-            $tabla .= '<td scope="col" class="lote">' . $dato['TagEpc'] . '</td>';
+            $tabla .= '<td scope="col" class="lote">' . $tipo . '</td>';
+            $tabla .= '<td scope="col" class="lote">' . $dato['Comentarios'] . '</td>';
+            $tabla .= '<td scope="col" class="lote">' . $dato['FechaRegistro'] . '</td>';
             $tabla .= '</tr>';
           }
           $tabla .= '</tbody>';
@@ -145,16 +201,18 @@
         'Mantenimiento',
         'Reparación',
         'Traspaso',
-        'Baja'
+        'Baja',
+        'Sin registro'
       ],
       datasets: [{
         label: 'Bitacora de Activos',
-        data: [10, 15, 2, 5],
+        data: [<?php echo $mantenimiento;?>, <?php echo $reparacion;?>, <?php echo $traspaso;?>, <?php echo $baja;?>,<?php echo $sin_registro;?>],
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
           'rgb(255, 205, 86)',
-          'rgb(55, 205, 95)'
+          'rgb(55, 205, 95)',
+          'rgb(172, 181, 241)'
         ],
         hoverOffset: 4,
 
@@ -186,7 +244,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>alarma/equipoAjax.php" method="POST" data-form="save">
+        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/alarmaAjax.php" method="POST" data-form="save">
             <?php 
                         $rsp = ActivosModel::ver_activos();            
             ?>
@@ -202,25 +260,25 @@
                       ?>;
                   </select>
               </div>
-            <div class="col-md-12">
-              <label for="nombre">Descripción</label>
-              <input type="text" class="form-control" id="modal_description_reg" name="description_reg" title="Description" value ="" >
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">Tipo de salida</label>
-                <select class="form-select" id="modal_tipo_reg" name="tipo_reg" aria-label="Default select example" title="Tipo de salida" >
-                    <option value=""selected disabled>Seleccione un Tipo de Salida</option>
-                    <option value="0">Mantenimiento</option>
-                    <option value="1">Reparación</option>
-                    <option value="2">Traspaso</option>
-                    <option value="3">Baja</option>                      
-                </select>
-            </div>
-            <div class="col-md-12">
-              <label for="nombre">Comentarios</label>
-              <textarea  type="text" class="form-control" id="modal_comentarios_reg" name="comentarios_reg" value="" title="Comentarios" required> </textarea>
-            </div>
-              <br>
+              <div class="col-md-12">
+                <label for="nombre">Descripción</label>
+                <input  type="text" class="form-control" id="modal_description_reg" title="Descripcion" required readonly> </input>
+              </div>
+              <div class="col-md-12">
+                <label for="nombre">Tipo de salida</label>
+                  <select class="form-select" id="modal_tipo_reg" name="tipo_reg" aria-label="Default select example" title="Tipo de salida" >
+                      <option value=""selected disabled>Seleccione un Tipo de Salida</option>
+                      <option value="1">Mantenimiento</option>
+                      <option value="2">Reparación</option>
+                      <option value="3">Traspaso</option>
+                      <option value="4">Baja</option>                      
+                  </select>
+              </div>
+              <div class="col-md-12">
+                <label for="nombre">Comentarios</label>
+                <textarea  type="text" class="form-control" id="modal_comentarios_reg" name="comentarios_reg" value="" title="Comentarios" required> </textarea>
+              </div>
+                <br>
 
               <div class="row justify-content-around">
                 <button type="submit" id="btn_crear_incidencias_reg" class="btn btn-success col-4" style="cursor: pointer;display: flex;justify-content: space-around;">Crear </button>
