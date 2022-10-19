@@ -201,5 +201,51 @@ public static function mandar_correo_alarma(){
 
 
 }
+public static function update_comentario_alarma(){
+  $id          = mainmodel::limpiar_cadena($_POST['upd_id']);
+  $comentario  = mainmodel::limpiar_cadena($_POST['comentario_upd']);
+  $tipo        = mainmodel::limpiar_cadena($_POST['tipo_upd']);
+  $fecha = date("Y-m-d H:i:s");
+
+  session_start(['name' => 'SCA']);
+  if ($_SESSION['rol_sca'] == 'Admin') {
+
+    $datos_inc = [
+      "id" => $id,
+      "tipo" => $tipo,
+      "comentarios" => $comentario,
+      "fecha" => $fecha
+    ];
+
+    $update_comentario_alarma = AlarmaModel::upd_comentario_alarma($datos_inc); //llamamos la funcion del modelo 
+    if ($update_comentario_alarma) {
+      $alerta = [
+        "Alerta" => "recargar",
+        "Titulo" => "Incidencia Actualizada",
+        "Texto"  => "La incidencia se ha actualizado de manera exitosa.",
+        "Tipo"   => "success"
+      ];
+    } else {
+      $alerta = [
+        "Alerta" => "simple",
+        "Titulo" => "Ocurrio un error inesperado",
+        "Texto"  => "No se ha podido actualizar la incidencia, consulte al administrador del sistema.",
+        "Tipo"   => "error"
+      ];
+    }
+    echo json_encode($alerta);
+  } else {
+    $alerta = [
+      "Alerta" => "simple",
+      "Titulo" => "Accción Denegada",
+      "Texto"  => "No tiene el permiso para actualizar incidencias en asset.",
+      "Tipo"   => "error"
+    ];
+    echo json_encode($alerta);
+    exit();
+  }
+
+
+}
 
  }

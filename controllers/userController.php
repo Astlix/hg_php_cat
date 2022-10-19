@@ -66,7 +66,7 @@ class Usercontroller extends UserModel
       
 
       // ************COMPROBAR LOS CAMPOS VACIOS **********
-      if($name == "" || $pass == "" || $nickname =="" || $cpass ==""){
+      if($name == "" || $pass == "" || $nickname =="" || $cpass =="" || $email == ""){
         $alerta=[
           "Alerta" => "simple",
           "Titulo" => "Ocurrio un error inesperado",
@@ -150,8 +150,6 @@ class Usercontroller extends UserModel
         "password"=>$password,
         "cuenta"=>'activa'   
       ];
-
-
       $agregar_usuario = UserModel::agregar_usuario_modelo($datos_usuario_reg);
 
       if ($agregar_usuario) {
@@ -174,4 +172,149 @@ class Usercontroller extends UserModel
       
 
     }// ****FIN DEL CONTROLADOR***
+
+    ########################################################################
+    #                           UPDATE USUARIO                            #
+    ########################################################################
+    public static function update_usuario_controller(){
+      $name=Mainmodel::limpiar_cadena($_POST['name_upd']);
+      $nickname=Mainmodel::limpiar_cadena($_POST['nickname_upd']);
+      $email=Mainmodel::limpiar_cadena($_POST['email_upd']);
+      $rol=Mainmodel::limpiar_cadena($_POST['rol_update']);
+      $fecha = date("Y/m/d");
+      $pass=Mainmodel::limpiar_cadena($_POST['pass_upd']);
+      $cpass=Mainmodel::limpiar_cadena($_POST['cpass_upd']);        
+      $id=Mainmodel::limpiar_cadena($_POST['id_update']);        
+
+      if (Mainmodel::verificar_datos("[a-zA-Z].{1,}",$name)) {
+        $alerta=[
+          "Alerta" => "simple",
+          "Titulo" => "Ocurrio un error inesperado",
+          "Texto"  => "El nombre no coincide con el formato solicitado.",
+          "Tipo"   => "error"
+        ];
+        echo json_encode($alerta);
+        exit();
+      } 
+
+      // ******COMRPOVANDO ROL
+      if ($rol<1 || $rol>3) {
+        
+        $alerta=[
+          "Alerta" => "simple",
+          "Titulo" => "Ocurrio un error inesperado",
+          "Texto"  => "EL rol seleccionado no es valido.",
+          "Tipo"   => "error"
+        ];
+        echo json_encode($alerta);
+        exit();
+      }
+
+     // SELECCIONAR SI SE ACCTUALIZAR CON CONTRASEÑA Y SIN CONTRASEÑA
+
+      if ($pass == '') {
+        $datos_usuario_upd=[
+          "id_update"=>$id,
+          "name"=>$name,
+          "email"=>$email,
+          "rol"=>$rol,
+          "fecha"=>$fecha,
+          "nickname"=>$nickname,
+          "cuenta"=>'activa'   
+        ]; 
+        $upd_usuario = UserModel::update_usuario_controller_sp($datos_usuario_upd);
+      }else{
+        if (Mainmodel::verificar_datos("[a-zA-Z$@.-].{7,}",$pass)) {
+          $alerta=[
+            "Alerta" => "simple",
+            "Titulo" => "Ocurrio un error inesperado",
+            "Texto"  => "La contraseña debe tener: \nMin 8 caracteres \nUn numero\n Una letra en mayúscula\n Una letra minúscula \nUn carácter especial (!#$%&'()=@) ".$pass.$cpass."",
+            "Tipo"   => "error"
+          ];
+          echo json_encode($alerta);
+          exit();
+        }
+        if ($pass!=$cpass) {
+  
+          $alerta=[
+            "Alerta" => "simple",
+            "Titulo" => "Ocurrio un error inesperado",
+            "Texto"  => "Las contraseñas no coinciden.",
+            "Tipo"   => "error"
+          ];
+          echo json_encode($alerta);        
+          exit();
+        }else{
+          $pass=Mainmodel::encryption($pass);
+          $datos_usuario_upd=[
+            "id_update"=>$id,
+            "name"=>$name,
+            "password"=>$pass,
+            "email"=>$email,
+            "rol"=>$rol,
+            "fecha"=>$fecha,
+            "nickname"=>$nickname,
+            "cuenta"=>'activa'   
+          ]; 
+        }
+        $upd_usuario = UserModel::update_usuario_controller_cp($datos_usuario_upd);
+      }
+
+
+
+      if ($upd_usuario) {
+        $alerta=[
+          "Alerta" => "limpiar",
+          "Titulo" => "Usuario Actualizado",
+          "Texto"  => "Los datos del usuario han sido actualizados con exito.",
+          "Tipo"   => "success"
+        ];
+      } else {
+        $alerta=[
+          "Alerta" => "simple",
+          "Titulo" => "Error de Actualización",
+          "Texto"  => "No se ha podido actualizar el usuario.",
+          "Tipo"   => "error"
+        ];
+      }
+    
+      echo json_encode($alerta);
+      
+
+    }// ****FIN DEL CONTROLADOR***
+
+    public static function delete_usuario_controller(){
+      $id=Mainmodel::limpiar_cadena($_POST['id_delete']); 
+      
+      session_start(['name' => 'SCA']);
+      if ($_SESSION['rol_sca'] == 'Admin') {
+        $delete_user = UserModel::delete_user_modelo($id);
+        if ($delete_user) {
+          $alerta = [
+            "Alerta" => "recargar",
+            "Titulo" => "Usuario Eliminado",
+            "Texto"  => "El usuario se han eliminado con exito.",
+            "Tipo"   => "success"
+          ];
+        } else {
+          $alerta = [
+            "Alerta" => "simple",
+            "Titulo" => "Ocurrio un error inesperado",
+            "Texto"  => "No se ha podido eliminar el usuario, consulte al administrador del sistema.",
+            "Tipo"   => "error"
+          ];
+        }
+        echo json_encode($alerta);
+      } else {
+        $alerta = [
+          "Alerta" => "simple",
+          "Titulo" => "Ocurrio un error inesperado",
+          "Texto"  => "No tiene el permiso para eliminar el usuario.",
+          "Tipo"   => "error"
+        ];
+        echo json_encode($alerta);
+        exit();
+      }
+
+    }
 }

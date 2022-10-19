@@ -21,7 +21,7 @@
         <!-- REINICIAR INVENTARIO -->
         <div class="row" style="width:100%;display:flex;justify-content: space-around;">
 
-            <div class="card col-md-3" style="height:250px;">
+            <div class="card col-md-5" style="height:250px;">
                 <div class="card-header text-dark bg-warning" style="text-align:center;">
                     <h5>Reporte Inventario</h5>
                 </div>
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <!--  INVENTARIO ACTUAL -->
-            <div class="card  col-md-4" style="margin: 0px 10px;height:250px;">
+            <div class="card  col-md-5" style="margin: 0px 10px;height:250px;">
                 <div class="card-header text-dark bg-warning" style="text-align:center;">
                     <h5>Inventario Actual</h5>
                 </div>

@@ -96,10 +96,6 @@
                             <th scope="row">Baja</th>
                             <td><?php echo $baja;?></td>
                         </tr>
-                        <tr>
-                            <th scope="row">Sin Registro</th>
-                            <td><?php echo $sin_registro;?></td>
-                        </tr>
                     </tbody>
                 </table>
 
@@ -124,7 +120,6 @@
                   <option value="Reparación">Reparación</option>
                   <option value="Traspaso">Traspaso</option>
                   <option value="Baja">Baja</option>
-                  <option value="Sin registro">Sin Registros</option>
                 </select>
             </form>
         </div>
@@ -151,6 +146,7 @@
           $tabla .= '<th scope="col">Tipo de Salida</th>';        
           $tabla .= '<th scope="col">Comentarios</th>';     
           $tabla .= '<th scope="col">Fecha</th>';           
+          $tabla .= '<th scope="col">Opciones</th>';           
           $tabla .= '</tr>';
           $tabla .= '</thead>';
           $tabla .= '<tbody>';
@@ -181,6 +177,12 @@
             $tabla .= '<td scope="col" class="lote">' . $tipo . '</td>';
             $tabla .= '<td scope="col" class="lote">' . $dato['Comentarios'] . '</td>';
             $tabla .= '<td scope="col" class="lote">' . $dato['FechaRegistro'] . '</td>';
+            $tabla .= '<td scope="col" class="lote"><a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Editar" id="editar_bitacora"
+            data-id="'.trim($dato['idBitacora']).'"
+            data-asset="'.trim($dato['Asset']).'"
+            data-tipo="'.trim($dato['TipoSalida']).'"
+            data-comentarios="'.trim($dato['Comentarios']).'"
+            ><i class="bx bx-edit nav_icon" aria-hidden="true" style="font-size:20px"></i></a></td>';
             $tabla .= '</tr>';
           }
           $tabla .= '</tbody>';
@@ -250,15 +252,13 @@
             ?>
               <div class="col-md-12">
                     <label for="nombre">Aseet</label>
-                  <select class="form-select" id="modal_asset_reg" name="asset_reg" aria-label="Default select example" title="Asset" >
-                    <option value=""selected disabled>Seleccione un Asset</option>
-                      <?php 
-                      foreach ($rsp as $data){
-                          $asset = $data['Asset'];
-                          echo '<option value="'.$asset.'">'.$asset.' </option> ';
+                    <select type="text" class="form-control" id="modal_asset_reg" name="asset_upd" aria-label="Default select example" title="Asset" >
+                     <?php 
+                      foreach($rsp as $dato){
+                        echo '<option value="'.$dato['Asset'].'">'.$dato['Asset'].'</option>';
                       }
-                      ?>;
-                  </select>
+                     ?>
+                    </select>
               </div>
               <div class="col-md-12">
                 <label for="nombre">Descripción</label>
@@ -266,7 +266,7 @@
               </div>
               <div class="col-md-12">
                 <label for="nombre">Tipo de salida</label>
-                  <select class="form-select" id="modal_tipo_reg" name="tipo_reg" aria-label="Default select example" title="Tipo de salida" >
+                  <select class="form-select" id="modal_tipo_reg" name="tipo_reg" aria-label="Default select example" title="Tipo de salida" required>
                       <option value=""selected disabled>Seleccione un Tipo de Salida</option>
                       <option value="1">Mantenimiento</option>
                       <option value="2">Reparación</option>
@@ -282,6 +282,46 @@
 
               <div class="row justify-content-around">
                 <button type="submit" id="btn_crear_incidencias_reg" class="btn btn-success col-4" style="cursor: pointer;display: flex;justify-content: space-around;">Crear </button>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR BITACORA -->
+<div class="modal fade" id="modal_upd_bitacora" tabindex="-1" aria-labelledby="ver_registro" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title" id="ver_registro">Editar Incidencia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/alarmaAjax.php" method="POST" data-form="save">
+        <div class="col-md-12">
+                    <label for="nombre">Aseet</label>
+                    <input type="hidden" id="modal_upd_id" name="upd_id">
+                    <input type="text" class="form-control" id="modal_asset_upd" name="asset_upd" aria-label="Default select example" title="Asset" readonly></input>
+              </div>
+              <div class="col-md-12">
+                <label for="nombre">Comentario</label>
+                <input  type="text" class="form-control" id="modal_comentario_upd" title="Comentario" name="comentario_upd"> </input>
+              </div>
+              <div class="col-md-12">
+                <label for="nombre">Tipo de salida</label>
+                  <select class="form-select" id="modal_tipo_upd" name="tipo_upd" aria-label="Default select example" title="Tipo de salida" >
+                      <option value=""selected disabled>Seleccione un Tipo de Salida</option>
+                      <option value="1">Mantenimiento</option>
+                      <option value="2">Reparación</option>
+                      <option value="3">Traspaso</option>
+                      <option value="4">Baja</option>                      
+                  </select>
+              </div>
+                <br>
+
+              <div class="row justify-content-around">
+                <button type="submit" id="btn_incidencias_upd" class="btn btn-success col-4" style="cursor: pointer;display: flex;justify-content: space-around;">Actualizar <i class='bx bx-reset nav_icon' aria-hidden="true" style="font-size:20px"></i></button>
               </div>
         </form>
       </div>

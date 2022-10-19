@@ -25,6 +25,7 @@
             $tabla .= '<th scope="col">Asset</th>';       
             $tabla .= '<th scope="col">Comentario</th>';        
             $tabla .= '<th scope="col">Fecha de Alarma</th>';          
+            $tabla .= '<th scope="col">Ubicación</th>';          
             $tabla .= '<th scope="col">Opciones</th>';         
             $tabla .= '</tr>';
             $tabla .= '</thead>';
@@ -70,14 +71,16 @@
                                           data-tagepc="'.$tag_activo.'"                    
                                           data-tagsite="'.$tag_ubicacion.'"                    
                                           data-tagsitefound="'.$tag_nueva_ubicacion.'"                    
-                                          data-s1="'.$s1.'"                    
-                                          data-inventory="'.$inventory.'"                    
+                                          data-s1="'.$s1.'"                     
+                                          data-inventory="'.$inventory.'" 
                                           ><i class="bx bx-message-dots" style="color:blue;margin-right:15px;"></i> Crear Comentario</a></li>
                                           
                                       </ul>
                                   </div>
                           </td>';
               }else{
+                $sql2 = AlarmaModel::ver_reader(trim($dato['Ubicacion']));
+
                 $linea = '<td>
                               <div class="btn-group">
                               <button type="button" stlyle="width:50px;" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown">
@@ -94,7 +97,8 @@
                                       data-tagsite="'.$tag_ubicacion.'"                    
                                       data-tagsitefound="'.$tag_nueva_ubicacion.'"                    
                                       data-s1="'.$s1.'"                    
-                                      data-inventory="'.$inventory.'"                    
+                                      data-inventory="'.$inventory.'"  
+                                      data-locacion="'.trim($sql2['Locacion']).'"                   
                                       ><i class="bx bx-message-dots" style="color:blue;margin-right:15px;"></i> Crear Comentario</a></li>
                                       
                                   </ul>
@@ -102,13 +106,15 @@
                           </td>';
               }
 
-                // echo $planta.$columna.$num_columna.'<br>';
+
+                $sql2 = AlarmaModel::ver_reader(trim($dato['Ubicacion']));
                 $i++;
                 $tabla .= '<tr class="elemento">';
                 $tabla .= '<td scope="col" class="salida">'. $i . '</td>';
                 $tabla .= '<td scope="col" class="lote">'. $dato['Asset'] .'</td>';
                 $tabla .= '<td scope="col" class="lote">'. $dato['Comentarios'] .'</td>';
                 $tabla .= '<td scope="col" class="lote">'. $dato['FechaAlarma'] .'</td>';
+                $tabla .= '<td scope="col" class="lote">'. $sql2['Locacion'] .'</td>';
                 $tabla .= $linea;
                 $tabla .= '</tr>';
             }           
@@ -119,14 +125,13 @@
             echo $tabla;
         }        
 
-      require 'modal.php';
 
         ?>
 
      </div>
 </div>
 
-<!-- Modal Crear Hand Held -->
+<!-- Modal Crear bitacora -->
 <div class="modal fade hh" id="modal_reg_inc_alarma" tabindex="-1" aria-labelledby="ver_alarma" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -160,6 +165,11 @@
                     <div class="col-md-12">
                       <label for="nombre">Fecha de ultimo inventario</label>
                       <input  type="text" class="form-control" id="modal_inventory_reg" title="inventory" required readonly> </input>
+                    </div>
+                    <hr>
+                    <div class="col-md-12">
+                      <label for="nombre">Locacion:</label>
+                      <input  type="text" class="form-control" id="locacion_reg" title="inventory" required readonly> </input>
                     </div>
                     <hr>
                     <div class="col-md-12">

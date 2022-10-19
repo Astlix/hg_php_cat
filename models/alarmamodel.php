@@ -42,6 +42,13 @@ class AlarmaModel extends MainModel{
         return $stmp->fetchAll();
         $stmp->close();
         }
+        public static function ver_reader($id){
+          $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblReaders where idReader = :id");
+          $stmp -> bindParam(":id", $id);
+          $stmp->execute();
+          return $stmp->fetch();
+          $stmp->close();
+          }
 
         
     #####################################################################
@@ -104,6 +111,19 @@ class AlarmaModel extends MainModel{
       TipoSalida = :tipo, Comentarios = :comentarios, FechaRegistro = :fecha where idBitacora = :id ');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":asset",$datos['asset']);
+      $sql->bindParam(":tipo",$datos['tipo']);
+      $sql->bindParam(":comentarios",$datos['comentarios']);
+      $sql->bindParam(":fecha",$datos['fecha']);
+      if($sql->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+    public static function upd_comentario_alarma($datos){
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblBitacora set 
+      TipoSalida = :tipo, Comentarios = :comentarios, FechaRegistro = :fecha where idBitacora = :id ');
+      $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":tipo",$datos['tipo']);
       $sql->bindParam(":comentarios",$datos['comentarios']);
       $sql->bindParam(":fecha",$datos['fecha']);

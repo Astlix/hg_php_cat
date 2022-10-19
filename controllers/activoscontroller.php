@@ -64,7 +64,7 @@ class activosController extends activosmodel
           $site                = !empty($datos[3])  ? ($datos[3]) : '';
           // $locacion          = !empty($datos[4])  ? ($datos[4]) : '';
 
-          $datearray = explode("/", $date);
+          $datearray = explode("/", trim($date));
           $dia = $datearray[0];
           $mes = $datearray[1];
           $año = $datearray[2];

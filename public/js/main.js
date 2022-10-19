@@ -18,6 +18,22 @@ $(document).on("click", "#form_activar", function(e){
 
 });
 
+//MODAL DE EDIAR USUARIOS
+$(document).on("click", "#editar_user", function(e){
+	let id = $(this).data("id");
+	let nombre = $(this).data("name");
+	let email = $(this).data("email");
+	let role = $(this).data("role");
+	let nickname = $(this).data("nickname");
+
+    $("#id_update").val(id);
+    $("#nickname").val(nickname);
+    $("#nombre").val(nombre);
+    $("#email").val(email);
+	$('#rol_reg > option[value="'+role+'"]').attr('selected', 'selected');
+
+	$("#editarusuario").modal("show");	
+});
 
 // MOSTRAL EL MODAL Y SUS DATOS
    $(document).on("click", "#ver_registro_act", function(e){
@@ -127,6 +143,20 @@ $(document).on("click", "#ver_registro_correo", function(e){
 	// console.log('Click en crear correo');	
 	$("#correo").modal("show");	
 });
+  $(document).on("click", "#editar_bitacora", function(e){
+	let id   = $(this).data("id");
+	let asset   = $(this).data("asset");
+	let tipo = $(this).data("tipo");
+	let comentarios   = $(this).data("comentarios");	
+    $("#modal_upd_id").val(id);
+    $("#modal_asset_upd").val(asset);
+    $("#modal_comentario_upd").val(comentarios);
+	$('#modal_tipo_upd > option[value="'+tipo+'"]').attr('selected', 'selected');
+
+
+	$("#modal_upd_bitacora").modal("show");	
+});
+  
 
  
 
@@ -169,6 +199,7 @@ $(document).on("click", "#ver_registro_correo", function(e){
 	let tagsite   = $(this).data("tagsite");
 	let tagsitefound   = $(this).data("tagsitefound");
 	let inventory   = $(this).data("inventory");
+	let locacion   = $(this).data("locacion");
 
 	$("#id_alarma").val(id);
 	$("#modal_asset_reg_alarm").val(asset);
@@ -181,6 +212,7 @@ $(document).on("click", "#ver_registro_correo", function(e){
 	$("#modal_tagsite_reg").val(tagsite);
 	$("#modal_tagsitefound_reg").val(tagsitefound);
 	$("#modal_inventory_reg").val(inventory);
+	$("#locacion_reg").val(locacion);
 
 	$("#modal_reg_inc_alarma").modal("show");	
 });

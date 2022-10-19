@@ -26,11 +26,11 @@
             $tabla  = '<table style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
             $tabla .= '<thead>';
             $tabla .= '<tr class="bg-warning">';
-            $tabla .= '<th scope="col">Index</th>';       //id
-            $tabla .= '<th scope="col">MAC</th>';        // mac
-            $tabla .= '<th scope="col">Marca</th>';          // marca
-            $tabla .= '<th scope="col">Modelo</th>';          // modelo
-            $tabla .= '<th scope="col">Opciones</th>';          // opciones
+            $tabla .= '<th scope="col">Index</th>';      
+            $tabla .= '<th scope="col">MAC</th>';        
+            $tabla .= '<th scope="col">Marca</th>';       
+            $tabla .= '<th scope="col">Modelo</th>';      
+            $tabla .= '<th scope="col">Opciones</th>';    
             $tabla .= '</tr>';
             $tabla .= '</thead>';
             $tabla .= '<tbody>';
