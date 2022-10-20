@@ -23,7 +23,7 @@
             $elemento .= '</div>';
             echo $elemento;
         } else {
-            $tabla  = '<table style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
+            $tabla  = '<table id="nombre" data-nombre="handhelds" style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
             $tabla .= '<thead>';
             $tabla .= '<tr class="bg-warning">';
             $tabla .= '<th scope="col">Index</th>';      
@@ -98,7 +98,7 @@
             $elemento .= '</div>';
             echo $elemento;
         } else {
-            $tabla  = '<table style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
+            $tabla  = '<table id="nombre2" data-nombre="readers" style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active2">';
             $tabla .= '<thead>';
             $tabla .= '<tr class="bg-warning">';
             $tabla .= '<th scope="col">Index</th>';       //id

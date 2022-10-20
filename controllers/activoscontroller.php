@@ -8,6 +8,7 @@ if ($peticionAjax) {
 class activosController extends activosmodel
 {
 
+  
   ########################################################################
   #                           AGREGAR ACTIVOS EN CSV                     #
   ########################################################################
@@ -44,7 +45,7 @@ class activosController extends activosmodel
 
         /////VERIFICAMOS QUE EL DOCUMENTO TENGA LAS COLUMNAS IGUALES A LA BD
         $tamaño_arreglo = count($datos);
-        if ($tamaño_arreglo != 4) {
+        if ($tamaño_arreglo != 5) {
           $alerta = [
             "Alerta" => "simple",
             "Titulo" => "Error de Archivo",
@@ -62,7 +63,7 @@ class activosController extends activosmodel
           $desc                = !empty($datos[1])  ? ($datos[1]) : '';
           $date                = !empty($datos[2])  ? ($datos[2]) : '';
           $site                = !empty($datos[3])  ? ($datos[3]) : '';
-          // $locacion          = !empty($datos[4])  ? ($datos[4]) : '';
+          $locacion            = !empty($datos[4])  ? ($datos[4]) : '';
 
           $datearray = explode("/", trim($date));
           $dia = $datearray[0];
@@ -92,6 +93,9 @@ class activosController extends activosmodel
             if (isset($site)) {
               $site_upd = mainmodel::limpiar_cadena($site);
             }
+            if (isset($locacion)) {
+              $locacion_upd = mainmodel::limpiar_cadena($locacion);
+            }
 
             $datos_activos_upd = [
               "id" => $id,
@@ -99,6 +103,7 @@ class activosController extends activosmodel
               "description" => $desc_upd,
               "date_inventory" => $date_upd,
               "site" => $site_upd,
+              "locacion" => $locacion_upd,
               "epc" => 'No asignado',
             ];
             $update_activo = ActivosModel::actualizar_activo_masivo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
@@ -110,6 +115,7 @@ class activosController extends activosmodel
               "description" => $desc,
               "date_inventory" => $newdate,
               "site" => $site,
+              "locacion" => $locacion_upd,
               "epc" => 'No asignado',
             ];
             $agregar_activo = ActivosModel::agregar_activo_masivo_modelo($datos_activos_reg);
@@ -320,32 +326,30 @@ class activosController extends activosmodel
   {
 
     // CONSULTAMOS ID
-    // $id = Mainmodel::decryption($_POST['activo_id_upd']);
     $id = $_POST['activo_id_upd'];
     // $id = mainmodel::limpiar_cadena($id);
     $activo = ActivosModel::ver_un_activo2($id);
 
 
-    // RECOPILAMOS LOS DATOS SINO TIENE DATOS DEL FORMULARIO SE QUEDA CON EL DE LA BD
-    $fecha_actual = date("Y-m-d H:i:s");
+    // RECOPILAMOS LOS DATOS SI NO TIENE DATOS DEL FORMULARIO SE QUEDA CON EL DE LA BD
     $tipo_poste = '01';
-    $fecha = $fecha_actual;
+    $fecha = date("Y-m-d H:i:s");
 
-    $temporal = $_FILES['avatar']['tmp_name'];
-    $nombre_img = $_FILES['avatar']['name'];
-    $carpeta = '../public/img/activos';
-    $ruta = $carpeta . '/' . $nombre_img;
+    // $temporal = $_FILES['avatar']['tmp_name'];
+    // $nombre_img = $_FILES['avatar']['name'];
+    // $carpeta = '../public/img/activos';
+    // $ruta = $carpeta . '/' . $nombre_img;
 
-    if ($ruta == $activo['Ruta']) {
-      $alerta = [
-        "Alerta" => "simple",
-        "Titulo" => "Ocurrio un error inesperado",
-        "Texto"  => " Ya existe un nombre de imagen existente en la base de datos, cambia el nombre de la imagen.",
-        "Tipo"   => "error"
-      ];
-    } else {
-      move_uploaded_file($temporal, $ruta);
-    }
+    // if ($ruta == $activo['Ruta']) {
+    //   $alerta = [
+    //     "Alerta" => "simple",
+    //     "Titulo" => "Ocurrio un error inesperado",
+    //     "Texto"  => " Ya existe un nombre de imagen existente en la base de datos, cambia el nombre de la imagen.",
+    //     "Tipo"   => "error"
+    //   ];
+    // } else {
+    //   move_uploaded_file($temporal, $ruta);
+    // }
 
 
     if (isset($_POST['asset_upd'])) {
@@ -364,25 +368,35 @@ class activosController extends activosmodel
       $num_serial = $activo['SerialNumber'];
     }
     $epc = $activo['TagEpc'];
-    if (isset($_POST['planta_upd']) && isset($_POST['columna_upd']) && isset($_POST['num_col_upd'])) {
+    // COPARAMOS SI TIENE TAG PARA ACTUALIZAR EL EPC O SINO SOLO SERVICE003
+    if ($activo['TagSite']=='') {
       $planta_upd = mainmodel::limpiar_cadena($_POST['planta_upd']);
       $columna_upd = mainmodel::limpiar_cadena($_POST['columna_upd']);
       $num_col_upd = mainmodel::limpiar_cadena($_POST['num_col_upd']);
-      $epc_poste = 'cad12014' . $tipo_poste . '00000000' . $planta_upd . $columna_upd . $num_col_upd;
-    } else {
+      $planta = substr($planta_upd,-1);
+      $columna2 = ActivosModel::ver_ubicacion_activo($columna_upd);
+
+      $service003 = $columna2 . $num_col_upd;
       $epc_poste = $activo['TagSite'];
+    }else{
+      if (isset($_POST['planta_upd']) && isset($_POST['columna_upd']) && isset($_POST['num_col_upd'])) {
+        $planta_upd = mainmodel::limpiar_cadena($_POST['planta_upd']);
+        $columna_upd = mainmodel::limpiar_cadena($_POST['columna_upd']);
+        $num_col_upd = mainmodel::limpiar_cadena($_POST['num_col_upd']);
+      $service003 = $columna2 . $num_col_upd;
+        $epc_poste = 'cad12014' . $tipo_poste . '00000000' . $planta_upd . $columna_upd . $num_col_upd;
+      } else {
+        $epc_poste = $activo['TagSite'];
+      }
+
     }
-    $inv_upd = mainmodel::limpiar_cadena($_POST['inv_upd']);
+    
     if (isset($_POST['date_upd'])) {
       $date_upd = mainmodel::limpiar_cadena($_POST['date_upd']);
     } else {
       $date_upd = $activo['DateInventory'];
     }
-    $s1 = mainmodel::limpiar_cadena($_POST['serv_1_upd']);
-    $s2 = mainmodel::limpiar_cadena($_POST['serv_2_upd']);
-    $s3 = mainmodel::limpiar_cadena($_POST['serv_3_upd']);
-    $s4 = mainmodel::limpiar_cadena($_POST['serv_4_upd']);
-    $s5 = mainmodel::limpiar_cadena($_POST['serv_5_upd']);
+    
 
 
     session_start(['name' => 'SCA']);
@@ -395,12 +409,8 @@ class activosController extends activosmodel
         "serialnumber" => $num_serial,
         "epc_tag" => $epc,
         "epc_tagsitefound" => $epc_poste,
-        "inventory" => $inv_upd,
-        "s1" => $s1,
-        "s2" => $s2,
-        "s3" => $s3,
-        "s4" => $s4,
-        "s5" => $s5
+        "s2" => $planta,
+        "s3" => $service003
       ];
       $update_activo = ActivosModel::actualizar_activo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
       if ($update_activo) {

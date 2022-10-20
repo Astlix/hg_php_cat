@@ -100,7 +100,7 @@
                 </select>
             </form>
             <!-- <hr style="color:orange"> -->
-            <div class="card-header text-dark bg-warning" style="text-align:center;margin: 10px 0px;">
+            <div class="card-header text-dark bg-warning" style="text-align:center;margin: 20px 0px;">
               <h5>Load Template</h5>
             </div>
             <form class="FormularioAjax" action="<?php echo SERVERURL; ?>ajax/activoAjax.php" method="post" id="subirexcel" style="display:flex;flex-direction: column; align-items: center;" enctype="multipart/form-data">
@@ -135,7 +135,7 @@
           $elemento .= '</div>';
           echo $elemento;
         } else {
-          $tabla  = '<table style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
+          $tabla  = '<table id="nombre" data-nombre="activos" style="border-radius:10px; text-align:center;"  class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
           $tabla .= '<thead>';
           $tabla .= '<tr class="bg-warning">';
           $tabla .= '<th scope="col">Asset</th>';       
@@ -152,11 +152,19 @@
           $i = 0;
 
           foreach ($rsp as $dato) {
-            $site = $dato['TagSite'];
             $planta2 = $dato['Service002'];
-            $planta = substr($site, 18, -4);
-            $columna = substr($site, 20, -2);
-            $num_columna = substr($site, -2);
+            $locacion = $dato['Service003'];
+            $site = $dato['TagSite'];
+            
+              $planta = substr($site, 18, -4);
+              $columna = substr($site, 20, -2);
+              $num_columna = substr($site, -2);
+            
+
+            $col = substr(trim($locacion),0,1);
+            $columna2 = ActivosModel::ver_columna($col); 
+
+            $num_columna2 = substr(trim($locacion),-2);
 
       
             //FILTROO PARA SABER QUE TIPO DE FORMATO ES LA IMAGEN 
@@ -199,15 +207,19 @@
               $tabla .= '<td scope="col" class="lote">CLS</td>';
             } else {
               $tabla .= '<td scope="col" class="lote">No asignado</td>';
+            }
+            if ($ubi == 'No asignado') {
+              $tabla .= '<td scope="col" class="lote">' . trim($dato['Service003']). '</td>';
+            }else{
+              $tabla .= '<td scope="col" class="lote">' . $ubi . $num_columna . '</td>';
             }            
-            $tabla .= '<td scope="col" class="lote">' . $ubi . $num_columna . '</td>';
             $tabla .= '<td>
                 <div class="btn-group">
                   <button type="button" stlyle="width:50px;" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown">
                   <i class="bx bx-dots-vertical-rounded"></i>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" id="ver_registro_act" 
+                    <li><a class="dropdown-item" id="ver_registro_act" style="cursor:pointer;text-align:center;" 
                     data-id="' . $dato['idCA'] . '"
                     data-asset="' . $dato['Asset'] . '"
                     data-description="' . $dato['Description'] . '"
@@ -225,18 +237,16 @@
                     data-planta="' . $planta . '"
                     data-columna="' . $columna . '"
                     data-num="' . $num_columna . '"
+                    data-planta2="' . trim($planta2) . '"
+                    data-columna2="' . $columna2 . '"
+                    data-num2="' . $num_columna2 . '"
                     data-img="' . $formato . '"
                     
-                    ><i class="bx bx-show"></i> Ver</a></li>
+                    ><i class="bx bx-show" style="color:blue"></i> Ver</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <form action="' . SERVERURL . 'ajax/activoAjax.php" class="FormularioAjax" method="post" data-form="delete">
                     <input type="hidden" name="activo_id_delete" value="' . Mainmodel::encryption($dato['idCA']) . '">
-                    <button type="submit" class="btn btn-secondary" style="background-color:transparent; color:black; border-color:transparent;width:100%;">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/dovoajyj.json"
-                        trigger="loop-on-hover"
-                        style="width:25px;height:25px">
-                    </lord-icon> Eliminar</button>
+                    <button type="submit" class="btn btn-secondary" style="background-color:transparent; color:black; border-color:transparent;width:100%;"><i class="bx bx-trash" style="color:crimson;"></i> Eliminar</button>
                     </form>
                   </ul>
                 </div>

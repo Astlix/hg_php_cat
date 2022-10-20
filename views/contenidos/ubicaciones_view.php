@@ -30,7 +30,7 @@
             $elemento .= '</div>';
             echo $elemento;
         } else {
-            $tabla  = '<table style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
+            $tabla  = '<table id="nombre" data-nombre="ubicaciones" style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
             $tabla .= '<thead>';
             $tabla .= '<tr class="bg-warning">';
             $tabla .= '<th scope="col">Ubicación</th>';       //ubicacion

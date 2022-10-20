@@ -14,7 +14,6 @@ $(document).on("click", "#form_activar", function(e){
 	$("#modal_serv_5_upd").prop('disabled', false);
 	$("#modal_inv_upd").prop('disabled', false);
 	$("#btn_act_upd").css("visibility", "visible");
-	$("#inputimg").css("visibility", "visible");
 
 });
 
@@ -48,6 +47,9 @@ $(document).on("click", "#editar_user", function(e){
 	let planta   = $(this).data("planta");
 	let columna   = $(this).data("columna");
 	let num_columna   = $(this).data("num");
+	let planta2       = $(this).data("planta2");
+	let columna2      = $(this).data("columna2");
+	let num_columna2  = $(this).data("num2");
 	let s1   = $(this).data("s1");
 	let s2   = $(this).data("s2");
 	let s3   = $(this).data("s3");
@@ -55,6 +57,8 @@ $(document).on("click", "#editar_user", function(e){
 	let s5   = $(this).data("s5");
 	let formato   = $(this).data("img");
 	let newruta = "";
+
+	console.log(planta2);
 
 	if (formato == 'jpg') {
 	 newruta = './public/img/activos/'+asset.trim()+'.jpg';	
@@ -68,10 +72,21 @@ $(document).on("click", "#editar_user", function(e){
 	if (formato == 'error') {
 	 newruta = './public/img/activos/'+formato+'.jpg';	
 	}
-
-	$('#modal_planta_upd > option[value="'+planta+'"]').attr('selected', 'selected');
-	$('#modal_columna_upd > option[value="'+columna+'"]').attr('selected', 'selected');
-	$('#modal_num_upd > option[value="'+num_columna+'"]').attr('selected', 'selected');
+	if (planta == '') {
+		$('#modal_planta_upd > option[value="0'+planta2+'"]').attr('selected', 'selected');
+	}else{
+		$('#modal_planta_upd > option[value="0'+planta+'"]').attr('selected', 'selected');
+	}
+	if (columna == '') {
+		$('#modal_columna_upd > option[value="'+columna2+'"]').attr('selected', 'selected');
+	}else{
+		$('#modal_columna_upd > option[value="'+columna+'"]').attr('selected', 'selected');
+	}
+	if (num_columna == '') {
+		$('#modal_num_upd > option[value="'+num_columna2+'"]').attr('selected', 'selected');
+	}else{
+		$('#modal_num_upd > option[value="'+num_columna+'"]').attr('selected', 'selected');
+	}
     $("#modal_asset_upd").val(asset);//mandamos los valores a los input para obtenerlos en js
     $("#modal_desc_upd").val(description);
     $("#modal_epc_upd").val(epc);
@@ -101,7 +116,7 @@ $(document).on("click", "#editar_user", function(e){
     
 	$("#activos_detalles").modal("show");
  
- console.log(planta+columna+num_columna);
+//  console.log(planta+columna+num_columna);
 
 $.ajax({
   data: {"planta" : planta,
@@ -183,6 +198,10 @@ $(document).on("click", "#ver_registro_correo", function(e){
   // AGREGAR READER
   $(document).on("click", "#crear_reader", function(e){
 	  $("#modal_crear_reader").modal("show");	
+});
+  // MODAL ACERCA DE
+  $(document).on("click", "#acerca", function(e){
+	  $("#acercade").modal("show");	
 });
   // AGREGAR INCIDENCIA ACTIVO
   $(document).on("click", "#boton_incidencia_activo", function(e){

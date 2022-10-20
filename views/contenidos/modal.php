@@ -15,13 +15,13 @@
           <input type="hidden" class="form-control" name="activo_id_upd" id="activo_id_upd">
 
           <div class="input-file-container">
-            <div class="input-file" style="cursor: pointer;visibility:hidden;" id="inputimg">
+            <!-- <div class="input-file" style="cursor: pointer;visibility:hidden;" id="inputimg">
               <p class="input-file__name">Selecciona una imagen...</p>
               <button type="button" class="input-file__button">
                 <i class='bx bx-upload'></i>
               </button>
               <input type="file" class="form-control" accept="image/png,image/jpeg" name="avatar" id="avatarInput">
-            </div>
+            </div> -->
             <img src="https://i.ibb.co/0Jmshvb/no-image.png" class="image-preview" alt="preview image" id="imagen">
           </div>
           <div class="row">
@@ -93,37 +93,9 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-6">
-              <label for="nombre">Inventario</label>
-              <input type="number" class="form-control" id="modal_inv_upd" name="inv_upd" disabled>
-            </div>
-            <div class="col-6">
+            <div class="col-12">
               <label for="nombre">Fecha de Inventario</label>
               <input type="datetime" class="form-control" id="modal_date_upd" name="date_upd" disabled>
-            </div>
-            <div class="col-6">
-              <label for="nombre">Servicio 1</label>
-              <input type="text" class="form-control" id="modal_serv_1_upd" name="serv_1_upd" disabled>
-            </div>
-            <div class="col-6">
-              <label for="nombre">Servicio 2</label>
-              <input type="text" class="form-control" id="modal_serv_2_upd" name="serv_2_upd" disabled>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <label for="nombre">Servicio 3</label>
-              <input type="text" class="form-control" id="modal_serv_3_upd" name="serv_3_upd" disabled>
-            </div>
-            <div class="col-6">
-              <label for="nombre">Servicio 4</label>
-              <input type="text" class="form-control" id="modal_serv_4_upd" name="serv_4_upd" disabled>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <label for="nombre">Servicio 5</label>
-              <input type="text" class="form-control" id="modal_serv_5_upd" name="serv_5_upd" disabled>
             </div>
           </div>
           <br>
@@ -154,6 +126,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- Modal Ver Correo -->
 <div class="modal fade" id="ver_correo" tabindex="-1" aria-labelledby="ver_correo" aria-hidden="true">

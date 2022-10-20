@@ -35,7 +35,27 @@ class ActivosModel extends MainModel{
         if($dato=='17'){return 'Q';}
         if($dato=='18'){return 'R';}else{return 'No asignado';}
       }
-
+      public function ver_columna($dato){
+        if ($dato == 'A' || $dato == 'a') {$dato = '01';}
+        if ($dato == 'B' || $dato == 'b') {$dato = '02';}
+        if ($dato == 'C' || $dato == 'c') {$dato = '03';}
+        if ($dato == 'D' || $dato == 'd') {$dato = '04';}
+        if ($dato == 'E' || $dato == 'e') {$dato = '05';}
+        if ($dato == 'F' || $dato == 'f') {$dato = '06';}
+        if ($dato == 'G' || $dato == 'g') {$dato = '07';}
+        if ($dato == 'H' || $dato == 'h') {$dato = '08';}
+        if ($dato == 'I' || $dato == 'i') {$dato = '09';}
+        if ($dato == 'J' || $dato == 'j') {$dato = '10';}
+        if ($dato == 'K' || $dato == 'k') {$dato = '11';}
+        if ($dato == 'L' || $dato == 'l') {$dato = '12';}
+        if ($dato == 'M' || $dato == 'm') {$dato = '13';}
+        if ($dato == 'N' || $dato == 'n') {$dato = '14';}
+        if ($dato == 'O' || $dato == 'o') {$dato = '15';}
+        if ($dato == 'P' || $dato == 'p') {$dato = '16';}
+        if ($dato == 'Q' || $dato == 'q') {$dato = '17';}
+        if ($dato == 'R' || $dato == 'r') {$dato = '18';}
+        return $dato;
+      }
     ########################################################################
     #                           Consulta un activo solamente                             #
     ########################################################################
@@ -164,13 +184,14 @@ class ActivosModel extends MainModel{
     public static function actualizar_activo_masivo_modelo($datos){
       $sql = Mainmodel::conectar()->prepare('UPDATE tblCA set Asset = :asset,
       Description = :description, DateInventory = :date_inventory,
-      Service002 = :site, TagEpc= :epc where idCA = :id');
+      Service002 = :site, TagEpc= :epc, Service003 = :locacion where idCA = :id');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":asset",$datos['asset']);
       $sql->bindParam(":description",$datos['description']);
       $sql->bindParam(":date_inventory",$datos['date_inventory']);
       $sql->bindParam(":site",$datos['site']);
       $sql->bindParam(":epc",$datos['epc']);
+      $sql->bindParam(":locacion",$datos['locacion']);
       if($sql->execute()){
         return true;
       } else {
@@ -187,15 +208,16 @@ class ActivosModel extends MainModel{
       (Asset
          ,Description
          ,DateInventory
-         ,Service002,TagEpc)
+         ,Service002,TagEpc,Service003)
        values 
-      (:asset,:desc,:fecha,:planta,:epc)");
+      (:asset,:desc,:fecha,:planta,:epc,:locacion)");
       
       $sql->bindParam(":asset",$datos['asset']);
       $sql->bindParam(":desc",$datos['description']);
       $sql->bindParam(":fecha",$datos['date_inventory']);
       $sql->bindParam(":planta",$datos['site']);
       $sql->bindParam(":epc",$datos['epc']);
+      $sql->bindParam(":locacion",$datos['locacion']);
    
       if($sql->execute()){
         return true;

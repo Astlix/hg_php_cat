@@ -34,7 +34,7 @@ $rsp = CorreosModel::ver_correos2();
 //////////////////////////////FINAL DATOS PARA ENVIAR EL CORREO ELECTRONICO
 
 
-if (isset($_POST)) {
+if (isset($_POST)) {   
 
 	$datosRecibidos = file_get_contents("php://input");
 	$xspan = json_decode($datosRecibidos, true);
@@ -51,7 +51,7 @@ if (isset($_POST)) {
 	$longitud = count($lecturas);
 
 	if (empty($lecturas) || $longitud == 0) {
-		$output = json_encode(array('result' => 'ok nuevo'));
+		$output = json_encode(array('result' => 'ok'));
 		die($output); 
        }
 

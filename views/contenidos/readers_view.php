@@ -15,7 +15,7 @@
             $elemento .= '</div>';
             echo $elemento;
         } else {
-            $tabla  = '<table style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
+            $tabla  = '<table id="nombre" data-nombre="portales" style="border-radius:10px; text-align:center;" class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
             $tabla .= '<thead>';
             $tabla .= '<tr class="bg-warning">';
             $tabla .= '<th scope="col">Index</th>';       
@@ -30,7 +30,11 @@
             $i = 0;
 
             foreach ($rsp as $dato) {
-
+                if ($dato['Estado'] == 1) {
+                    $linea = '<td scope="col" class="lote"><p hidden>Activo</p> <i class="bx bx-devices nav_icon"  style="color:green;font-size:30px;" title="Activo"></td>';
+                }else{
+                    $linea = '<td scope="col" class="lote"><p hidden>Activo</p> <i class="bx bx-devices nav_icon"  style="color:red;font-size:30px;" title="Inactivo"></td>'; 
+                }
                 // echo $planta.$columna.$num_columna.'<br>';
                 $i++;
                 $tabla .= '<tr class="elemento">';
@@ -39,7 +43,7 @@
                 $tabla .= '<td scope="col" class="lote">'. $dato['Planta'] . $dato['Columna']  .'</td>';
                 $tabla .= '<td scope="col" class="lote">'. $dato['TxPower'] .'</td>';
                 $tabla .= '<td scope="col" class="lote"><p hidden>Buena</p> <i class="bx bx-signal-5 nav_icon"  style="color:green;font-size:30px;" title="Buena"></td>';
-                $tabla .= '<td scope="col" class="lote"><p hidden>Activo</p> <i class="bx bx-devices nav_icon"  style="color:green;font-size:30px;" title="Activo"></td>';
+                $tabla .= $linea;
                 $tabla .= '</tr>';
             }           
 
