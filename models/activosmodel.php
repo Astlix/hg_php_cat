@@ -184,13 +184,28 @@ class ActivosModel extends MainModel{
     public static function actualizar_activo_masivo_modelo($datos){
       $sql = Mainmodel::conectar()->prepare('UPDATE tblCA set Asset = :asset,
       Description = :description, DateInventory = :date_inventory,
-      Service002 = :site, TagEpc= :epc, Service003 = :locacion where idCA = :id');
+      Service002 = :site, Service003 = :locacion where idCA = :id');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":asset",$datos['asset']);
       $sql->bindParam(":description",$datos['description']);
       $sql->bindParam(":date_inventory",$datos['date_inventory']);
       $sql->bindParam(":site",$datos['site']);
-      $sql->bindParam(":epc",$datos['epc']);
+      $sql->bindParam(":locacion",$datos['locacion']);
+      if($sql->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+    public static function actualizar_activo_masivo_modelo_sin_epc($datos){
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblCA set Asset = :asset,
+      Description = :description, DateInventory = :date_inventory,
+      Service002 = :site, Service003 = :locacion where idCA = :id');
+      $sql->bindParam(":id",$datos['id']);
+      $sql->bindParam(":asset",$datos['asset']);
+      $sql->bindParam(":description",$datos['description']);
+      $sql->bindParam(":date_inventory",$datos['date_inventory']);
+      $sql->bindParam(":site",$datos['site']);
       $sql->bindParam(":locacion",$datos['locacion']);
       if($sql->execute()){
         return true;

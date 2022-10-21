@@ -81,6 +81,8 @@ class activosController extends activosmodel
           if ($existe == true) { //validamos si ya existe en la BD true = existe, false = no existe            
 
             $id = $activo_asset['idCA'];
+            $epc = trim($activo_asset['TagEpc']);
+
             if (isset($asset)) {
               $asset_upd = mainmodel::limpiar_cadena($asset);
             }
@@ -96,27 +98,38 @@ class activosController extends activosmodel
             if (isset($locacion)) {
               $locacion_upd = mainmodel::limpiar_cadena($locacion);
             }
+            if ($epc == 'No asignado') {
+                          $datos_activos_upd = [
+                            "id" => $id,
+                            "asset" => $asset_upd,
+                            "description" => $desc_upd,
+                            "date_inventory" => $date_upd,
+                            "site" => $site_upd,
+                            "locacion" => $locacion_upd,
+                          ];
+                $update_activo = ActivosModel::actualizar_activo_masivo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
+                $actualizados = $actualizados + 1;
+            }else{  
+              $datos_activos_upd = [
+                "id" => $id,
+                "asset" => $asset_upd,
+                "description" => $desc_upd,
+                "date_inventory" => $date_upd,
+                "site" => $site_upd,
+                "locacion" => $locacion_upd
+              ];
+              $update_activo = ActivosModel::actualizar_activo_masivo_modelo_sin_epc($datos_activos_upd); //llamamos la funcion del modelo 
+              $actualizados = $actualizados + 1;
+            }
 
-            $datos_activos_upd = [
-              "id" => $id,
-              "asset" => $asset_upd,
-              "description" => $desc_upd,
-              "date_inventory" => $date_upd,
-              "site" => $site_upd,
-              "locacion" => $locacion_upd,
-              "epc" => 'No asignado',
-            ];
-            $update_activo = ActivosModel::actualizar_activo_masivo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
-            $actualizados = $actualizados + 1;
           } else {
-            //  echo "Nuevo ".$asset;
+            // echo "Nuevo ".$locacion;
             $datos_activos_reg = [
               "asset" => $asset,
               "description" => $desc,
               "date_inventory" => $newdate,
               "site" => $site,
-              "locacion" => $locacion_upd,
-              "epc" => 'No asignado',
+              "locacion" => $locacion,
             ];
             $agregar_activo = ActivosModel::agregar_activo_masivo_modelo($datos_activos_reg);
             $agregados = $agregados + 1;

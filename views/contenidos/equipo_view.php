@@ -51,12 +51,12 @@
                                 <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" type="button" id="ver_dato_hh" 
+                                        <li><a class="dropdown-item" type="button" id="ver_dato_hh" style="text-align:center;"
                                         data-id="'.trim($dato['idHandheld']).'"
                                         data-mac="'.trim($dato['MAC']).'"
                                         data-marca="'.trim($dato['Marca']).'"
                                         data-modelo="'.trim($dato['Modelo']).'"                    
-                                        ><i class="bx bx-pencil"></i> Editar</a></li>
+                                        ><i class="bx bx-pencil" style="color:blue;"></i> Editar</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <form action="' . SERVERURL . 'ajax/equipoAjax.php" class="FormularioAjax" method="post" data-form="delete">
                                         <input type="hidden" name="hh_id_delete" value="'.$dato['idHandheld'].'">
@@ -140,7 +140,7 @@
                 <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" type="button" id="ver_dato_reader" 
+                        <li><a class="dropdown-item" type="button" id="ver_dato_reader" style="text-align:center;"
                         data-id="'.trim($dato['idReader']) .'"                   
                         data-mac="'.trim($dato['MAC']) .'"                   
                         data-dns="'.trim($dato['DNSName']) .'"                   
@@ -155,7 +155,7 @@
                         data-loc="'.trim($dato['Locacion']) .'"                   
                         data-gateway="'.trim($dato['Gateway']) .'"                   
                         data-tx="'.trim($dato['TxPower']) .'"                   
-                        ><i class="bx bx-pencil"></i> Editar</a></li>
+                        ><i class="bx bx-pencil" style="color:blue;"></i> Editar</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <form action="' . SERVERURL . 'ajax/equipoAjax.php" class="FormularioAjax" method="post" data-form="delete">
                         <input type="hidden" name="reader_id_delete" value="'.$dato['idReader'].'">

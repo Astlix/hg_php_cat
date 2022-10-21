@@ -101,7 +101,7 @@
           <br>
 
           <div class="row justify-content-around">
-            <button type="submit" id="btn_act_upd" class="btn btn-success col-4" style="cursor: pointer;visibility:hidden;">Actualizar</button>
+            <button type="submit" id="btn_act_upd" class="btn btn-success col-4" style="cursor: pointer;visibility:hidden;">Actualizar <i class='bx bx-reset nav_icon' aria-hidden="true" style="font-size:20px"></i></button>
           </div>
         </form>
       </div>
@@ -212,7 +212,7 @@
               <br>
 
             <div class="row justify-content-around">
-                <button type="submit" id="btn_hh_upd" class="btn btn-success col-4" style="cursor: pointer; margin-top:10px;display: flex;justify-content: space-around;">Actualizar <i class='bx bx-refresh' style="font-size: 25px;"></i></button>
+                <button type="submit" id="btn_hh_upd" class="btn btn-success col-4" style="cursor: pointer; margin-top:10px;display: flex;justify-content: space-around;">Actualizar <i class='bx bx-reset nav_icon' aria-hidden="true" style="font-size:20px"></i></button>
             </div>
           </div>
         </form>

@@ -27,41 +27,66 @@
     foreach ($rsp as $dato) {
       $planta2 = $dato['Service002'];
       $site = $dato['TagSite'];
+      $epc = trim($dato['TagEpc']);
       $planta = substr($site, 18, -4);
       $columna = substr($site, 20, -2);
       $num_columna = substr($site, -2);
 
       // EVALUAMOS SI TIENEN TAG Y CATEGORIAS
-      if ($site == '' && $planta2 == 1) {$finsa1_st++; $total_st++;}
-      if ($site != '' && $planta == '01') {$finsa1_ct++; $total_ct++;}
+      if ($site == '' && $planta2 == 1 && $epc == '') {$finsa1_st++; $total_st++;}
+      if ($site != '' && $planta == '01' && $epc == '') {$finsa1_st++; $total_st++;}
 
-      if ($site == '' && $planta2 == 2) {$finsa3_st++;$total_st++;}
-      if ($site != '' && $planta == '02') {$finsa3_ct++;$total_ct++;}
+      if ($site != '' && $planta == '01' && $epc != '') {$finsa1_ct++; $total_ct++;}
 
-      if ($site == '' && $planta2 == 3) {$oradel_st++;$total_st++;}
-      if ($site != '' && $planta == '03') {$oradel_ct++;$total_ct++;}
+      if ($site == '' && $planta2 == 2 && $epc == '') {$finsa3_st++;$total_st++;}
+      if ($site != '' && $planta == '02' && $epc == '') {$finsa3_st++;$total_st++;}
+      if ($site != '' && $planta == '02' && $epc != '') {$finsa3_ct++;$total_ct++;}
+      
+      if ($site == '' && $planta2 == 3 && $epc == '') {$oradel_st++;$total_st++;}
+      if ($site != '' && $planta == '03' && $epc == '') {$oradel_st++;$total_st++;}
+      if ($site != '' && $planta == '03' && $epc != '') {$oradel_ct++;$total_ct++;}
+      
+      if ($site == '' && $planta2 == 4 && $epc == '') {$cls_st++;$total_st++;}
+      if ($site != '' && $planta2 == 4 && $epc == '') {$cls_st++;$total_st++;}
+      if ($site != '' && $planta == '04' && $epc != '') {$cls_ct++;$total_ct++;}
 
-      if ($site == '' && $planta2 == 4) {$cls_st++;$total_st++;}
-      if ($site != '' && $planta == '04') {$cls_ct++;$total_ct++;}
-
-         // FIN DE EVALUAMOS SI TIENEN TAG Y CATEGORIAS
-
-      if ($planta == '01' || $planta2 == 1) {
-        $finsa1 = $finsa1 + 1;
-        $total = $total + 1;
-      }
-      if ($planta == '02' || $planta2 == 2) {
-        $finsa3 = $finsa3 + 1;
-        $total = $total + 1;
-      }
-      if ($planta == '03' || $planta2 == 3) {
-        $oradel = $oradel + 1;
-        $total = $total + 1;
-      }
-      if ($planta == '04' || $planta2 == 4) {
-        $cls = $cls + 1;
-        $total = $total + 1;
-      }
+         // FIN DE EVALUAMOS SI existe valor el tagsite sino tomara el valor de service 002
+if ($site != '') {
+  if ($planta == '01') {
+    $finsa1 = $finsa1 + 1;
+    $total = $total + 1;
+  }
+  if ($planta == '02') {
+    $finsa3 = $finsa3 + 1;
+    $total = $total + 1;
+  }
+  if ($planta == '03') {
+    $oradel = $oradel + 1;
+    $total = $total + 1;
+  }
+  if ($planta == '04') {
+    $cls = $cls + 1;
+    $total = $total + 1;
+  }
+}else{
+  if ($planta2 == 1) {
+    $finsa1 = $finsa1 + 1;
+    $total = $total + 1;
+  }
+  if ($planta2 == 2) {
+    $finsa3 = $finsa3 + 1;
+    $total = $total + 1;
+  }
+  if ($planta2 == 3) {
+    $oradel = $oradel + 1;
+    $total = $total + 1;
+  }
+  if ($planta2 == 4) {
+    $cls = $cls + 1;
+    $total = $total + 1;
+  }
+}
+      
     }
     ?>
     <div class="box-cont-blanco" id="box">
