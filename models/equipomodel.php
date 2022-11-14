@@ -40,10 +40,30 @@ class EquipoModel extends MainModel{
         return $stmp->fetchAll();
         $stmp->close();
         }
+    public static function ver_reader_general2(){
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblReaders");
+        $stmp->execute();
+        return $stmp->fetchAll();
+        $stmp->close();
+        }
 
     public static function ver_reader_general_id($id){
         $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblReaders where idReader = :id");
         $stmp -> bindParam(":id", $id);
+        $stmp->execute();
+        return $stmp->fetch();
+        $stmp->close();
+        }
+    public static function ver_reader_general_ip($ip){
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblReaders where IPAddress = :ip");
+        $stmp -> bindParam(":ip", $ip);
+        $stmp->execute();
+        return $stmp->fetch();
+        $stmp->close();
+        }
+    public static function ver_reader_general_ip2($ip){
+        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblReaders where IPAddress = :ip");
+        $stmp -> bindParam(":ip", $ip);
         $stmp->execute();
         return $stmp->fetch();
         $stmp->close();

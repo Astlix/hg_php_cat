@@ -80,6 +80,12 @@ class ActivosModel extends MainModel{
       return $stmp->fetchAll();
       $stmp->close();
       }
+    public static function ver_un_activos_especifico_tagfound($datos){
+      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where TagSiteFound like '%cad120140100000000".$datos."%'");
+      $stmp->execute();
+      return $stmp->fetchAll();
+      $stmp->close();
+      }
     public static function ver_un_activos_por_asset($asset){
       $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where Asset = :asset");
       $stmp -> bindParam(":asset", $asset);

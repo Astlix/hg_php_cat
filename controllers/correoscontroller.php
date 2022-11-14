@@ -25,6 +25,8 @@ class correosController extends CorreosModel
         $apellidom = mainmodel::limpiar_cadena($_POST['apellidom_upd']);
         $correo = mainmodel::limpiar_cadena($_POST['correo_upd']);
         $estado = mainmodel::limpiar_cadena($_POST['estado_upd']);     
+        $cargo = mainmodel::limpiar_cadena($_POST['cargo_upd']);     
+        $planta = mainmodel::limpiar_cadena($_POST['planta_upd']);     
   
         //   VERIFICAMOS SI EL USUARIO TIENE LOS PERMISOS PARA EDITAR 
       session_start(['name' => 'SCA']);
@@ -37,6 +39,8 @@ class correosController extends CorreosModel
           "apellido_m" => $apellidom,
           "correo_electronico" => $correo,
           "estado" => $estado,
+          "cargo" => $cargo,
+          "planta" => $planta,
         ];
         $update_activo = CorreosModel::actualizar_correo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
         if ($update_activo) {
@@ -76,6 +80,8 @@ class correosController extends CorreosModel
       $apellidom = mainmodel::limpiar_cadena($_POST['apellidom_reg']);
       $correo = mainmodel::limpiar_cadena($_POST['correo_reg']);
       $estado = mainmodel::limpiar_cadena($_POST['estado_reg']);     
+      $planta = mainmodel::limpiar_cadena($_POST['planta_reg']);     
+      $cargo = mainmodel::limpiar_cadena($_POST['cargo_reg']);     
       
       $existe = CorreosModel::ver_correo_por_correo($correo);  
 
@@ -95,15 +101,17 @@ class correosController extends CorreosModel
       session_start(['name' => 'SCA']);
       if ($_SESSION['rol_sca'] == 'Admin') {
   
-        $datos_activos_upd = [
+        $datos_correo_reg = [
           "nombre" => $nombre,
           "apellido_p" => $apellidop,
           "apellido_m" => $apellidom,
           "correo_electronico" => $correo,
           "estado" => $estado,
+          "planta" => $planta,
+          "cargo" => $cargo,
         ];
-        $update_activo = CorreosModel::agregar_correo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
-        if ($update_activo) {
+        $crear_correo = CorreosModel::agregar_correo_modelo($datos_correo_reg); //llamamos la funcion del modelo 
+        if ($crear_correo) {
           $alerta = [
             "Alerta" => "recargar",
             "Titulo" => "Cuenta de Correo Creada",

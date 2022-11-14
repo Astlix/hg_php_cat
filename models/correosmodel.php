@@ -43,15 +43,17 @@ class CorreosModel extends MainModel{
     ########################################################################
     public static function agregar_correo_modelo($datos){
         $sql = Mainmodel::conectar()->prepare("INSERT INTO tblCorreo 
-        (Nombre,ApellidoP,ApellidoM,CorreoElectronico,Estado)
+        (Nombre,ApellidoP,ApellidoM,CorreoElectronico,Estado,Planta,Cargo)
          values 
-        (:nombre,:apellido_p,:apellido_m,:correo_electronico,:estado)");
+        (:nombre,:apellido_p,:apellido_m,:correo_electronico,:estado,:planta,:cargo)");
         
         $sql->bindParam(":nombre",$datos['nombre']);
         $sql->bindParam(":apellido_p",$datos['apellido_p']);
         $sql->bindParam(":apellido_m",$datos['apellido_m']);
         $sql->bindParam(":correo_electronico",$datos['correo_electronico']);
         $sql->bindParam(":estado",$datos['estado']);
+        $sql->bindParam(":planta",$datos['planta']);
+        $sql->bindParam(":cargo",$datos['cargo']);
      
         if($sql->execute()){
           return true;
@@ -81,13 +83,15 @@ class CorreosModel extends MainModel{
       $sql = Mainmodel::conectar()->prepare('UPDATE tblCorreo set Nombre = :nombre,
       ApellidoP = :apellido_p, ApellidoM = :apellido_m,
       CorreoElectronico = :correo_electronico,
-      Estado = :estado where idCorreo = :id ');
+      Estado = :estado,Planta =:planta, Cargo =:cargo where idCorreo = :id ');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":nombre",$datos['nombre']);
       $sql->bindParam(":apellido_p",$datos['apellido_p']);
       $sql->bindParam(":apellido_m",$datos['apellido_m']);
       $sql->bindParam(":correo_electronico",$datos['correo_electronico']);
       $sql->bindParam(":estado",$datos['estado']);
+      $sql->bindParam(":planta",$datos['planta']);
+      $sql->bindParam(":cargo",$datos['cargo']);
       if($sql->execute()){
         return true;
       } else {

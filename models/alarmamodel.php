@@ -36,15 +36,29 @@ class AlarmaModel extends MainModel{
         return $stmp->fetchAll();
         $stmp->close();
         }
+      public static function ver_alarma_asset($dato){
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblBitacora where Asset =:asset");
+        $stmp -> bindParam(":asset", $dato);
+        $stmp->execute();
+        return $stmp->fetch();
+        $stmp->close();
+        }
+      public static function ver_alarma_tiposalida($dato){
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblBitacora where Asset =:asset and TipoSalida <> ''");
+        $stmp -> bindParam(":asset", $dato);
+        $stmp->execute();
+        return $stmp->fetch();
+        $stmp->close();
+        }
       public static function ver_reader_general(){
         $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblReaders");
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();
         }
-        public static function ver_reader($id){
-          $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblReaders where idReader = :id");
-          $stmp -> bindParam(":id", $id);
+        public static function ver_reader($ip){
+          $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblReaders where IPAddress = :ip");
+          $stmp -> bindParam(":ip", $ip);
           $stmp->execute();
           return $stmp->fetch();
           $stmp->close();
@@ -52,17 +66,46 @@ class AlarmaModel extends MainModel{
 
         
     #####################################################################
+    #                           KEEP ALIVE                             #
+    ########################################################################
+    public static function keep($datos){
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblReaders set Fecha =:fecha,
+      TxPower = :potencia,Estado = :estado where idReader = :id ');
+      $sql->bindParam(":id",$datos['id']);
+      $sql->bindParam(":fecha",$datos['fecha']);
+      $sql->bindParam(":potencia",$datos['potencia']);
+      $sql->bindParam(":estado",$datos['estado']);
+      if($sql->execute()){
+        return true;
+      } else {
+        return false;
+      }
+      }
+    public static function tempo($datos){
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblReaders set Fecha =:fecha,
+      Estado = :estado where idReader = :id ');
+      $sql->bindParam(":id",$datos['id']);
+      $sql->bindParam(":fecha",$datos['fecha']);
+      $sql->bindParam(":estado",$datos['estado']);
+      if($sql->execute()){
+        return true;
+      } else {
+        return false;
+      }
+      }
+    #####################################################################
     #                           AGREGAR alarma                             #
     ########################################################################
     public static function agregarAlarma($datos){
         $sql = Mainmodel::conectar()->prepare("INSERT INTO tblBitacora 
-        (Asset,FechaAlarma,Ubicacion)
+        (Asset,FechaAlarma,Ubicacion,Planta)
          values 
-        (:asset,:fecha,:id_puerta)");
+        (:asset,:fecha,:id_puerta,:planta)");
         
         $sql->bindParam(":asset",$datos['asset']);
         $sql->bindParam(":fecha",$datos['fecha']);
         $sql->bindParam(":id_puerta",$datos['id_puerta']);
+        $sql->bindParam(":planta",$datos['planta']);
      
         if($sql->execute()){
           return true;

@@ -9,7 +9,7 @@
   <div class="box-cont-negro">
 
     <div class="box-cont-blanco titulo-box">
-      <h1>Bitacora</h1>
+      <h1> <i class='bx bx-bar-chart-square'></i> Bitacora</h1>
     </div>
     <?php
     $sql = AlarmaModel::ver_alarma_general();
@@ -159,7 +159,7 @@
             if (trim($dato['Ubicacion'])==null) {
               $ubicacion = 'n/a';
             }else{
-              $ubi = EquipoModel::ver_reader_general_id2(trim($dato['Ubicacion']));
+              $ubi = EquipoModel::ver_reader_general_ip2(trim($dato['Ubicacion']));
               $ubicacion = $ubi['Locacion'];
             }
             
@@ -203,12 +203,11 @@
         'Mantenimiento',
         'Reparación',
         'Traspaso',
-        'Baja',
-        'Sin registro'
+        'Baja'
       ],
       datasets: [{
         label: 'Bitacora de Activos',
-        data: [<?php echo $mantenimiento;?>, <?php echo $reparacion;?>, <?php echo $traspaso;?>, <?php echo $baja;?>,<?php echo $sin_registro;?>],
+        data: [<?php echo $mantenimiento;?>, <?php echo $reparacion;?>, <?php echo $traspaso;?>, <?php echo $baja;?>],
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
@@ -252,7 +251,7 @@
             ?>
               <div class="col-md-12">
                     <label for="nombre">Aseet</label>
-                    <select type="text" class="form-control" id="modal_asset_reg" name="asset_upd" aria-label="Default select example" title="Asset" >
+                    <select type="text" class="form-control" id="modal_asset_reg" name="asset_reg" aria-label="Default select example" title="Asset" >
                      <?php 
                       foreach($rsp as $dato){
                         echo '<option value="'.$dato['Asset'].'">'.$dato['Asset'].'</option>';

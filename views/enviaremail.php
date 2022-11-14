@@ -4,13 +4,7 @@ require '../include/PHPMailer.php';
 require '../include/SMTP.php';
 require_once("../models/correosmodel.php"); //para ver las notificaciones
 require_once '../config/config.php';//para poder incluir el SERVERURL
-?>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-
-<?php
 
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -33,8 +27,8 @@ use PHPMailer\PHPMailer\SMTP;
             $mail->Port = 587; //puerto
   
   
-            $mail->Username   = "ventas@astlix.com";
-            $mail->Password   = "DrUf1421";
+            $mail->Username   = "hgalvez@astlix.com";
+            $mail->Password   = "H@ward10";
   
             //CUERPO DEL CORREO
             $mensajeCliente = ' 
@@ -65,9 +59,13 @@ use PHPMailer\PHPMailer\SMTP;
               header("Location: ". SERVERURL . "correoexitoso");
                   
             }else{
-              echo '<script type="text/javascript">
-              alert("Error al enviar el correo");
-                  </script>';
+              $rsp = CorreosModel::ver_correos2();
+              foreach ($rsp as $dato) {
+                
+                echo '<script type="text/javascript">
+                alert("Error al enviar el correo'.$dato['Nombre'].'");
+                    </script>';
+               } 
             } 
         
         $mail->smtpClose();       

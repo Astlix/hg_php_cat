@@ -14,7 +14,7 @@
   <div class="box-cont-negro">
 
     <div class="box-cont-blanco titulo-box">
-      <h1>Activos</h1>
+      <h1><i class='bx bxs-package'></i> Activos</h1>
     </div>
     <?php
     $rsp = ActivosModel::ver_activos();
@@ -179,7 +179,13 @@ if ($site != '') {
           foreach ($rsp as $dato) {
             $planta2 = $dato['Service002'];
             $locacion = $dato['Service003'];
-            $site = $dato['TagSite'];
+            // REVISAMOS SI ESTA LLENO EL TAGSITEFOUND SINO TOMA EL TAG SITE
+            if ($dato['TagSiteFound'] == '') {
+              $site = $dato['TagSite'];
+            }else{
+              $site = $dato['TagSiteFound'];
+
+            }
             
               $planta = substr($site, 18, -4);
               $columna = substr($site, 20, -2);
@@ -293,167 +299,167 @@ if ($site != '') {
 
   <script>
 
-    // GRAFICA DONUT
-    const data = {
-      labels: [
-        'Finsa 1',
-        'Finsa 3',
-        'Oradel',
-        'CLS'
-      ],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [<?php echo $finsa1; ?>, <?php echo $finsa3; ?>, <?php echo $oradel; ?>, <?php echo $cls; ?>],
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)',
-          'rgb(55, 205, 95)'
-        ],
-        hoverOffset: 4,
+          // GRAFICA DONUT
+          const data = {
+            labels: [
+              'Finsa 1',
+              'Finsa 3',
+              'Oradel',
+              'CLS'
+            ],
+            datasets: [{
+              label: 'My First Dataset',
+              data: [<?php echo $finsa1; ?>, <?php echo $finsa3; ?>, <?php echo $oradel; ?>, <?php echo $cls; ?>],
+              backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(55, 205, 95)'
+              ],
+              hoverOffset: 4,
 
+            }]
+          };
+
+          const config = {
+            type: 'doughnut',
+            data: data,
+          };
+
+          const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+          );
+
+          // FIN GRAFICA DONUT
+
+          // SEGUNDA GRAFICA
+      am5.ready(function() {
+
+
+      // Create root element
+      // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+      var root = am5.Root.new("chartdiv");
+
+
+      // Set themes
+      // https://www.amcharts.com/docs/v5/concepts/themes/
+      root.setThemes([
+        am5themes_Animated.new(root)
+      ]);
+
+
+      // Create chart
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/
+      var chart = root.container.children.push(am5xy.XYChart.new(root, {
+        panX: false,
+        panY: false,
+        wheelX: "panY",
+        wheelY: "zoomY",
+        layout: root.verticalLayout
+      }));
+
+      // Add scrollbar
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+      chart.set("scrollbarY", am5.Scrollbar.new(root, {
+        orientation: "vertical"
+      }));
+
+      var data = [{
+        "planta": "Finsa 1",
+        "SinEPC": <?php echo $finsa1_st;?>,
+        "ConEPC": <?php echo $finsa1_ct;?>
+      }, {
+        "planta": "Finsa 3",
+        "SinEPC": <?php echo $finsa3_st;?>,
+        "ConEPC": <?php echo $finsa3_ct;?>
+      }, {
+        "planta": "Oradel",
+        "SinEPC": <?php echo $oradel_st;?>,
+        "ConEPC": <?php echo $oradel_ct;?>
+      }, {
+        "planta": "CLS",
+        "SinEPC": <?php echo $cls_st;?>,
+        "ConEPC": <?php echo $cls_ct;?>
       }]
-    };
-
-    const config = {
-      type: 'doughnut',
-      data: data,
-    };
-
-    const myChart = new Chart(
-      document.getElementById('myChart'),
-      config
-    );
-
-     // FIN GRAFICA DONUT
-
-     // SEGUNDA GRAFICA
-am5.ready(function() {
 
 
-// Create root element
-// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-var root = am5.Root.new("chartdiv");
+      // Create axes
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+      var yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
+        categoryField: "planta",
+        renderer: am5xy.AxisRendererY.new(root, {}),
+        tooltip: am5.Tooltip.new(root, {})
+      }));
+
+      yAxis.data.setAll(data);
+
+      var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
+        min: 0,
+        renderer: am5xy.AxisRendererX.new(root, {})
+      }));
 
 
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
-root.setThemes([
-  am5themes_Animated.new(root)
-]);
-
-
-// Create chart
-// https://www.amcharts.com/docs/v5/charts/xy-chart/
-var chart = root.container.children.push(am5xy.XYChart.new(root, {
-  panX: false,
-  panY: false,
-  wheelX: "panY",
-  wheelY: "zoomY",
-  layout: root.verticalLayout
-}));
-
-// Add scrollbar
-// https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-chart.set("scrollbarY", am5.Scrollbar.new(root, {
-  orientation: "vertical"
-}));
-
-var data = [{
-  "planta": "Finsa 1",
-  "SinEPC": <?php echo $finsa1_st;?>,
-  "ConEPC": <?php echo $finsa1_ct;?>
-}, {
-  "planta": "Finsa 3",
-  "SinEPC": <?php echo $finsa3_st;?>,
-  "ConEPC": <?php echo $finsa3_ct;?>
-}, {
-  "planta": "Oradel",
-  "SinEPC": <?php echo $oradel_st;?>,
-  "ConEPC": <?php echo $oradel_ct;?>
-}, {
-  "planta": "CLS",
-  "SinEPC": <?php echo $cls_st;?>,
-  "ConEPC": <?php echo $cls_ct;?>
-}]
-
-
-// Create axes
-// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-var yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
-  categoryField: "planta",
-  renderer: am5xy.AxisRendererY.new(root, {}),
-  tooltip: am5.Tooltip.new(root, {})
-}));
-
-yAxis.data.setAll(data);
-
-var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
-  min: 0,
-  renderer: am5xy.AxisRendererX.new(root, {})
-}));
-
-
-// Add legend
-// https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
-var legend = chart.children.push(am5.Legend.new(root, {
-  centerX: am5.p50,
-  x: am5.p50
-}));
-
-
-// Add series
-// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-function makeSeries(name, fieldName) {
-  var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-    name: name,
-    stacked: true,
-    xAxis: xAxis,
-    yAxis: yAxis,
-    baseAxis: yAxis,
-    valueXField: fieldName,
-    categoryYField: "planta"
-  }));
-
-  series.columns.template.setAll({
-    tooltipText: "{name}, {categoryY}: {valueX}",
-    tooltipY: am5.percent(90)
-  });
-  series.data.setAll(data);
-
-  // Make stuff animate on load
-  // https://www.amcharts.com/docs/v5/concepts/animations/
-  series.appear();
-
-  series.bullets.push(function () {
-    return am5.Bullet.new(root, {
-      sprite: am5.Label.new(root, {
-        text: "{valueX}",
-        fill: root.interfaceColors.get("alternativeText"),
-        centerY: am5.p50,
+      // Add legend
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+      var legend = chart.children.push(am5.Legend.new(root, {
         centerX: am5.p50,
-        populateText: true
-      })
-    });
-  });
-
-  legend.data.push(series);
-}
-
-makeSeries("Sin EPC: <?php echo $total_st;?>", "SinEPC");
-makeSeries("Con EPC: <?php echo $total_ct;?>", "ConEPC");
+        x: am5.p50
+      }));
 
 
-// Make stuff animate on load
-// https://www.amcharts.com/docs/v5/concepts/animations/
-chart.appear(1000, 100);
+      // Add series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+      function makeSeries(name, fieldName) {
+        var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+          name: name,
+          stacked: true,
+          xAxis: xAxis,
+          yAxis: yAxis,
+          baseAxis: yAxis,
+          valueXField: fieldName,
+          categoryYField: "planta"
+        }));
 
-//exportar
-let exporting = am5plugins_exporting.Exporting.new(root, {
-  menu: am5plugins_exporting.ExportingMenu.new(root, {})
-});
+        series.columns.template.setAll({
+          tooltipText: "{name}, {categoryY}: {valueX}",
+          tooltipY: am5.percent(90)
+        });
+        series.data.setAll(data);
 
-}); // end am5.ready()
+        // Make stuff animate on load
+        // https://www.amcharts.com/docs/v5/concepts/animations/
+        series.appear();
+
+        series.bullets.push(function () {
+          return am5.Bullet.new(root, {
+            sprite: am5.Label.new(root, {
+              text: "{valueX}",
+              fill: root.interfaceColors.get("alternativeText"),
+              centerY: am5.p50,
+              centerX: am5.p50,
+              populateText: true
+            })
+          });
+        });
+
+        legend.data.push(series);
+      }
+
+      makeSeries("Sin EPC: <?php echo $total_st;?>", "SinEPC");
+      makeSeries("Con EPC: <?php echo $total_ct;?>", "ConEPC");
+
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+      chart.appear(1000, 100);
+
+      //exportar
+      let exporting = am5plugins_exporting.Exporting.new(root, {
+        menu: am5plugins_exporting.ExportingMenu.new(root, {})
+      });
+
+      }); // end am5.ready()
   </script>
 
  

@@ -2,7 +2,7 @@
     <div class="box-cont-negro">
 
         <div class="box-cont-blanco titulo-box">
-            <h1>Ubicaciones</h1>
+            <h1> <i class='bx bx-radar' ></i> Ubicaciones</h1>
         </div>
 
         <hr class="my-2">
@@ -42,10 +42,18 @@
             $i = 0;
 
             foreach ($rsp as $dato) {
-                $site = $dato['TagSite'];
+                if (trim($dato['TagSiteFound']) == '') {
+                    $site = $dato['TagSite'];
+                    $identificador = 'site';
+                  }else{
+                    $site = $dato['TagSiteFound'];
+                    $identificador = 'found';
+                  }
                 $planta = substr($site, 18, -4);
                 $columna = substr($site, 20, -2);
                 $num_columna = substr($site, -2);
+
+             
 
                 // echo $planta.$columna.$num_columna.'<br>';
                 $i++;
@@ -165,14 +173,14 @@
                     $tabla .= '<tr class="elemento">';
                     $tabla .= '<td scope="col" class="salida">F1A' . $A1[$z] . '</td>';
                     $tabla .= '<td scope="col" class="lote">'. $AA1[$z] .'</td>';
-                    $tabla .= '<td style="width:20%;display:flex;justify-content:center;width:auto;"><a type="button" id="btn_detalles_activo" class="btn btn-success" data-planta="01" data-ubicacion="01" data-numcolumna="0'.$z.'" style="margin:0px; display: flex; height:30px align-items: center; justify-content: center; max-width: 150px;">Ver más</a></td>';
+                    $tabla .= '<td style="width:20%;display:flex;justify-content:center;width:auto;"><a type="button" id="btn_detalles_activo" class="btn btn-success" data-planta="01" data-ubicacion="01" data-numcolumna="0'.$z.'" data-identificador="'.$identificador.'" style="margin:0px; display: flex; height:30px align-items: center; justify-content: center; max-width: 150px;">Ver más</a></td>';
                     $tabla .= '</tr>';
                 }
                 if ($B1[$z] == $z) {
                     $tabla .= '<tr class="elemento">';
                     $tabla .= '<td scope="col" class="salida">F1B' . $B1[$z] . '</td>';
                     $tabla .= '<td scope="col" class="lote">'. $BB1[$z] .'</td>';
-                    $tabla .= '<td style="width:20%;display:flex;justify-content:center;width:auto;"><a type="button" id="btn_detalles_activo" class="btn btn-success" data-planta="01" data-ubicacion="02" data-numcolumna="0'.$z.'" style="margin:0px; display: flex; height:30px align-items: center; justify-content: center; max-width: 150px;">Ver más</a></td>';
+                    $tabla .= '<td style="width:20%;display:flex;justify-content:center;width:auto;"><a type="button" id="btn_detalles_activo" class="btn btn-success" data-planta="01" data-ubicacion="02" data-numcolumna="0'.$z.'" data-identificador="'.$identificador.'" style="margin:0px; display: flex; height:30px align-items: center; justify-content: center; max-width: 150px;">Ver más</a></td>';
                     $tabla .= '</tr>';
                 }
                 if ($C1[$z] == $z) {

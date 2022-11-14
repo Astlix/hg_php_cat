@@ -139,7 +139,7 @@ public static function mandar_correo_alarma(){
   //INFORMACIÓN
 
   //Configuracion servidor mail
-  $mail->setFrom('ventas@astlix.com', 'SISTEMA CENTRAL'); //remitente
+  $mail->setFrom('hgalvez@astlix.com', 'SISTEMA CENTRAL | RFID'); //remitente
   $mail->Mailer = "smtp";
   $mail->SMTPDebug  = 0;
   $mail->SMTPAuth = true;
@@ -148,8 +148,8 @@ public static function mandar_correo_alarma(){
   $mail->Port = 587; //puerto
 
 
-  $mail->Username   = "ventas@astlix.com";
-  $mail->Password   = "DrUf1421";
+  $mail->Username   = "hgalvez@astlix.com";
+  $mail->Password   = "H@ward10";
 
   //CUERPO DEL CORREO
   $mensajeCliente = ' 
@@ -177,7 +177,7 @@ public static function mandar_correo_alarma(){
     foreach ($rsp as $dato) {
       $mail->AddAddress($dato['CorreoElectronico'], $dato['Nombre']);
       } 
-    $mail->Subject = 'SISTEMA CAT | COMENTARIO DE ALARMA';
+    $mail->Subject = 'SISTEMA CAT RFID | COMENTARIO DE ALARMA';
     $mail->Body = $mensajeCliente; 
 
     //Avisar si fue enviado o no y dirigir al index

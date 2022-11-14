@@ -2,11 +2,11 @@
     <div class="box-cont-negro">
 
         <div class="box-cont-blanco titulo-box">
-            <h1>Equipos</h1>
+            <h1> <i class='bx bx-mobile-alt '></i> Equipos</h1>
             </div>
             
             <hr class="my-2">
-            <h4><i class='bx bx-devices'></i> Equipo Hand Held</h4>
+            <h4> Equipo Hand Held</h4>
 
             <div class="botones" style="width:100%;display: flex;justify-content:space-between; ">
                 <div class="btn1" style="display: flex;width:100%; justify-content:space-between;">
@@ -78,11 +78,11 @@
 
         ?>
 
+        <hr class="my-2">
         <div class="box-cont-blanco titulo-box">
-            <h4> <i class='bx bx-cast'></i> Equipo Readers</h4>
+            <h4> Equipo Readers</h4>
         </div>
 
-        <hr class="my-2">
         <div class="botones" style="width:100%;display: flex;justify-content:space-between; ">
                 <div class="btn1" style="display: flex;width:100%; justify-content:space-between;">
                     <a type="button" id="crear_reader" class="btn btn-warning" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Agregar<i class='bx bx-add-to-queue nav_icon' style="padding-left: 5px;"></i></a>

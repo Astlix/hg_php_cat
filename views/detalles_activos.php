@@ -4,11 +4,14 @@ include_once '../models/activosmodel.php';
 $planta = $_POST['planta'];
 $ubicacion = $_POST['columna'];
 $num_ubicacion = $_POST['num_columna'];
+$identificador = $_POST['identificador'];
 $datos = $planta.$ubicacion.$num_ubicacion;
-// echo 'La planta es:'.$planta.', y la ubicación es:'.$ubicacion.', y el numero de ubicacion es:'. $num_ubicacion;
-
-$rsp = ActivosModel::ver_un_activos_especifico($datos);
-
+if ($identificador == 'site') {
+  $rsp = ActivosModel::ver_un_activos_especifico_tagfound($datos);
+}
+if ($identificador == 'found') {
+  $rsp = ActivosModel::ver_un_activos_especifico($datos);
+}
 if (empty($rsp)) {
     $tabla  = '<div class="box-cont-negro titulo-box m-0">';
     $tabla .= '<h5>'.$datos.'No hay activos<hr><small>Esperando registros de ctivos en esta ubicación</small></h5>';
@@ -26,7 +29,8 @@ if (empty($rsp)) {
     $i = 0;
 
     foreach ($rsp as $dato) {
-
+     
+     
       $i++;
       $tabla .= '<tr class="elemento">';
       $tabla .= '<td scope="col">' . $i . '</td>';

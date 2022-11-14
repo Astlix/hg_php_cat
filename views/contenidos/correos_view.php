@@ -2,7 +2,7 @@
   <div class="box-cont-negro">
 
     <div class="box-cont-blanco titulo-box">
-      <h1>Lista de Correos</h1>
+    <h1><i class='bx bx-envelope' ></i> Lista de Correos</h1>
     </div>
 
     <div class="box-cont-blanco" id="box">
@@ -33,6 +33,8 @@
         $tabla .= '<th scope="col">Apellido Materno</th>';       
         $tabla .= '<th scope="col">Correo Electrónico</th>';    
         $tabla .= '<th scope="col">Estado</th>';          
+        $tabla .= '<th scope="col">Planta</th>';          
+        $tabla .= '<th scope="col">Cargo</th>';          
         $tabla .= '<th scope="col">Acciones</th>';          
         $tabla .= '</tr>';
         $tabla .= '</thead>';
@@ -40,6 +42,13 @@
         $i = 0;
 
         foreach ($rsp as $dato) {
+          if($dato['Planta']==1){$planta = 'Finsa 1';}
+          if($dato['Planta']==2){$planta = 'Finsa 2';}
+          if($dato['Planta']==3){$planta = 'Oradel';}
+          if($dato['Planta']==4){$planta = 'Cls';}
+          if($dato['Cargo']==0){$cargo = 'Supervisor de Areas';}
+          if($dato['Cargo']==1){$cargo = 'Control de Activos Fijos';}
+          if($dato['Cargo']==2){$cargo = 'Seguridad Planta';}
           
           $i++;
           $tabla .= '<tr class="elemento">';
@@ -53,28 +62,34 @@
             }else{
               $tabla .= '<td scope="col" class="lote"><i class="bx bx-block" style="font-size:25px;color:red"></i></td>';
           }
+          $tabla .= '<td scope="col" class="lote">' . $planta . '</td>';
+          $tabla .= '<td scope="col" class="lote">' . $cargo . '</td>';
           $tabla .= '<td>
                 <div class="btn-group">
                   <button type="button" stlyle="width:50px;" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown">
                   <i class="bx bx-dots-vertical-rounded"></i>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" type="button" id="ver_registro_correo" 
+                    <li><a class="dropdown-item" type="button" id="ver_registro_correo" style="text-align:center; 
                     data-id="'.$dato['idCorreo'].'"
                     data-nombre="'.$dato['Nombre'].'"
                     data-apellidop="'.$dato['ApellidoP'].'"
                     data-apellidom="'.$dato['ApellidoM'].'"
                     data-correo="'.$dato['CorreoElectronico'].'"
                     data-estado="'.$dato['Estado'].'"                    
-                    ><i class="bx bx-pencil"></i> Editar</a></li>
+                    data-planta="'.$dato['Planta'].'"                    
+                    data-cargo="'.$dato['Cargo'].'"                    
+                    ><i class="bx bx-pencil" style="color:blue;"></i> Editar</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <form action="' . SERVERURL . 'ajax/correoAjax.php" class="FormularioAjax" method="post" data-form="delete">
                     <input type="hidden" name="correo_id_delete" value="'.$dato['idCorreo'].'">
-                    <button type="submit" class="btn btn-secondary" style="background-color:transparent; color:black; border-color:transparent;width:100%;">Eliminar</button>
+                    <button type="submit" class="btn btn-secondary" style="background-color:transparent; color:black; border-color:transparent;width:100%;"><i class="bx bx-trash" style="color:red;"></i> Eliminar</button>
                     </form>
                   </ul>
                 </div>
           </td>';
+
+
           $tabla .= '</tr>';
 
         }
@@ -100,7 +115,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/equipoAjax.php" method="POST" data-form="save">
+        <form class="form-group FormularioAjax" action="<?php echo SERVERURL; ?>ajax/correoAjax.php" method="POST" data-form="save">
           <div class="row">
             <div class="col-md-12">
               <label for="nombre">Nombre (s)</label>
@@ -119,18 +134,38 @@
               <input type="email" class="form-control" id="modal_correo_reg" name="correo_reg" value="" title="Correo Electrónico" required>
             </div>
             <div class="col-md-12">
-              <label for="nombre">Estado</label>
-              <div class="col-md-12">
+            <div class="col-md-12">
+                <label for="nombre">Planta</label>
+                <select class="form-select" id="modal_planta_reg" name="planta_reg" aria-label="Default select example" title="Planta" required>
+                  <option disabled selected>Seleecione una opción </option>
+                  <option value="1">Finsa 1 </option>
+                  <option value="2">Finsa 3</option>
+                  <option value="3">Oradel</option>
+                  <option value="4">Cls</option>
+                </select>
+            </div>
+            <div class="col-md-12">
+                <label for="nombre">Cargo</label>
+                <select class="form-select" id="modal_cargo_reg" name="cargo_reg" aria-label="Default select example" title="Cargo " required>
+                  <option disabled selected>Seleecione una opción </option>
+                  <option value="0">Supervisor de Área </option>
+                  <option value="1">Control de Activos Fijos</option>
+                  <option value="2">Seguridad de Planta</option>
+                </select>
+            </div>
+            <div class="col-md-12">
+                <label for="nombre">Estado</label>
                 <select class="form-select" id="modal_estado_reg" name="estado_reg" aria-label="Default select example" title="Estado" required>
                   <option value="1">Activo </option>
                   <option value="0">Bloqueado</option>
                 </select>
-              </div>
+            </div>
               <br>
 
               <div class="row justify-content-around">
                 <button type="submit" id="btn_crear_correo_reg" class="btn btn-success col-4" style="cursor: pointer;display: flex;justify-content: space-around;">Crear </button>
               </div>
+          </div>
         </form>
       </div>
     </div>

@@ -11,7 +11,8 @@
         if(isset($_POST['correo_id_upd'])){
             echo $id_correo->actualizar_correo_controller();
         }
-        if(isset($_POST['nombre_reg'])||isset($_POST['apellidop_reg'])||isset($_POST['apellidom_reg'])||isset($_POST['correo_reg'])||isset($_POST['estado_reg'])){
+        if(isset($_POST['nombre_reg'])||isset($_POST['apellidop_reg'])||isset($_POST['apellidom_reg'])||isset($_POST['correo_reg'])||isset($_POST['estado_reg'])
+        ||isset($_POST['planta_reg'])||isset($_POST['cargo_reg'])){
             echo $id_correo->crear_correo_controller();
         }
         if(isset($_POST['correo_id_delete'])){

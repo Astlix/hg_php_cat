@@ -1,8 +1,9 @@
 <?php
 date_default_timezone_set('America/Mexico_City');
+require_once "../models/equipomodel.php";
+require_once "../models/activosmodel.php";
 require_once "../models/alarmamodel.php";
 require_once "../models/correosmodel.php";
-require_once "../models/equipomodel.php";
 
 //////////////////////////////LIBRERIAS ENVIAR EL CORREO ELECTRONICO
 require '../include/Exception.php';
@@ -17,7 +18,7 @@ $mail->IsSMTP();
 //INFORMACIÓN
 
 //Configuracion servidor mail
-$mail->setFrom('ventas@astlix.com', 'SISTEMA CENTRAL'); //remitente
+$mail->setFrom('hgalvez@astlix.com', 'SISTEMA CENTRAL'); //remitente
 $mail->Mailer = "smtp";
 $mail->SMTPDebug  = 0;
 $mail->SMTPAuth = true;
@@ -26,8 +27,8 @@ $mail->Host = "smtp.gmail.com"; // servidor smtp
 $mail->Port = 587; //puerto
 
 
-$mail->Username   = "ventas@astlix.com";
-$mail->Password   = "DrUf1421";
+$mail->Username   = "hgalvez@astlix.com";
+$mail->Password   = "H@ward10";
 
 $rsp = CorreosModel::ver_correos2();
 
@@ -40,14 +41,12 @@ if (isset($_POST)) {
 	$xspan = json_decode($datosRecibidos, true);
 
 	$auth = $xspan['auth'];
-	$serial = $xspan['serial'];
-	$id_reader = $xspan['id_reader'];
-	$gpio = $xspan['gpio'];
-	$puerta = $xspan['puerta'];
+	$ip_reader = trim($xspan['ip_reader']);
 	$lecturas = $xspan['lecturas'];
 	$fechaactual = date('Y-m-d H:i:s');
 
-
+	
+	// SI LAS LECTURAS ESTAN VACIAS 
 	$longitud = count($lecturas);
 
 	if (empty($lecturas) || $longitud == 0) {
@@ -56,91 +55,114 @@ if (isset($_POST)) {
        }
 
 
-	// ***************
-	// $auth = filter_var($xspan["auth"], FILTER_SANITIZE_STRING);
-	$salt = substr($auth, 0, 13);
+	$salt = trim($auth);
+	$pass="astliximpinj";
 	$authcheck = crypt("impinj", $salt);
-	if ($auth != $authcheck) {
+	// VERIFICAMOS QUE COICIDAN LA AUTORIZACION
+	if ($pass == $auth) {
 
-		$rsp2 = EquipoModel::ver_reader_general_id($id_reader); //verificamos si existe la puerta registrada en la BD
+		$rsp2 = EquipoModel::ver_reader_general_ip($ip_reader); //verificamos si existe la puerta registrada en la BD
         
 		if ($rsp2) {
 
 			foreach ($lecturas as $lectura) {
-				//ReportType:
-				// ENTRY_REPORT(0),
-				// UPDATE_REPORT(1),
-				// EXIT_REPORT(2);
-				// **********************TODOS LOS TAGS QUE NOS MANDA LA XSPAN SON NO RECONOCIDOS**********
-				if ($lectura['reportType'] == 1 && ($lectura['transitionId'] == 3)) { //si existe la variable
+				
+				// VERIFICAMOS QUE EL EPC EXISTA
+					$rsp3 = ActivosModel::ver_un_activos_por_epc(trim($lectura['epc'])); //verificamos si existe la puerta registrada en la BD
 
-					if ($lectura['transitionId'] == 3) {
-						$tipotrans = 'Salida';
-					}
+					if ($rsp3) {
 
-					//CUERPO DEL CORREO
-					$mensajeCliente = ' 
-									<html> 
-									<body style:"background-color:red"> 
-									<h1>¡ ALERTA !</h1>
-									<p> 
-									El sistema ha detectado la activacion de alarma con los siguientes datos:<br>
-									<strong>Asset: </strong> ' . $lectura['epc'] . '<br> 
-									<strong>Fecha: </strong> ' . $fechaactual . '<br> 
-									<strong>Lugar: </strong> ' . trim($rsp2['Locacion']) . '<br> 
-									<strong>Tipo de movimiento: </strong> ' . $tipotrans . '<br>
+						// VERIFICAMOS SI EL ACTIVO ESTA VINCULADO CON EL EPC
+						$rsp4 = ActivosModel::ver_un_activo2(trim($rsp3['idCA']));
+						if ($rsp4) {
+							$rsp5 = AlarmaModel::ver_alarma_tiposalida(trim($rsp4['Asset']));
+							// Si existe en bitacora 
+							
+								if ($rsp5) {
+	
+									$output = json_encode(array('code' =>'0','result' => 'Activo registrado en bitacora'.trim($rsp5['Asset'])));
+									die($output);
+	
+									}else{
+										# code...
+										//CORREO ELECTRONICO
+										$mensajeCliente = ' 
+										<html> 
+										<body style:"background-color:red"> 
+										<h1>¡ ALERTA !</h1>
+										<p> 
+										El sistema ha detectado la activacion de alarma con los siguientes datos:<br>
+										<strong>Epc: </strong> ' . trim($lectura['epc']) . '<br> 
+										<strong>Asset: </strong> ' . trim($rsp4['Asset']) . '<br> 
+										<strong>Fecha: </strong> ' . $fechaactual . '<br> 
+										<strong>Planta: </strong> ' . trim($rsp2['Planta']) . '<br> 
+										<strong>Lugar: </strong> ' . trim($rsp2['Locacion']) . '<br> 
+		
+										<br>  
+										Revisar de inmediato las puertas.
+										</p> 
+										</body> 
+										</html> 
+										';
+		
+										//Agregar destinatario
+										$mail->isHTML(true);
+										foreach ($rsp as $dato) {
+											$mail->AddAddress($dato['CorreoElectronico'], $dato['Nombre']);
+										}
+										$mail->Subject = 'ALARMA | MOVIMIENTO NO REGISTRADO';
+										$mail->Body = $mensajeCliente;
+		
+										//Avisar si fue enviado o no y dirigir al index
+										if ($mail->Send()) {
+										} else {
+										}
+										$mail->smtpClose();
+										///FIN DEL CORREO ELETRÓNICO
+										$data = array(
+											"asset"  => $rsp4['Asset'],
+											"fecha" => $fechaactual,
+											"id_puerta" => $ip_reader,
+											"planta" => trim($rsp2['Planta'])
+										);
+										$rsp = AlarmaModel::agregarAlarma($data);
+										if ($rsp) {
+											//echo $serie;
+											$output = json_encode(array('code' =>'2','result' => 'ok'));
+											die($output);
+										} else {
+											//error -> No se pudo registrar el movimiento
+											$output = json_encode(array('code' =>'2','result' => 'error'));
+											die($output);
+										}
+									
+								}
+							
 
-									<br>  
-									Revisar de inmediato las puertas.
-									</p> 
-									</body> 
-									</html> 
-									';
-
-					//Agregar destinatario
-					$mail->isHTML(true);
-					foreach ($rsp as $dato) {
-						$mail->AddAddress($dato['CorreoElectronico'], $dato['Nombre']);
-					}
-					$mail->Subject = 'ALARMA | MOVIMIENTO NO REGISTRADO';
-					$mail->Body = $mensajeCliente;
-
-					//Avisar si fue enviado o no y dirigir al index
-					if ($mail->Send()) {
-					} else {
-					}
-					$mail->smtpClose();
-					///FIN DEL CORREO ELETRÓNICO
-
-
-					$data = array(
-						"asset"  => $lectura['epc'],
-						"fecha" => $fechaactual,
-						"id_puerta" => $id_reader
-					);
-					$rsp = AlarmaModel::agregarAlarma($data);
-					if ($rsp) {
-						//echo $serie;
-						$output = json_encode(array('result' => 'ok'));
+							
+						}else{
+							$output = json_encode(array('code' =>'1','result' => 'No existe asset con ese epc'));
+							die($output);
+						}
+					}else{
+						$output = json_encode(array('code' =>'1','result' => 'No existe epc'));
 						die($output);
-					} else {
-						//error -> No se pudo registrar el movimiento
-						$output = json_encode(array('result' => 'error'));
-						die($output);
 					}
-				}
+
+					
+				
 			}
 		} else {
 			//error 2 -> No existe el arco
-			$output = json_encode(array('result' => 'error','id' => '2'));
+			$output = json_encode(array('code' =>'3','result' => 'error'));
 			die($output);
 		}
 	} else {
 		//error 1 -> El auth no es el mismo
-		$output = json_encode(array('result' => 'error','id' => '1'));
+		$output = json_encode(array('code' =>'3','result' => 'error'));
 		die($output);
 	}
 }	
 //error 3 -> no existe post
-$output = json_encode(array('result' => 'No hay post'));
+$output = json_encode(array('code' =>'3','result' => 'No hay post'));
 die($output);

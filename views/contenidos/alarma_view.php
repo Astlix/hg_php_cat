@@ -2,11 +2,11 @@
     <div class="box-cont-negro">
 
         <div class="box-cont-blanco titulo-box">
-            <h1>Alarmas</h1>
+            <h1><i class='bx bx-time-five'></i> Alarmas</h1>
             </div>
             
             <hr class="my-2">
-            <h4><i class='bx bx-time-five'></i> Registro de Alarmas</h4>
+            <h4> Registro de Alarmas</h4>
 
         <?php
         $rsp = AlarmaModel::ver_alarma_general();

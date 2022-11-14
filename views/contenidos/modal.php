@@ -161,6 +161,25 @@
               <input type="email" class="form-control" id="modal_correo_upd" name="correo_upd" value="" required>
             </div>
             <div class="col-md-12">
+                <label for="nombre">Planta</label>
+                <select class="form-select" id="modal_planta_upd" name="planta_upd" aria-label="Default select example" title="Planta" required>
+                  <option disabled selected>Seleecione una opción </option>
+                  <option value="1">Finsa 1 </option>
+                  <option value="2">Finsa 3</option>
+                  <option value="3">Oradel</option>
+                  <option value="4">Cls</option>
+                </select>
+            </div>
+            <div class="col-md-12">
+                <label for="nombre">Cargo</label>
+                <select class="form-select" id="modal_cargo_upd" name="cargo_upd" aria-label="Default select example" title="Cargo " required>
+                  <option disabled selected>Seleecione una opción </option>
+                  <option value="0">Supervisor de Área </option>
+                  <option value="1">Control de Activos Fijos</option>
+                  <option value="2">Seguridad de Planta</option>
+                </select>
+            </div>
+            <div class="col-md-12">
               <label for="nombre">Estado</label>
               <div class="col-md-12">
                 <select class="form-select" id="modal_estado_upd" name="estado_upd" aria-label="Default select example" title="Planta" value="03" required>

@@ -112,6 +112,7 @@ $(document).on("click", "#editar_user", function(e){
     var planta =$(this).data('planta');
     var columna =$(this).data('ubicacion');
     var num_columna =$(this).data('numcolumna');
+    var identificador =$(this).data('identificador');
 	
     
 	$("#activos_detalles").modal("show");
@@ -121,6 +122,7 @@ $(document).on("click", "#editar_user", function(e){
 $.ajax({
   data: {"planta" : planta,
   		 "columna": columna,
+  		 "identificador": identificador,
   		 "num_columna": num_columna},
   url: "./views/detalles_activos.php",
   type: "post",
@@ -143,6 +145,8 @@ $(document).on("click", "#ver_registro_correo", function(e){
 	let apellidom   = $(this).data("apellidom");
 	let correo   = $(this).data("correo");
 	let estado   = $(this).data("estado");
+	let cargo   = $(this).data("cargo");
+	let planta   = $(this).data("planta");
 	
     $("#correo_id_upd").val(id);
     $("#modal_nombre_upd").val(nombre);//mandamos los valores a los input para obtenerlos en js
@@ -150,6 +154,8 @@ $(document).on("click", "#ver_registro_correo", function(e){
     $("#modal_apellidom_upd").val(apellidom);
     $("#modal_correo_upd").val(correo);
 	$('#modal_estado_upd > option[value="'+estado+'"]').attr('selected', 'selected');
+	$('#modal_planta_upd > option[value="'+planta+'"]').attr('selected', 'selected');
+	$('#modal_cargo_upd > option[value="'+cargo+'"]').attr('selected', 'selected');
 	
     $("#ver_correo").modal("show");	
   });

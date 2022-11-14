@@ -1,4 +1,4 @@
-.dataTables_wrapper{width:100%}.dataTables_wrapper .dt-buttons{float:left;margin-bottom:13px}
+.dataTables_wrapper{width:100%;padding: 10px;}.dataTables_wrapper .dt-buttons{float:left;margin-bottom:13px}
 .dataTables_wrapper .dataTables_filter{float:right}
 .dataTables_wrapper .dataTables_filter label{margin:0}
 .dataTables_wrapper .dataTables_filter label input{height:38px;border-color:#6c757d;text-align:center;color:var(--basico-1);border-radius:6px;width:200px}
@@ -14,3 +14,5 @@
 .dataTables_wrapper .dataTables_paginate .pagination li a{background:#FFC300;border-color:#6c757d;color:var(--basico-1);-webkit-transition:.5s;transition:.5s}
 .dataTables_wrapper .dataTables_paginate .pagination li a:focus{-webkit-box-shadow:none;box-shadow:none}
 .dataTables_wrapper .dataTables_paginate .pagination .active a{background:var(--c-g-1)}
+.dataTables_wrapper .dataTables_paginate .paginate_button{padding: 0%;}
+.dataTables_wrapper .dataTables_paginate .pagination li{padding: 0%;}

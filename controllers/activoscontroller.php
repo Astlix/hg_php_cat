@@ -396,7 +396,9 @@ class activosController extends activosmodel
         $planta_upd = mainmodel::limpiar_cadena($_POST['planta_upd']);
         $columna_upd = mainmodel::limpiar_cadena($_POST['columna_upd']);
         $num_col_upd = mainmodel::limpiar_cadena($_POST['num_col_upd']);
-      $service003 = $columna2 . $num_col_upd;
+        $planta = substr($planta_upd,-1);
+        $columna2 = ActivosModel::ver_ubicacion_activo($columna_upd);
+        $service003 = $columna2 . $num_col_upd;
         $epc_poste = 'cad12014' . $tipo_poste . '00000000' . $planta_upd . $columna_upd . $num_col_upd;
       } else {
         $epc_poste = $activo['TagSite'];

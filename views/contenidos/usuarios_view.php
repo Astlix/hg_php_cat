@@ -3,9 +3,7 @@
   <div class="box-cont-negro">
 
     <div class="box-cont-blanco titulo-box">
-      <h4>Lista de Usuarios
-        <hr> <small>Usuarios</small>
-      </h4>
+      <h1><i class="bx bx-user"></i> Lista de Usuarios</h1>
     </div>
 
     <div class="box-cont-blanco" id="box">
