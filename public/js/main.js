@@ -27,7 +27,7 @@ $(document).on("click", "#editar_user", function(e){
 
     $("#id_update").val(id);
     $("#nickname").val(nickname);
-    $("#nombre").val(nombre);
+    $("#nombre_completo").val(nombre);
     $("#email").val(email);
 	$('#rol_reg > option[value="'+role+'"]').attr('selected', 'selected');
 

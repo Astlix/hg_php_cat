@@ -149,7 +149,7 @@ public static function mandar_correo_alarma(){
 
 
   $mail->Username   = "hgalvez@astlix.com";
-  $mail->Password   = "H@ward10";
+  $mail->Password   = "ocsbelppmcaqwipv"; //cotnraseña de google 
 
   //CUERPO DEL CORREO
   $mensajeCliente = ' 

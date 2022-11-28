@@ -28,7 +28,7 @@ use PHPMailer\PHPMailer\SMTP;
   
   
             $mail->Username   = "hgalvez@astlix.com";
-            $mail->Password   = "H@ward10";
+            $mail->Password   = "ocsbelppmcaqwipv";
   
             //CUERPO DEL CORREO
             $mensajeCliente = ' 
@@ -50,7 +50,7 @@ use PHPMailer\PHPMailer\SMTP;
                 foreach ($rsp as $dato) {
                   $mail->AddAddress($dato['CorreoElectronico'], $dato['Nombre']);
                  } 
-              $mail->Subject = 'SISTEMA CAT | CUENTA DE CORREO';
+              $mail->Subject = 'SISTEMA CAT RFID | TEST CUENTA DE CORREO';
               $mail->Body = $mensajeCliente; 
   
             //Avisar si fue enviado o no y dirigir al index

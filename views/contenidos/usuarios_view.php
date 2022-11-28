@@ -92,7 +92,7 @@
           </div>
           <div class="form-group">
             <label for="nombre">Nombre Completo</label>
-            <input type="text" class="form-control" pattern="[a-zA-Z].{1,}" title="El nombre debe ser minusculas o mayusculas." maxlength="35" id="nombre" name="name_upd" required>
+            <input type="text" class="form-control" pattern="[a-zA-Z].{1,}" title="El nombre debe ser minusculas o mayusculas." maxlength="35" id="nombre_completo" name="name_upd" required>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Correo Electrónico</label>

@@ -43,7 +43,8 @@
 
             foreach ($rsp as $dato) {
                 if (trim($dato['TagSiteFound']) == '') {
-                    $site = $dato['TagSite'];
+                 
+                    $site = $dato['TagSite'];              
                     $identificador = 'site';
                   }else{
                     $site = $dato['TagSiteFound'];
@@ -187,7 +188,7 @@
                     $tabla .= '<tr class="elemento">';
                     $tabla .= '<td scope="col" class="salida">F1C' . $C1[$z] . '</td>';
                     $tabla .= '<td scope="col" class="lote">'. $CC1[$z] .'</td>';
-                    $tabla .= '<td style="width:20%;display:flex;justify-content:center;width:auto;"><a type="button" id="btn_detalles_activo" class="btn btn-success" data-planta="01" data-ubicacion="03" data-numcolumna="0'.$z.'" style="margin:0px; display: flex; height:30px align-items: center; justify-content: center; max-width: 150px;">Ver más</a></td>';
+                    $tabla .= '<td style="width:20%;display:flex;justify-content:center;width:auto;"><a type="button" id="btn_detalles_activo" class="btn btn-success" data-planta="01" data-ubicacion="03" data-numcolumna="0'.$z.'" data-identificador="'.$identificador.'" style="margin:0px; display: flex; height:30px align-items: center; justify-content: center; max-width: 150px;">Ver más</a></td>';
                     $tabla .= '</tr>';
                 }
                 if ($D1[$z] == $z) {

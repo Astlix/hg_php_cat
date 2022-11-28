@@ -56,7 +56,7 @@
                                         data-mac="'.trim($dato['MAC']).'"
                                         data-marca="'.trim($dato['Marca']).'"
                                         data-modelo="'.trim($dato['Modelo']).'"                    
-                                        ><i class="bx bx-pencil" style="color:blue;"></i> Editar</a></li>
+                                        ><i class="bx bx-pencil" style="color:blue;"></i> Editar</a></li>                                        
                                         <li><hr class="dropdown-divider"></li>
                                         <form action="' . SERVERURL . 'ajax/equipoAjax.php" class="FormularioAjax" method="post" data-form="delete">
                                         <input type="hidden" name="hh_id_delete" value="'.$dato['idHandheld'].'">
@@ -77,7 +77,6 @@
       require 'modal.php';
 
         ?>
-
         <hr class="my-2">
         <div class="box-cont-blanco titulo-box">
             <h4> Equipo Readers</h4>
@@ -156,6 +155,7 @@
                         data-gateway="'.trim($dato['Gateway']) .'"                   
                         data-tx="'.trim($dato['TxPower']) .'"                   
                         ><i class="bx bx-pencil" style="color:blue;"></i> Editar</a></li>
+                        <li style="text-align:center;"><a type="button" target="_blank" style="text-align:center;color:black;" href="http://'.trim($dato['IPAddress']) .':8080"><i class="bx bx-cog" style="color:gray;"></i> Configurar</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <form action="' . SERVERURL . 'ajax/equipoAjax.php" class="FormularioAjax" method="post" data-form="delete">
                         <input type="hidden" name="reader_id_delete" value="'.$dato['idReader'].'">

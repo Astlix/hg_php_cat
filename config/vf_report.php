@@ -28,7 +28,7 @@ $mail->Port = 587; //puerto
 
 
 $mail->Username   = "hgalvez@astlix.com";
-$mail->Password   = "H@ward10";
+$mail->Password   = "ocsbelppmcaqwipv"; //contraseña hecha por google
 
 $rsp = CorreosModel::ver_correos2();
 
@@ -99,7 +99,7 @@ if (isset($_POST)) {
 										<strong>Lugar: </strong> ' . trim($rsp2['Locacion']) . '<br> 
 		
 										<br>  
-										Revisar de inmediato las puertas.
+										Se recomienda revisar las puertas.
 										</p> 
 										</body> 
 										</html> 
@@ -110,7 +110,7 @@ if (isset($_POST)) {
 										foreach ($rsp as $dato) {
 											$mail->AddAddress($dato['CorreoElectronico'], $dato['Nombre']);
 										}
-										$mail->Subject = 'ALARMA | MOVIMIENTO NO REGISTRADO';
+										$mail->Subject = 'SISTEMA CAT RFID | ALARMA | MOVIMIENTO NO REGISTRADO';
 										$mail->Body = $mensajeCliente;
 		
 										//Avisar si fue enviado o no y dirigir al index

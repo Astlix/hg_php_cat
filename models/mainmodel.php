@@ -12,7 +12,7 @@ class Mainmodel{
           
           switch ($set["configuracion"]["driver_db"]) {
             case "sql":
-              $link = new PDO($set['sqlsrv']['driver'].':Server='.$set['sqlsrv']['server'].'; Database='.$set['sqlsrv']['dbn']);
+              $link = new PDO($set['sqlsrv']['driver'].':Server='.$set['sqlsrv']['server'].'; Database='.$set['sqlsrv']['dbn'],$set['sqlsrv']['db_user'], $set['sqlsrv']['db_pass']);
               $link -> exec("SET CHARACTER SET utf8");
               break;
             case "mysql":
@@ -32,7 +32,7 @@ class Mainmodel{
           
           switch ($set["configuracion"]["driver_db"]) {
             case "sql":
-              $link = new PDO($set['sqlsrv']['driver'].':Server='.$set['sqlsrv']['server'].'; Database='.$set['sqlsrv']['dbn']);
+              $link = new PDO($set['sqlsrv']['driver'].':Server='.$set['sqlsrv']['server'].'; Database='.$set['sqlsrv']['dbn'],$set['sqlsrv']['db_user'], $set['sqlsrv']['db_pass']);
               $link -> exec("SET CHARACTER SET utf8");
               break;
             case "mysql":

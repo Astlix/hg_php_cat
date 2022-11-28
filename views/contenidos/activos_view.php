@@ -184,7 +184,6 @@ if ($site != '') {
               $site = $dato['TagSite'];
             }else{
               $site = $dato['TagSiteFound'];
-
             }
             
               $planta = substr($site, 18, -4);
