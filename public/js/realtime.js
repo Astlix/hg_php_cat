@@ -22,7 +22,7 @@ function repetirCadaSegundo() {
        console.log('Pintar Tabla');
 
     }else{
-        // console.log('No existe en el DOM');
+        console.log('No existe en el DOM');
         clearInterval(Intervalo);
     }
     }  

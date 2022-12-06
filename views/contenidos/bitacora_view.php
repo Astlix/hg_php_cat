@@ -177,12 +177,17 @@
             $tabla .= '<td scope="col" class="lote">' . $tipo . '</td>';
             $tabla .= '<td scope="col" class="lote">' . $dato['Comentarios'] . '</td>';
             $tabla .= '<td scope="col" class="lote">' . $dato['FechaRegistro'] . '</td>';
-            $tabla .= '<td scope="col" class="lote"><a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Editar" id="editar_bitacora"
+            $tabla .= '<td scope="col" class="lote" style="display:flex;justify-content:center;"><a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Editar" id="editar_bitacora"
             data-id="'.trim($dato['idBitacora']).'"
             data-asset="'.trim($dato['Asset']).'"
             data-tipo="'.trim($dato['TipoSalida']).'"
             data-comentarios="'.trim($dato['Comentarios']).'"
-            ><i class="bx bx-edit nav_icon" aria-hidden="true" style="font-size:20px"></i></a></td>';
+            ><i class="bx bx-edit nav_icon" aria-hidden="true" style="font-size:20px"></i></a>
+            <form action="' . SERVERURL . 'ajax/alarmaAjax.php" class="FormularioAjax" method="post" data-form="delete">
+                      <input type="hidden" name="id_delete" value="'.$dato['idBitacora'].'">
+                      <button type="submit" class="btn btn-secondary" style="color:white; border-color:transparent;background-color:crimson;" title="Borrar"><i class="bx bx-trash" style="color:white;font-size:20px;"></i></button>
+            </form>
+            </td>';
             $tabla .= '</tr>';
           }
           $tabla .= '</tbody>';

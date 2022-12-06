@@ -2,7 +2,7 @@
 <div class="l-navbar" id="nav-bar">
         <nav class="nav">
             <div>
-                <a href="#" class="nav_logo"> <i class='bx bx-hive nav_logo-icon'></i><span class="nav_logo-name">CATERPILLAR</span>
+                <a href="#" class="nav_logo"> <i class='bx bx-hive nav_logo-icon'></i><span class="nav_logo-name">ASTLIX RFID</span>
                 <div class="nav_list">
                     <a href="<?php echo SERVERURL;?>home" class="nav_link" id="home"  title="Home"> <i class='bx bx-home-alt-2 nav_icon'></i> <span class="nav_name">Home</span> </a>
                     <a href="<?php echo SERVERURL;?>activos" class="nav_link" title="Activos"> <i class='bx bxs-package nav_icon'></i> <span class="nav_name">Activos</span> </a>

@@ -131,6 +131,18 @@ class AlarmaModel extends MainModel{
           return false;
         }
       }
+    ########################################################################
+    #                           Eliminar Incidencia de alarma              #
+    ########################################################################
+    public static function eliminar_incidencia_alarma($id){
+      $sql = Mainmodel::conectar()->prepare('DELETE from tblBitacora where idBitacora = :id');
+      $sql->bindParam(":id",$id);
+      if($sql->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
    
       ########################################################################
     #                           Eliminar HH                            #

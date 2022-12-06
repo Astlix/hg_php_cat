@@ -70,15 +70,15 @@
                   <i class="bx bx-dots-vertical-rounded"></i>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" type="button" id="ver_registro_correo" style="text-align:center; 
-                    data-id="'.$dato['idCorreo'].'"
-                    data-nombre="'.$dato['Nombre'].'"
-                    data-apellidop="'.$dato['ApellidoP'].'"
-                    data-apellidom="'.$dato['ApellidoM'].'"
-                    data-correo="'.$dato['CorreoElectronico'].'"
-                    data-estado="'.$dato['Estado'].'"                    
-                    data-planta="'.$dato['Planta'].'"                    
-                    data-cargo="'.$dato['Cargo'].'"                    
+                    <li><a class="dropdown-item" type="button" id="ver_registro_correo" style="text-align:center;" 
+                    data-idcorreo="'.trim($dato['idCorreo']).'"
+                    data-nombre="'.trim($dato['Nombre']).'"
+                    data-apellidop="'.trim($dato['ApellidoP']).'"
+                    data-apellidom="'.trim($dato['ApellidoM']).'"
+                    data-correo="'.trim($dato['CorreoElectronico']).'"
+                    data-estado="'.trim($dato['Estado']).'"                    
+                    data-planta="'.trim($dato['Planta']).'"                    
+                    data-cargo="'.trim($dato['Cargo']).'"                    
                     ><i class="bx bx-pencil" style="color:blue;"></i> Editar</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <form action="' . SERVERURL . 'ajax/correoAjax.php" class="FormularioAjax" method="post" data-form="delete">

@@ -46,7 +46,7 @@
           $tabla .= '<td scope="col" class="lote">' . $dato['UserNickname'] . '</td>';
           $tabla .= '<td scope="col" class="lote">' . $dato['UserEmail'] . '</td>';
           $tabla .= '<td scope="col" class="lote">' . $rol . '</td>';
-          $tabla .= '<td scope="col" class="lote">' . $dato['FechaCreacion'] . '</td>';
+          $tabla .= '<td scope="col" class="lote">' . $dato['FechaCreacion'] . '</td>'; 
           $tabla .= '<td style="display:flex; justify-content:space-around;"><a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Editar" id="editar_user"
                       data-id="'.trim($dato['idUser']).'"
                       data-name="'.trim($dato['UserName']).'"

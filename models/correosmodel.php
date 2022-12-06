@@ -81,9 +81,8 @@ class CorreosModel extends MainModel{
   
     public static function actualizar_correo_modelo($datos){
       $sql = Mainmodel::conectar()->prepare('UPDATE tblCorreo set Nombre = :nombre,
-      ApellidoP = :apellido_p, ApellidoM = :apellido_m,
-      CorreoElectronico = :correo_electronico,
-      Estado = :estado,Planta =:planta, Cargo =:cargo where idCorreo = :id ');
+      ApellidoP = :apellido_p, ApellidoM = :apellido_m, CorreoElectronico = :correo_electronico,
+      Estado = :estado,Planta =:planta, Cargo =:cargo where idCorreo = :id');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":nombre",$datos['nombre']);
       $sql->bindParam(":apellido_p",$datos['apellido_p']);

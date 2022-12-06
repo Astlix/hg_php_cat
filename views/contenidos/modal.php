@@ -141,7 +141,7 @@
 
           <!-- este  input es el que almacena el id para que el sistema sepa que se trata de un update -->
 
-          <input type="hidden" class="form-control" name="correo_id_upd" id="correo_id_upd">
+          <input type="text" class="form-control" name="correo_id_upd" id="modal_correo_id_upd">
 
           <div class="row">
             <div class="col-md-12">

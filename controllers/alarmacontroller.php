@@ -24,7 +24,6 @@ public static function consulta_activo_asset(){
   $jsonResponse = json_encode($outArr);
   die($jsonResponse);
 }
-
 public static function registro_incidencia_alarma(){
   $asset       = mainmodel::limpiar_cadena($_POST['asset_reg']);
   $tipo        = mainmodel::limpiar_cadena($_POST['tipo_reg']);
@@ -246,6 +245,40 @@ public static function update_comentario_alarma(){
   }
 
 
+}
+public static function delete_bitacora_alarma(){
+  $id = mainmodel::limpiar_cadena($_POST['id_delete']);
+
+  session_start(['name' => 'SCA']);
+  if ($_SESSION['rol_sca'] == 'Admin') {
+
+    $eliminar_incidencia_alarma = AlarmaModel::eliminar_incidencia_alarma($id); //llamamos la funcion del modelo 
+    if ($eliminar_incidencia_alarma) {
+      $alerta = [
+        "Alerta" => "recargar",
+        "Titulo" => "Incidencia Eliminada",
+        "Texto"  => "La incidencia se ha eliminado de manera exitosa.",
+        "Tipo"   => "success"
+      ];
+    } else {
+      $alerta = [
+        "Alerta" => "simple",
+        "Titulo" => "Ocurrio un error inesperado",
+        "Texto"  => "No se ha podido eliminar la incidencia, consulte al administrador del sistema.",
+        "Tipo"   => "error"
+      ];
+    }
+    echo json_encode($alerta);
+  } else {
+    $alerta = [
+      "Alerta" => "simple",
+      "Titulo" => "Accción Denegada",
+      "Texto"  => "No tiene el permiso para eliminar incidencias, consulte al administrador.",
+      "Tipo"   => "error"
+    ];
+    echo json_encode($alerta);
+    exit();
+  }
 }
 
  }

@@ -108,11 +108,15 @@ if (isset($_POST)) {
 										//Agregar destinatario
 										$mail->isHTML(true);
 										foreach ($rsp as $dato) {
-											$mail->AddAddress($dato['CorreoElectronico'], $dato['Nombre']);
+											if (trim($dato['Estado']) == 0) {
+												//No enviara el correo cuando el valor es 0
+											}else{
+												$mail->AddAddress($dato['CorreoElectronico'], $dato['Nombre']);
+											}
 										}
 										$mail->Subject = 'SISTEMA CAT RFID | ALARMA | MOVIMIENTO NO REGISTRADO';
 										$mail->Body = $mensajeCliente;
-		
+										
 										//Avisar si fue enviado o no y dirigir al index
 										if ($mail->Send()) {
 										} else {

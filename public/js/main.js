@@ -139,16 +139,17 @@ $.ajax({
 
 // MOSTRAL EL MODAL Y SUS DATOS
 $(document).on("click", "#ver_registro_correo", function(e){
-	let id   = $(this).data("id");
-	let nombre   = $(this).data("nombre");
+	let id_correo   = $(this).data("idcorreo");
+	let nombre   	= $(this).data("nombre");
 	let apellidop   = $(this).data("apellidop");
 	let apellidom   = $(this).data("apellidom");
-	let correo   = $(this).data("correo");
-	let estado   = $(this).data("estado");
-	let cargo   = $(this).data("cargo");
-	let planta   = $(this).data("planta");
+	let correo   	= $(this).data("correo");
+	let estado   	= $(this).data("estado");
+	let cargo   	= $(this).data("cargo");
+	let planta   	= $(this).data("planta");
+	console.log(id_correo);
 	
-    $("#correo_id_upd").val(id);
+    $("#modal_correo_id_upd").val(id_correo);
     $("#modal_nombre_upd").val(nombre);//mandamos los valores a los input para obtenerlos en js
     $("#modal_apellidop_upd").val(apellidop);
     $("#modal_apellidom_upd").val(apellidom);
