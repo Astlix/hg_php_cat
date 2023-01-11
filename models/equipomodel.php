@@ -35,13 +35,13 @@ class EquipoModel extends MainModel{
         $stmp->close();
         }
     public static function ver_reader_general(){
-        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblReaders");
+        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblreaders");
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();
         }
     public static function ver_reader_general2(){
-        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblReaders");
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblreaders");
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();

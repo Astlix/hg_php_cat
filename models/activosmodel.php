@@ -93,7 +93,7 @@ class ActivosModel extends MainModel{
       $stmp->close();
       }
     public static function ver_un_activos_por_asset($asset){
-      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where Asset = :asset");
+      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblca where Asset = :asset");
       $stmp -> bindParam(":asset", $asset);
       $stmp->execute();
       return $stmp->fetch();
@@ -194,7 +194,7 @@ class ActivosModel extends MainModel{
     ########################################################################
   
     public static function actualizar_activo_masivo_modelo($datos){
-      $sql = Mainmodel::conectar()->prepare('UPDATE tblCA set Asset = :asset,
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblca set Asset = :asset,
       Description = :description, DateInventory = :date_inventory,
       Service002 = :site, Service003 = :locacion where idCA = :id');
       $sql->bindParam(":id",$datos['id']);
@@ -210,7 +210,7 @@ class ActivosModel extends MainModel{
       }
     }
     public static function actualizar_activo_masivo_modelo_sin_epc($datos){
-      $sql = Mainmodel::conectar()->prepare('UPDATE tblCA set Asset = :asset,
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblca set Asset = :asset,
       Description = :description, DateInventory = :date_inventory,
       Service002 = :site, Service003 = :locacion where idCA = :id');
       $sql->bindParam(":id",$datos['id']);
@@ -231,7 +231,8 @@ class ActivosModel extends MainModel{
     #                           AGREGAR activo  masivo                          #
     ########################################################################
     public static function agregar_activo_masivo_modelo($datos){
-      $sql = Mainmodel::conectar()->prepare("INSERT INTO tblCA 
+      // print_r ($datos);
+      $sql = Mainmodel::conectar()->prepare("INSERT INTO tblca 
       (Asset
          ,Description
          ,DateInventory

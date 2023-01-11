@@ -41,11 +41,11 @@
       if ($site == '' && $planta2 == 2 && $epc == '') {$finsa3_st++;$total_st++;}
       if ($site != '' && $planta == '02' && $epc == '') {$finsa3_st++;$total_st++;}
       if ($site != '' && $planta == '02' && $epc != '') {$finsa3_ct++;$total_ct++;}
-      
+
       if ($site == '' && $planta2 == 3 && $epc == '') {$oradel_st++;$total_st++;}
       if ($site != '' && $planta == '03' && $epc == '') {$oradel_st++;$total_st++;}
       if ($site != '' && $planta == '03' && $epc != '') {$oradel_ct++;$total_ct++;}
-      
+
       if ($site == '' && $planta2 == 4 && $epc == '') {$cls_st++;$total_st++;}
       if ($site != '' && $planta2 == 4 && $epc == '') {$cls_st++;$total_st++;}
       if ($site != '' && $planta == '04' && $epc != '') {$cls_ct++;$total_ct++;}
@@ -86,7 +86,7 @@ if ($site != '') {
     $total = $total + 1;
   }
 }
-      
+
     }
     ?>
     <div class="box-cont-blanco" id="box">
@@ -107,7 +107,7 @@ if ($site != '') {
             <form>
               <label for="" class="form-label">Find Asset:</label>
               <input type="text" class="form-control" name="filtro_asset" id="filtro_asset" aria-describedby="helpId" placeholder="">
-                            
+
                 <label for="" class="form-label">Site:</label>
                 <select class="form-select" name="filtro_planta" id="filtro_planta">
                   <option value="" selected>Todos</option>
@@ -124,24 +124,24 @@ if ($site != '') {
                   <option value="No asignado">Sin EPC</option>
                 </select>
             </form>
-            <!-- <hr style="color:orange"> -->
+            <!-- CARGA MASIVA DE ACTIVOS -->
             <div class="card-header text-dark bg-warning" style="text-align:center;margin: 20px 0px;">
               <h5>Load Template</h5>
             </div>
-            <form class="FormularioAjax" action="<?php echo SERVERURL; ?>ajax/activoAjax.php" method="post" id="subirexcel" style="display:flex;flex-direction: column; align-items: center;" enctype="multipart/form-data">
-              <input type="file" class="form-control-file" id="exampleFormControlFile1" accept=".csv" name="name_doc">
-              <button type="submit" class="btn btn-success" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Importar CSV<i class='bx bxs-file-import' style="padding-left: 5px;"></i></button>
+            <form class="FormularioAjax" action="<?php echo SERVERURL; ?>ajax/activoAjax.php" method="post" style="display:flex;flex-direction: column; align-items: center;" enctype="multipart/form-data">
+              <input type="file" class="form-control-file" id="exampleFormControlFile1" accept=".xlsx" name="name_doc">
+              <button type="submit" class="btn btn-success" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Importar<i class='bx bxs-file-import' style="padding-left: 5px;"></i></button>
             </form>
-          
+
         </div>
 
         <div id="card" class="card col-md-5">
           <div class="card-header text-dark bg-warning" style="text-align:center;">
             <h5>Dashboard 2</h5>
           </div>
-          
+
           <div id="chartdiv"></div>
-          
+
         </div>
 
 
@@ -163,14 +163,14 @@ if ($site != '') {
           $tabla  = '<table id="nombre" data-nombre="activos" style="border-radius:10px; text-align:center;"  class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
           $tabla .= '<thead>';
           $tabla .= '<tr class="bg-warning">';
-          $tabla .= '<th scope="col">Asset</th>';       
-          $tabla .= '<th scope="col">Descripción</th>';        
-          $tabla .= '<th scope="col">Serial</th>';        
-          $tabla .= '<th scope="col">EPC</th>';        
-          $tabla .= '<th scope="col">Fecha Inventario</th>';       
-          $tabla .= '<th scope="col">Planta</th>';         
-          $tabla .= '<th scope="col">Ubicación</th>';  
-          $tabla .= '<th scope="col">Acciones</th>';        
+          $tabla .= '<th scope="col">Asset</th>';
+          $tabla .= '<th scope="col">Descripción</th>';
+          $tabla .= '<th scope="col">Serial</th>';
+          $tabla .= '<th scope="col">EPC</th>';
+          $tabla .= '<th scope="col">Fecha Inventario</th>';
+          $tabla .= '<th scope="col">Planta</th>';
+          $tabla .= '<th scope="col">Ubicación</th>';
+          $tabla .= '<th scope="col">Acciones</th>';
           $tabla .= '</tr>';
           $tabla .= '</thead>';
           $tabla .= '<tbody>';
@@ -185,23 +185,28 @@ if ($site != '') {
             }else{
               $site = $dato['TagSiteFound'];
             }
-            
+            if ($dato['TagSite'] == '') {
+              $tagsite = 'No asignado';
+            }else{
+              $tagsite = $dato['TagSite'];
+            }
+
               $planta = substr($site, 18, -4);
               $columna = substr($site, 20, -2);
               $num_columna = substr($site, -2);
-            
+
 
             $col = substr(trim($locacion),0,1);
-            $columna2 = ActivosModel::ver_columna($col); 
+            $columna2 = ActivosModel::ver_columna($col);
 
             $num_columna2 = substr(trim($locacion),-2);
 
-      
-            //FILTROO PARA SABER QUE TIPO DE FORMATO ES LA IMAGEN 
+
+            //FILTROO PARA SABER QUE TIPO DE FORMATO ES LA IMAGEN
 
             $img = $dato['Asset'];
             $searchString = " ";
-            $replaceString = "";            
+            $replaceString = "";
             $newimg = str_replace($searchString, $replaceString, $img);
             $RUTA_IMG = dirname(__FILE__,3).'/public/img/activos/';
 
@@ -214,9 +219,9 @@ if ($site != '') {
 
             if (file_exists($filejpg)) {$formato = 'jpg';}
             elseif (file_exists($filejpeg)) {$formato = 'jpeg';}
-            elseif (file_exists($filepng)) {$formato = 'png';}else{$formato = 'error';}   
-            
-            // FIN DEL FILTRO PARA SABER EL FORMATO DE LA IMAGEN 
+            elseif (file_exists($filepng)) {$formato = 'png';}else{$formato = 'error';}
+
+            // FIN DEL FILTRO PARA SABER EL FORMATO DE LA IMAGEN
 
             $ubi = ActivosModel::ver_ubicacion_activo($columna);
 
@@ -225,7 +230,7 @@ if ($site != '') {
             $tabla .= '<td scope="col" class="salida">' . $dato['Asset'] . '</td>';
             $tabla .= '<td scope="col" class="lote">' . $dato['Description'] . '</td>';
             $tabla .= '<td scope="col" class="lote">' . $dato['SerialNumber'] . '</td>';
-            $tabla .= '<td scope="col" class="lote">' . $dato['TagEpc'] . '</td>';
+            $tabla .= '<td scope="col" class="lote">' . $tagsite . '</td>';
             $tabla .= '<td scope="col" class="lote">' . $dato['DateInventory'] . '</td>';
             if ($planta == 01 || $planta2 == 1) {
               $tabla .= '<td scope="col" class="lote">Finsa 1</td>';
@@ -242,14 +247,14 @@ if ($site != '') {
               $tabla .= '<td scope="col" class="lote">' . trim($dato['Service003']). '</td>';
             }else{
               $tabla .= '<td scope="col" class="lote">' . $ubi . $num_columna . '</td>';
-            }            
+            }
             $tabla .= '<td>
                 <div class="btn-group">
                   <button type="button" stlyle="width:50px;" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown">
                   <i class="bx bx-dots-vertical-rounded"></i>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" id="ver_registro_act" style="cursor:pointer;text-align:center;" 
+                    <li><a class="dropdown-item" id="ver_registro_act" style="cursor:pointer;text-align:center;"
                     data-id="' . $dato['idCA'] . '"
                     data-asset="' . $dato['Asset'] . '"
                     data-description="' . $dato['Description'] . '"
@@ -271,7 +276,7 @@ if ($site != '') {
                     data-columna2="' . $columna2 . '"
                     data-num2="' . $num_columna2 . '"
                     data-img="' . $formato . '"
-                    
+
                     ><i class="bx bx-show" style="color:blue"></i> Ver</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <form action="' . SERVERURL . 'ajax/activoAjax.php" class="FormularioAjax" method="post" data-form="delete">
@@ -461,4 +466,3 @@ if ($site != '') {
       }); // end am5.ready()
   </script>
 
- 

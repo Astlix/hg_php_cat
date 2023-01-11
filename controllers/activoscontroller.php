@@ -2,8 +2,12 @@
 date_default_timezone_set("America/Mexico_City");
 if ($peticionAjax) {
   require_once("../models/activosmodel.php"); //para ver las notificaciones
+  require_once('../excel/excel_reader2.php');
+  require_once('../excel/SpreadsheetReader.php');
 } else {
   include("./models/activosmodel.php"); //para consultas
+  require_once('./excel/excel_reader2.php');
+  require_once('./excel/SpreadsheetReader.php');
 }
 class activosController extends activosmodel
 {
@@ -70,6 +74,7 @@ class activosController extends activosmodel
           $mes = $datearray[1];
           $año = $datearray[2];
           $newdate = $año . '-' . $mes . '-' . $dia;
+          $update_activo = $agregar_activo = false;
 
           $activo_asset = ActivosModel::ver_un_activos_por_asset($asset);
           if ($activo_asset) {
@@ -77,6 +82,7 @@ class activosController extends activosmodel
           } else {
             $existe = false;
           }
+
 
           if ($existe == true) { //validamos si ya existe en la BD true = existe, false = no existe            
 
@@ -108,7 +114,9 @@ class activosController extends activosmodel
                             "locacion" => $locacion_upd,
                           ];
                 $update_activo = ActivosModel::actualizar_activo_masivo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
-                $actualizados = $actualizados + 1;
+                if ($update_activo) {
+                  $actualizados = $actualizados + 1;
+                } 
             }else{  
               $datos_activos_upd = [
                 "id" => $id,
@@ -119,7 +127,9 @@ class activosController extends activosmodel
                 "locacion" => $locacion_upd
               ];
               $update_activo = ActivosModel::actualizar_activo_masivo_modelo_sin_epc($datos_activos_upd); //llamamos la funcion del modelo 
-              $actualizados = $actualizados + 1;
+              if ($update_activo ) {
+                $actualizados = $actualizados + 1;
+              } 
             }
 
           } else {
@@ -132,27 +142,21 @@ class activosController extends activosmodel
               "locacion" => $locacion,
             ];
             $agregar_activo = ActivosModel::agregar_activo_masivo_modelo($datos_activos_reg);
-            $agregados = $agregados + 1;
+            if ($agregar_activo) {
+              $agregados = $agregados + 1;
+            }
           }
         }
       }
       // *******ALERTA DE SE AGREGO O NO LOS ACTIVOS 
-      if (isset($agregar_activo) || isset($update_activo)) {
+      if ($agregar_activo == true || $update_activo == true) {
         $alerta = [
           "Alerta" => "limpiar",
           "Titulo" => "Activo Registrado",
           "Texto"  => "Se han agregado " . $agregados . " activos y se han actualizado " . $actualizados . " registros en el sistema.",
           "Tipo"   => "success"
         ];
-      } else {
-        $alerta = [
-          "Alerta" => "simple",
-          "Titulo" => "Error de archivo",
-          "Texto"  => "No se ha podido registrar los activos, revise el formato y que sea extensión .csv",
-          "Tipo"   => "error"
-        ];
-      }
-      echo json_encode($alerta);
+      } 
     } else {
       $alerta = [
         "Alerta" => "simple",
@@ -163,6 +167,158 @@ class activosController extends activosmodel
       echo json_encode($alerta);
     }
   }
+
+
+  public function cargar_masivo_controller(){
+    $error = false;
+      $allowedFileType = ['application/vnd.ms-excel','text/xls','text/xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+      if(in_array($_FILES["name_doc"]["type"],$allowedFileType)){
+        
+        $ruta = "../excel/formatos/" . $_FILES['name_doc']['name'];
+        move_uploaded_file($_FILES['name_doc']['tmp_name'], $ruta);
+        $Reader = new SpreadsheetReader($ruta);
+        $sheetCount = count($Reader->sheets());
+        $agregar_activo = $update_activo = false;
+        $actualizados = $agregados = 0;
+        
+        $nombre_doc = $_FILES['name_doc']['name']; //nombre del documento excel
+
+        for($i=0;$i<$sheetCount;$i++){ //leemos linea por linea
+          $primera = true;
+              foreach ($Reader as $Row) {                  
+                // Evitamos la primer linea
+                if($primera){
+                    $primera = false;
+                    continue;
+                }
+              $asset               = $Row[0];
+              $desc                = $Row[1];
+              $date                = $Row[2];
+              $site                = $Row[3];
+              $locacion            = $Row[4];
+
+              $datearray = explode("/", trim($date));
+              $dia = $datearray[0];
+              $mes = $datearray[1];
+              $año = $datearray[2];
+              $newdate = $año . '-' . $mes . '-' . $dia;
+
+              // echo 'Asset:'.$asset . 'Desc:' . $desc .'Date:' . $newdate .'Site:'. $site.'Locacion:'. $locacion.'<br>';
+
+                  // Obtenemos informacion
+                  if (isset($Row[5])) { //VERIFICAMOS QUE NO EXISTA UNA COLUMAN MAS AL DOCUMENTO
+                    $alerta = [
+                      "Alerta" => "simple",
+                      "Titulo" => "Error de Archivo",
+                      "Texto"  => "Verifique que el archivo tenga el formato correspondiente asi como las columnas.",
+                      "Tipo"   => "error"  
+                    ];
+                    echo json_encode($alerta);
+                    exit();
+                  }
+
+                  //revisamos si ya existe el activo
+                  $activo_asset = ActivosModel::ver_un_activos_por_asset(trim($Row[0]));
+                  if ($activo_asset) {
+                    $existe = 1;
+                  } else {
+                    $existe = 0;
+                  }
+
+                if ($existe == 1) { //validamos si ya existe en la BD true = existe, false = no existe            
+            
+                  $id = $activo_asset['idCA'];
+                  $epc = trim($activo_asset['TagEpc']);
+        
+                    if (isset($asset)) {
+                      $asset_upd = mainmodel::limpiar_cadena($asset);
+                    }
+                    if (isset($desc)) {
+                      $desc_upd = mainmodel::limpiar_cadena($desc);
+                    }
+                    if (isset($date)) {
+                      $date_upd = mainmodel::limpiar_cadena($newdate);
+                    }
+                    if (isset($site)) {
+                      $site_upd = mainmodel::limpiar_cadena($site);
+                    }
+                    if (isset($locacion)) {
+                      $locacion_upd = mainmodel::limpiar_cadena($locacion);
+                    }
+
+                    
+                    if ($epc == 'No asignado') {
+                      $datos_activos_upd = [
+                        "id" => $id,
+                        "asset" => $asset_upd,
+                        "description" => $desc_upd,
+                        "date_inventory" => $date_upd,
+                        "site" => $site_upd,
+                        "locacion" => $locacion_upd,
+                      ];
+                      $update_activo = ActivosModel::actualizar_activo_masivo_modelo($datos_activos_upd); //llamamos la funcion del modelo 
+                      if ($update_activo) {
+                        $actualizados = $actualizados + 1;
+                      } 
+                    }else{  
+                      // echo 'id:'.$id.'Asset:'.$asset_upd . 'Desc:' . $desc_upd .'Date:' . $date_upd .'Site:'. $site_upd.'Locacion:'. $locacion_upd.'EPC:'.$epc.'<br>';
+                      $datos_activos_upd = [
+                        "id" => $id,
+                        "asset" => $asset_upd,
+                        "description" => $desc_upd,
+                        "date_inventory" => $date_upd,
+                        "site" => $site_upd,
+                        "locacion" => $locacion_upd
+                      ];
+                      $update_activo = ActivosModel::actualizar_activo_masivo_modelo_sin_epc($datos_activos_upd); //llamamos la funcion del modelo 
+                      if ($update_activo ) {
+                        $actualizados = $actualizados + 1;
+                      } 
+                      
+                    }
+        
+                  } else {
+                    
+                    // echo 'Asset:'.$asset . 'Desc:' . $desc .'Date:' . $newdate .'Site:'. $site.'Locacion:'. $locacion.'<br>';
+                    $datos_activos_reg = [
+                      "asset" => $asset,
+                      "description" => $desc,
+                      "date_inventory" => $newdate,
+                      "site" => $site,
+                      "epc" => '',
+                      "locacion" => $locacion,
+                    ];
+                    $agregar_activo = ActivosModel::agregar_activo_masivo_modelo($datos_activos_reg);
+                    if ($agregar_activo) {
+                      $agregados = $agregados + 1;
+                    }
+                  }             
+                } 
+                // *******ALERTA DE SE AGREGO O NO LOS ACTIVOS 
+                if ($agregar_activo == 1 || $update_activo == 1) {
+                  $alerta = [
+                    "Alerta" => "limpiar",
+                    "Titulo" => "Activo Registrado",
+                    "Texto"  => "Se han agregado " . $agregados . " activos y se han actualizado " . $actualizados . " registros en el sistema.",
+                    "Tipo"   => "success"
+                  ];
+                  echo json_encode($alerta);
+                  exit();
+              }
+        }
+
+
+      }else{
+        $alerta = [
+          "Alerta" => "simple",
+          "Titulo" => "Error de Archivo",
+          "Texto"  => "Verifique que el archivo tenga el formato correspondiente asi como las columnas.",
+          "Tipo"   => "error"  
+        ];
+        echo json_encode($alerta);
+        exit();
+      }
+ }
   ########################################################################
   #                           AGREGAR ACTIVO                            #
   ########################################################################

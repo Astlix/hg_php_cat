@@ -30,7 +30,7 @@ class AlarmaModel extends MainModel{
         }
 
       public static function ver_alarma_general(){
-        $stmp = Mainmodel::conectar2()->prepare("SELECT idBitacora,Asset,isnull(TipoSalida,'5') as TipoSalida, isnull(Comentarios,'Sin registro') as Comentarios, 
+        $stmp = Mainmodel::conectar2()->prepare("SELECT idBitacora,Asset,IFNULL(TipoSalida,'5') as TipoSalida, IFNULL(Comentarios,'Sin registro') as Comentarios, 
                                                 FechaRegistro,FechaAlarma,Ubicacion FROM tblBitacora");
         $stmp->execute();
         return $stmp->fetchAll();

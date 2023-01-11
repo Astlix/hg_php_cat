@@ -6,7 +6,7 @@
 
 ## Propiedades de software
   - Lenguage de programación: PHP
-  - Motor de Base de Datos: MySQL
+  - Motor de Base de Datos: SQLServer
   - Servidores Apache: XAMMP, MAMP
 
 ## Instalación

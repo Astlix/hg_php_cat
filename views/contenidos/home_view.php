@@ -214,11 +214,10 @@ if ($site != '') {
         'Reparación',
         'Traspaso',
         'Baja',
-        'Sin registro'
       ],
       datasets: [{
         label: 'Bitacora de Activos',
-        data: [<?php echo $mantenimiento;?>, <?php echo $reparacion;?>, <?php echo $traspaso;?>, <?php echo $baja;?>,<?php echo $sin_registro;?>],
+        data: [<?php echo $mantenimiento;?>, <?php echo $reparacion;?>, <?php echo $traspaso;?>, <?php echo $baja;?>],
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',

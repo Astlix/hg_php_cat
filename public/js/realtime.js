@@ -1,4 +1,4 @@
-repetirCadaSegundo();
+// repetirCadaSegundo();
 function repetirCadaSegundo() {
     Intervalo = setInterval(activar, 1000);
   }
@@ -31,7 +31,7 @@ function repetirCadaSegundo() {
 
 
 // KEEP ALIVE
-repetir_keep();
+// repetir_keep();
 function repetir_keep() {
     keep = setInterval(keep, 10000);//60000 = 60 segundos
   }
