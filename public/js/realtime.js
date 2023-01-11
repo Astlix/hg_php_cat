@@ -1,23 +1,23 @@
-// repetirCadaSegundo();
+repetirCadaSegundo();
 function repetirCadaSegundo() {
     Intervalo = setInterval(activar, 1000);
   }
 
   function activar(){
-    var status ="readers";
-
-    $.ajax({
-    data: {"status" : status},
-    url: "./views/realtime.php",
-    type: "post",
-    success:  function (response) {
-    data=$.parseJSON(response); //parse response string
-    let json = JSON.stringify(data.resp);
-    //tabla
-    tabla = data.datos;
-
-// VERIFICAMOS SI EXISTE EL ELEMENTO EN EL DOM PARA EJECUTAR EL TIEMPO REAL
+      
+      // VERIFICAMOS SI EXISTE EL ELEMENTO EN EL DOM PARA EJECUTAR EL TIEMPO REAL
+      var status ="readers";
+  
+      $.ajax({
+          data: {"status" : status},
+          url: "./views/realtime.php",
+          type: "post",
+          success:  function (response) {
     if (document.getElementById('tabla')) {
+      data=$.parseJSON(response); //parse response string
+      let json = JSON.stringify(data.resp);
+      //tabla
+      tabla = data.datos;
         document.getElementById('tabla').innerHTML = tabla;
        console.log('Pintar Tabla');
 
@@ -31,7 +31,7 @@ function repetirCadaSegundo() {
 
 
 // KEEP ALIVE
-// repetir_keep();
+repetir_keep();
 function repetir_keep() {
     keep = setInterval(keep, 10000);//60000 = 60 segundos
   }
