@@ -8,21 +8,21 @@ class AlarmaModel extends MainModel{
     ########################################################################
 
     public static function ver_hh_id($id){
-        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where idHandheld = :id");
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblca where idHandheld = :id");
         $stmp -> bindParam(":id", $id);
         $stmp->execute();
         return $stmp->fetch();
         $stmp->close();      
       }
       public static function ver_un_activos_por_asset($asset){
-        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where Asset = :asset");
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblca where Asset = :asset");
         $stmp -> bindParam(":asset", $asset);
         $stmp->execute();
         return $stmp->fetch();
         $stmp->close();
         }
       public static function ver_un_activos_por_asset2($asset){
-        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblCA where Asset = :asset");
+        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblca where Asset = :asset");
         $stmp -> bindParam(":asset", $asset);
         $stmp->execute();
         return $stmp->fetch();
@@ -31,33 +31,33 @@ class AlarmaModel extends MainModel{
 
       public static function ver_alarma_general(){
         $stmp = Mainmodel::conectar2()->prepare("SELECT idBitacora,Asset,IFNULL(TipoSalida,'5') as TipoSalida, IFNULL(Comentarios,'Sin registro') as Comentarios, 
-                                                FechaRegistro,FechaAlarma,Ubicacion FROM tblBitacora");
+                                                FechaRegistro,FechaAlarma,Ubicacion FROM tblbitacora");
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();
         }
       public static function ver_alarma_asset($dato){
-        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblBitacora where Asset =:asset");
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblbitacora where Asset =:asset");
         $stmp -> bindParam(":asset", $dato);
         $stmp->execute();
         return $stmp->fetch();
         $stmp->close();
         }
       public static function ver_alarma_tiposalida($dato){
-        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblBitacora where Asset =:asset and TipoSalida <> ''");
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblbitacora where Asset =:asset and TipoSalida <> ''");
         $stmp -> bindParam(":asset", $dato);
         $stmp->execute();
         return $stmp->fetch();
         $stmp->close();
         }
       public static function ver_reader_general(){
-        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblReaders");
+        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblreaders");
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();
         }
         public static function ver_reader($ip){
-          $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblReaders where IPAddress = :ip");
+          $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblreaders where IPAddress = :ip");
           $stmp -> bindParam(":ip", $ip);
           $stmp->execute();
           return $stmp->fetch();
@@ -69,7 +69,7 @@ class AlarmaModel extends MainModel{
     #                           KEEP ALIVE                             #
     ########################################################################
     public static function keep($datos){
-      $sql = Mainmodel::conectar()->prepare('UPDATE tblReaders set Fecha =:fecha,
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblreaders set Fecha =:fecha,
       TxPower = :potencia,Estado = :estado where idReader = :id ');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":fecha",$datos['fecha']);
@@ -82,7 +82,7 @@ class AlarmaModel extends MainModel{
       }
       }
     public static function tempo($datos){
-      $sql = Mainmodel::conectar()->prepare('UPDATE tblReaders set Fecha =:fecha,
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblreaders set Fecha =:fecha,
       Estado = :estado where idReader = :id ');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":fecha",$datos['fecha']);
@@ -97,7 +97,7 @@ class AlarmaModel extends MainModel{
     #                           AGREGAR alarma                             #
     ########################################################################
     public static function agregarAlarma($datos){
-        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblBitacora 
+        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblbitacora 
         (Asset,FechaAlarma,Ubicacion,Planta)
          values 
         (:asset,:fecha,:id_puerta,:planta)");
@@ -115,7 +115,7 @@ class AlarmaModel extends MainModel{
       }
 
     public static function agregar_incidencias($datos){
-        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblBitacora 
+        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblbitacora 
         (Asset,TipoSalida,Comentarios,FechaRegistro)
          values 
         (:asset,:tipo,:comentarios,:fecha)");
@@ -135,7 +135,7 @@ class AlarmaModel extends MainModel{
     #                           Eliminar Incidencia de alarma              #
     ########################################################################
     public static function eliminar_incidencia_alarma($id){
-      $sql = Mainmodel::conectar()->prepare('DELETE from tblBitacora where idBitacora = :id');
+      $sql = Mainmodel::conectar()->prepare('DELETE from tblbitacora where idBitacora = :id');
       $sql->bindParam(":id",$id);
       if($sql->execute()){
         return true;
@@ -149,7 +149,7 @@ class AlarmaModel extends MainModel{
     ########################################################################
   
     public static function eliminar_hh_modelo($id){
-      $sql = Mainmodel::conectar()->prepare('DELETE from tblHandhelds where idHandheld = :id');
+      $sql = Mainmodel::conectar()->prepare('DELETE from tblhandhelds where idHandheld = :id');
       $sql->bindParam(":id",$id);
       if($sql->execute()){
         return true;
@@ -162,7 +162,7 @@ class AlarmaModel extends MainModel{
     ########################################################################
   
     public static function comentario_alarma($datos){
-      $sql = Mainmodel::conectar()->prepare('UPDATE tblBitacora set Asset = :asset,
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblbitacora set Asset = :asset,
       TipoSalida = :tipo, Comentarios = :comentarios, FechaRegistro = :fecha where idBitacora = :id ');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":asset",$datos['asset']);
@@ -176,7 +176,7 @@ class AlarmaModel extends MainModel{
       }
     }
     public static function upd_comentario_alarma($datos){
-      $sql = Mainmodel::conectar()->prepare('UPDATE tblBitacora set 
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblbitacora set 
       TipoSalida = :tipo, Comentarios = :comentarios, FechaRegistro = :fecha where idBitacora = :id ');
       $sql->bindParam(":id",$datos['id']);
       $sql->bindParam(":tipo",$datos['tipo']);
@@ -189,7 +189,7 @@ class AlarmaModel extends MainModel{
       }
     }
     public static function eliminar_reader_modelo($id){
-      $sql = Mainmodel::conectar()->prepare('DELETE from tblReaders where idReader = :id');
+      $sql = Mainmodel::conectar()->prepare('DELETE from tblreaders where idReader = :id');
       $sql->bindParam(":id",$id);
       if($sql->execute()){
         return true;

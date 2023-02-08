@@ -22,7 +22,7 @@ class UserModel extends Mainmodel{
     #                           Consulta Todos los Usuarios                             #
     ########################################################################
     public static function ver_usuarios(){
-        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblUser");
+        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tbluser");
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();
@@ -33,7 +33,7 @@ class UserModel extends Mainmodel{
     ########################################################################
     public static function agregar_usuario_modelo($datos){
       // echo $datos['name'].'|'.$datos['password'].'|'.$datos['email'].'|'.$datos['rol'].'|'.$datos['fecha'].'|'.$datos['nickname'].'|'.$datos['cuenta'];
-        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblUser 
+        $sql = Mainmodel::conectar()->prepare("INSERT INTO tbluser 
         (UserName,UserPassword,UserEmail,UserRole,FechaCreacion,UserNickname,cuenta) values 
         (:name,:pass,:email,:rol,:fecha,:nickname,:cuenta)");
         
@@ -53,7 +53,7 @@ class UserModel extends Mainmodel{
       }
     public static function update_usuario_controller_cp($datos){
       // echo $datos['name'].'|'.$datos['password'].'|'.$datos['email'].'|'.$datos['rol'].'|'.$datos['fecha'].'|'.$datos['nickname'].'|'.$datos['cuenta'];
-        $sql = Mainmodel::conectar()->prepare("UPDATE tblUser SET
+        $sql = Mainmodel::conectar()->prepare("UPDATE tbluser SET
         UserName = :name_update,UserPassword = :pass,UserEmail = :email, 
         UserRole = :rol_upd,FechaUpdate = :fecha_upd,UserNickname = :nickname 
         where idUser = :id_upd");
@@ -75,7 +75,7 @@ class UserModel extends Mainmodel{
 
       public static function update_usuario_controller_sp($datos){
         // echo $datos['name'].'|'.$datos['email'].'|'.$datos['rol'].'|'.$datos['fecha'].'|'.$datos['nickname'].'|'.$datos['id_update'];
-        $sql = Mainmodel::conectar()->prepare("UPDATE tblUser SET
+        $sql = Mainmodel::conectar()->prepare("UPDATE tbluser SET
         UserName = :name_update,UserEmail = :email,UserRole = :rol_upd,
         FechaUpdate = :fecha_upd,UserNickname = :nickname 
         where idUser = :id_upd");
@@ -95,7 +95,7 @@ class UserModel extends Mainmodel{
       }
 
       public static function delete_user_modelo($id){
-        $sql = Mainmodel::conectar()->prepare('DELETE from tblUser where idUser = :id');
+        $sql = Mainmodel::conectar()->prepare('DELETE from tbluser where idUser = :id');
         $sql->bindParam(":id",$id);
         if($sql->execute()){
           return true;

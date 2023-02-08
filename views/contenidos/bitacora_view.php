@@ -161,8 +161,7 @@
             }else{
               $ubi = EquipoModel::ver_reader_general_ip2(trim($dato['Ubicacion']));
               $ubicacion = $ubi['Locacion'];
-            }
-            
+            }            
 
             $tipo = "";
             if($dato['TipoSalida']==1){$tipo = 'Mantenimiento';}

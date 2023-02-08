@@ -119,18 +119,19 @@ $(document).on("click", "#editar_user", function(e){
  
 //  console.log(planta+columna+num_columna);
 
-$.ajax({
-  data: {"planta" : planta,
-  		 "columna": columna,
-  		 "identificador": identificador,
-  		 "num_columna": num_columna},
-  url: "./views/detalles_activos.php",
-  type: "post",
-  success:  function (response) {
-    data=$.parseJSON(response); //parse response string
-    $('#datos_activos').html(data.resp);
-  }  
-});
+	$.ajax({
+	data: {"planta" : planta,
+			"columna": columna,
+			"identificador": identificador,
+			"num_columna": num_columna},
+	url: "./views/detalles_activos.php",
+	type: "post",
+	success:  function (response) {
+		data=$.parseJSON(response); //parse response string
+		$('#datos_activos').html(data.resp);
+	}  
+	});
+
 });
 
 
@@ -147,7 +148,7 @@ $(document).on("click", "#ver_registro_correo", function(e){
 	let estado   	= $(this).data("estado");
 	let cargo   	= $(this).data("cargo");
 	let planta   	= $(this).data("planta");
-	console.log(id_correo);
+	// console.log(id_correo);
 	
     $("#modal_correo_id_upd").val(id_correo);
     $("#modal_nombre_upd").val(nombre);//mandamos los valores a los input para obtenerlos en js

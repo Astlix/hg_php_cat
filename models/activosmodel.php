@@ -7,7 +7,7 @@ class ActivosModel extends MainModel{
     #                           Consulta Todos los activos                             #
     ########################################################################
     public static function ver_activos(){
-        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblCA");
+        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblca");
         $stmp->execute();
         return $stmp->fetchAll();
         $stmp->close();
@@ -60,7 +60,7 @@ class ActivosModel extends MainModel{
     #                           Consulta un activo solamente                             #
     ########################################################################
     public static function ver_un_activo($id){
-        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblCA where idCA = :id");
+        $stmp = Mainmodel::conectar2()->prepare("SELECT * FROM tblca where idCA = :id");
         $stmp -> bindParam(":id", $id);
         $stmp->execute();
         return $stmp->fetch();
@@ -68,26 +68,26 @@ class ActivosModel extends MainModel{
       }
       
     public static function ver_un_activo2($id){
-        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where idCA = :id");
+        $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblca where idCA = :id");
         $stmp -> bindParam(":id", $id);
         $stmp->execute();
         return $stmp->fetch();
         $stmp->close();      
       }
     public static function ver_un_activos_especifico($datos){
-      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where TagSite like '%cad120140100000000".$datos."%'");
+      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblca where TagSite like '%cad120140100000000".$datos."%'");
       $stmp->execute();
       return $stmp->fetchAll();
       $stmp->close();
       }
     public static function ver_un_activos_especifico_tagfound($datos){
-      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where TagSiteFound like '%cad120140100000000".$datos."%'");
+      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblca where TagSiteFound like '%cad120140100000000".$datos."%'");
       $stmp->execute();
       return $stmp->fetchAll();
       $stmp->close();
       }
     public static function ver_activos_igualsite_and_igualsitefound($datos){
-      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where TagSiteFound like '%cad120140100000000".$datos."%' or TagSite like '%cad120140100000000".$datos."%'");
+      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblca where TagSiteFound like '%cad120140100000000".$datos."%' or TagSite like '%cad120140100000000".$datos."%'");
       $stmp->execute();
       return $stmp->fetchAll();
       $stmp->close();
@@ -100,14 +100,14 @@ class ActivosModel extends MainModel{
       $stmp->close();
       }
     public static function ver_un_activos_por_epc($epc){
-      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblCA where TagEpc = :epc");
+      $stmp = Mainmodel::conectar()->prepare("SELECT * FROM tblca where TagEpc = :epc");
       $stmp -> bindParam(":epc", $epc);
       $stmp->execute();
       return $stmp->fetch();
       $stmp->close();
       }
       public static function ver_activo_inv($dato){
-        $stmp = Mainmodel::conectar()->prepare("select * from tblCA where DateInventory between :fechastart and :fechaend and Service002 = :planta");
+        $stmp = Mainmodel::conectar()->prepare("select * from tblca where DateInventory between :fechastart and :fechaend and Service002 = :planta");
         $stmp -> bindParam(":fechastart", $dato['fechasstart']);
         $stmp -> bindParam(":fechaend", $dato['fechaend']);
         $stmp -> bindParam(":planta", $dato['planta']);
@@ -120,7 +120,7 @@ class ActivosModel extends MainModel{
     #                           AGREGAR activo                            #
     ########################################################################
     public static function agregar_activo_modelo($datos){
-        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblCA 
+        $sql = Mainmodel::conectar()->prepare("INSERT INTO tblca 
         (Asset
            ,Description
            ,TagEpc
@@ -151,7 +151,7 @@ class ActivosModel extends MainModel{
     ########################################################################
   
     public static function eliminar_activo_modelo($id){
-      $sql = Mainmodel::conectar()->prepare('DELETE from tblCA where idCA = :id');
+      $sql = Mainmodel::conectar()->prepare('DELETE from tblca where idCA = :id');
       $sql->bindParam(":id",$id);
       if($sql->execute()){
         return true;
@@ -164,7 +164,7 @@ class ActivosModel extends MainModel{
     ########################################################################
   
     public static function actualizar_activo_modelo($datos){
-      $sql = Mainmodel::conectar()->prepare('UPDATE tblCA set Asset = :asset,
+      $sql = Mainmodel::conectar()->prepare('UPDATE tblca set Asset = :asset,
       Description = :description, SerialNumber = :serialnumber,
       TagEpc = :epc_tag,
       TagSiteFound = :epc_tagsitefound,
