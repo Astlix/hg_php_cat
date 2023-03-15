@@ -3,8 +3,7 @@
   <div class="modal-dialog  modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" >Ver Activo </h5>
-        <button id="form_activar" class="btn btn-primary" style="width:50px;margin-left: 10px;"><i class="bx bx-edit-alt"></i></button>
+        <h5 class="modal-title" ><i class="bx bx-edit-alt"></i> Ver Activo </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -14,84 +13,71 @@
 
           <input type="hidden" class="form-control" name="activo_id_upd" id="activo_id_upd">
 
+          <!-- AGREGAR UNA IMAGEN -->
           <div class="input-file-container">
-            <!-- <div class="input-file" style="cursor: pointer;visibility:hidden;" id="inputimg">
-              <p class="input-file__name">Selecciona una imagen...</p>
+            <div class="boton" style ="width:100%;display:flex;padding:10px;justify-content:center;">
               <button type="button" class="input-file__button">
-                <i class='bx bx-upload'></i>
+                  <i class='bx bx-upload'></i>
               </button>
+            </div>
+            <div class="input-file" style="cursor: pointer;" id="inputimg">
+              <p class="input-file__name">Selecciona una imagen...</p>              
               <input type="file" class="form-control" accept="image/png,image/jpeg" name="avatar" id="avatarInput">
-            </div> -->
+            </div>
+            
             <img src="https://i.ibb.co/0Jmshvb/no-image.png" class="image-preview" alt="preview image" id="imagen">
           </div>
+
+          <!-- FORMULARIO GENERAL -->
           <div class="row">
             <div class="col-md-12">
-              <label for="nombre">Asset</label>
-              <input type="text" class="form-control" id="modal_asset_upd" name="asset_upd" required disabled>
+              <label for="nombre">ID</label>
+              <input type="text" class="form-control" id="modal_asset_upd" name="asset_upd" required >
             </div>
             <div class="col-md-6">
-              <label for="nombre">Descripción</label>
-              <input type="text" class="form-control" id="modal_desc_upd" name="desc_upd" required disabled>
+              <label for="nombre">Descripción Corta</label>
+              <input type="text" class="form-control" id="modal_desc_upd" name="desc_upd" required >
             </div>
             <div class="col-md-6">
               <label for="nombre">Numero Serial</label>
-              <input type="text" class="form-control" id="modal_num_serial_upd" name="num_serial_upd" value="" required disabled>
+              <input type="text" class="form-control" id="modal_num_serial_upd" name="num_serial_upd" value="" required >
+            </div>
+            <div class="col-md-12">
+              <label for="nombre">Descripción Larga</label>
+              <input type="text" class="form-control" id="modal_desc_larga_upd" name="desc_larga_upd" required >
             </div>
             <div class="col-md-6">
               <label for="nombre">Tag EPC</label>
               <input type="text" class="form-control" id="modal_epc_upd" name="epc_upd" value="" required disabled>
             </div>
             <div class="col-md-6">
-              <label for="nombre">Tag EPC Found</label>
-              <input type="text" class="form-control" id="modal_tagfind_upd" name="tagfind_upd" value="" required disabled>
+              <label for="nombre">Empleado</label>
+              <input type="text" class="form-control" id="modal_empleado_upd" name="empleado_upd" value="" required >
             </div>
-          </div>
-          <div class="row">
-            <label for="nombre">Ubicación</label>
-            <div class="col">
-              <select class="form-select" id="modal_planta_upd" name="planta_upd" aria-label="Default select example" title="Planta" value="03" required disabled>
-                <option value="01">Finsa1</option>
-                <option value="02">Finsa3</option>
-                <option value="03">Oradel</option>
-                <option value="04">CLS</option>
-              </select>
-            </div>-
-            <div class="col">
-              <select class="form-select" id="modal_columna_upd" name="columna_upd" aria-label="Default select example" title="Columna" required disabled>
-                <option value="01" selected>A</option>
-                <option value="02">B</option>
-                <option value="03">C</option>
-                <option value="04">D</option>
-                <option value="05">E</option>
-                <option value="06">F</option>
-                <option value="07">G</option>
-                <option value="08">H</option>
-                <option value="09">I</option>
-                <option value="10">J</option>
-                <option value="11">K</option>
-                <option value="12">L</option>
-                <option value="13">M</option>
-                <option value="14">N</option>
-                <option value="15">O</option>
-                <option value="16">P</option>
-                <option value="17">Q</option>
-                <option value="18">R</option>
-              </select>
-            </div>-
-            <div class="col">
-              <select class="form-select" id="modal_num_upd" name="num_col_upd" aria-label="Default select example" title="Número de la Coumna" required disabled>
-                <option value="01" selected>1</option>
-                <option value="02">2</option>
-                <option value="03">3</option>
-                <option value="04">4</option>
-                <option value="05">5</option>
-                <option value="06">6</option>
-                <option value="07">7</option>
-                <option value="08">8</option>
-                <option value="09">9</option>
+            <div class="col-md-6">
+              <label for="nombre">Marca o Modelo</label>
+              <input type="text" class="form-control" id="modal_marca_upd" name="marca_upd" value="" required >
+            </div>
+            <div class="col-md-6">
+              <label for="nombre">Numero Alterno</label>
+              <input type="text" class="form-control" id="modal_numalterno_upd" name="marca_upd" value="" required >
+            </div>
+            <div class="col-md-6">
+              <label for="nombre">Departamento</label>
+              <select class="form-select" id="modal_planta_upd" name="planta_upd" aria-label="Default select example" title="Planta" value="03" required >
+                <option value="01">RH</option>
+                <option value="02">Ventas</option>
+                <option value="03">Compras</option>
+                <option value="04">Software</option>
               </select>
             </div>
+            <div class="col-md-6">
+            <label for="nombre">Proveedor</label>
+            <input type="text" class="form-control" id="modal_proveedor_upd" name="proveedor_upd" value="" required >
+            </div>
+
           </div>
+
           <div class="row">
             <div class="col-12">
               <label for="nombre">Fecha de Inventario</label>

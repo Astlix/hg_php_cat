@@ -111,10 +111,10 @@ if ($site != '') {
                 <label for="" class="form-label">Site:</label>
                 <select class="form-select" name="filtro_planta" id="filtro_planta">
                   <option value="" selected>Todos</option>
-                  <option value="Finsa 1">Finsa 1</option>
-                  <option value="Finsa 3">Finsa 3</option>
-                  <option value="Oradel">Oradel</option>
-                  <option value="CLS">CLS</option>
+                  <option value="RH">RH</option>
+                  <option value="Ventas">Ventas</option>
+                  <option value="Compras">Compras</option>
+                  <option value="Software">Software</option>
                 </select>
 
                 <label for="" class="form-label">EPC:</label>
@@ -129,7 +129,7 @@ if ($site != '') {
               <h5>Load Template</h5>
             </div>
             <form class="FormularioAjax" action="<?php echo SERVERURL; ?>ajax/activoAjax.php" method="post" style="display:flex;flex-direction: column; align-items: center;" enctype="multipart/form-data">
-              <input type="file" class="form-control-file" id="exampleFormControlFile1" accept=".xlsx" name="name_doc">
+              <input type="file" class="form-control-file" id="exampleFormControlFile1" accept=".xlsx" name="nombre_doc">
               <button type="submit" class="btn btn-success" style="margin: 10px 15px 10px 0px; display: flex; align-items: center; width: auto;">Importar<i class='bx bxs-file-import' style="padding-left: 5px;"></i></button>
             </form>
 
@@ -163,13 +163,12 @@ if ($site != '') {
           $tabla  = '<table id="nombre" data-nombre="activos" style="border-radius:10px; text-align:center;"  class="table  rounded table-bordered table-striped table-hover salidas-tabla dt_active">';
           $tabla .= '<thead>';
           $tabla .= '<tr class="bg-warning">';
-          $tabla .= '<th scope="col">Asset</th>';
+          $tabla .= '<th scope="col">ID</th>';
           $tabla .= '<th scope="col">Descripción</th>';
           $tabla .= '<th scope="col">Serial</th>';
           $tabla .= '<th scope="col">EPC</th>';
           $tabla .= '<th scope="col">Fecha Inventario</th>';
-          $tabla .= '<th scope="col">Planta</th>';
-          $tabla .= '<th scope="col">Ubicación</th>';
+          $tabla .= '<th scope="col">Departamento</th>';
           $tabla .= '<th scope="col">Acciones</th>';
           $tabla .= '</tr>';
           $tabla .= '</thead>';
@@ -209,10 +208,11 @@ if ($site != '') {
             $replaceString = "";
             $newimg = str_replace($searchString, $replaceString, $img);
             $RUTA_IMG = dirname(__FILE__,3).'/public/img/activos/';
-
+            
             $filejpg = $RUTA_IMG . $newimg . '.jpg';
             $filejpeg =$RUTA_IMG . $newimg . '.jpeg';
             $filepng =$RUTA_IMG . $newimg . '.png';
+
 
             $formato =  "";
             $f1 = $f2 = $f3 = true;
@@ -221,6 +221,7 @@ if ($site != '') {
             elseif (file_exists($filejpeg)) {$formato = 'jpeg';}
             elseif (file_exists($filepng)) {$formato = 'png';}else{$formato = 'error';}
 
+
             // FIN DEL FILTRO PARA SABER EL FORMATO DE LA IMAGEN
 
             $ubi = ActivosModel::ver_ubicacion_activo($columna);
@@ -228,26 +229,22 @@ if ($site != '') {
             $i++;
             $tabla .= '<tr class="elemento">';
             $tabla .= '<td scope="col" class="salida">' . $dato['Asset'] . '</td>';
-            $tabla .= '<td scope="col" class="lote">' . $dato['Description'] . '</td>';
+            $tabla .= '<td scope="col" class="lote">' . $dato['desc_corta'] . '</td>';
             $tabla .= '<td scope="col" class="lote">' . $dato['SerialNumber'] . '</td>';
             $tabla .= '<td scope="col" class="lote">' . $tagsite . '</td>';
             $tabla .= '<td scope="col" class="lote">' . $dato['DateInventory'] . '</td>';
             if ($planta == 01 || $planta2 == 1) {
-              $tabla .= '<td scope="col" class="lote">Finsa 1</td>';
+              $tabla .= '<td scope="col" class="lote">Rh</td>';
             } elseif ($planta == 02 || $planta2 == 2) {
-              $tabla .= '<td scope="col" class="lote">Finsa 3</td>';
+              $tabla .= '<td scope="col" class="lote">Ventas</td>';
             } elseif ($planta == 03 || $planta2 == 3) {
-              $tabla .= '<td scope="col" class="lote">Oradel</td>';
+              $tabla .= '<td scope="col" class="lote">Compras</td>';
             } elseif ($planta == 04 || $planta2 == 4) {
-              $tabla .= '<td scope="col" class="lote">CLS</td>';
+              $tabla .= '<td scope="col" class="lote">Software</td>';
             } else {
               $tabla .= '<td scope="col" class="lote">No asignado</td>';
             }
-            if ($ubi == 'No asignado') {
-              $tabla .= '<td scope="col" class="lote">' . trim($dato['Service003']). '</td>';
-            }else{
-              $tabla .= '<td scope="col" class="lote">' . $ubi . $num_columna . '</td>';
-            }
+            
             $tabla .= '<td>
                 <div class="btn-group">
                   <button type="button" stlyle="width:50px;" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown">
@@ -257,7 +254,7 @@ if ($site != '') {
                     <li><a class="dropdown-item" id="ver_registro_act" style="cursor:pointer;text-align:center;"
                     data-id="' . $dato['idCA'] . '"
                     data-asset="' . $dato['Asset'] . '"
-                    data-description="' . $dato['Description'] . '"
+                    data-description="' . $dato['desc_corta'] . '"
                     data-epc="' . $dato['TagEpc'] . '"
                     data-serial="' . $dato['SerialNumber'] . '"
                     data-site="' . $dato['TagSite'] . '"
@@ -266,9 +263,11 @@ if ($site != '') {
                     data-fecha="' . $dato['DateInventory'] . '"
                     data-s1="' . $dato['Service001'] . '"
                     data-s2="' . $dato['Service002'] . '"
-                    data-s3="' . $dato['Service003'] . '"
-                    data-s4="' . $dato['Service004'] . '"
-                    data-s5="' . $dato['Service005'] . '"
+                    data-empleado="' . $dato['Service003'] . '"
+                    data-desclarga="' . $dato['desc_larga'] . '"
+                    data-modelo="' . $dato['marca_modelo'] . '"
+                    data-numalterno="' . $dato['num_alterno'] . '"
+                    data-proveedor="' . $dato['proveedor'] . '"
                     data-planta="' . $planta . '"
                     data-columna="' . $columna . '"
                     data-num="' . $num_columna . '"
@@ -306,13 +305,13 @@ if ($site != '') {
           // GRAFICA DONUT
           const data = {
             labels: [
-              'Finsa 1',
-              'Finsa 3',
-              'Oradel',
-              'CLS'
+              'RH',
+              'Ventas',
+              'Compras',
+              'Software'
             ],
             datasets: [{
-              label: 'My First Dataset',
+              label: 'Activos',
               data: [<?php echo $finsa1; ?>, <?php echo $finsa3; ?>, <?php echo $oradel; ?>, <?php echo $cls; ?>],
               backgroundColor: [
                 'rgb(255, 99, 132)',
@@ -370,19 +369,19 @@ if ($site != '') {
       }));
 
       var data = [{
-        "planta": "Finsa 1",
+        "planta": "Software",
         "SinEPC": <?php echo $finsa1_st;?>,
         "ConEPC": <?php echo $finsa1_ct;?>
       }, {
-        "planta": "Finsa 3",
+        "planta": "Compras",
         "SinEPC": <?php echo $finsa3_st;?>,
         "ConEPC": <?php echo $finsa3_ct;?>
       }, {
-        "planta": "Oradel",
+        "planta": "Ventas",
         "SinEPC": <?php echo $oradel_st;?>,
         "ConEPC": <?php echo $oradel_ct;?>
       }, {
-        "planta": "CLS",
+        "planta": "RH",
         "SinEPC": <?php echo $cls_st;?>,
         "ConEPC": <?php echo $cls_ct;?>
       }]

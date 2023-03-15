@@ -172,16 +172,17 @@ class activosController extends activosmodel
   public function cargar_masivo_controller(){
     $error = false;
       $allowedFileType = ['application/vnd.ms-excel','text/xls','text/xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
-      if(in_array($_FILES["name_doc"]["type"],$allowedFileType)){
+      if(in_array($_FILES["nombre_doc"]["type"],$allowedFileType)){
         
-        $ruta = "../excel/formatos/" . $_FILES['name_doc']['name'];
-        move_uploaded_file($_FILES['name_doc']['tmp_name'], $ruta);
+        $ruta = "../excel/formatos/" . $_FILES['nombre_doc']['name'];
+        move_uploaded_file($_FILES['nombre_doc']['tmp_name'], $ruta);
         $Reader = new SpreadsheetReader($ruta);
         $sheetCount = count($Reader->sheets());
         $agregar_activo = $update_activo = false;
         $actualizados = $agregados = 0;
         
-        $nombre_doc = $_FILES['name_doc']['name']; //nombre del documento excel
+        $nombre_doc = $_FILES['nombre_doc']['name']; //nombre del documento excel
+        // echo $nombre_doc;
 
         for($i=0;$i<$sheetCount;$i++){ //leemos linea por linea
           $primera = true;
@@ -191,11 +192,16 @@ class activosController extends activosmodel
                     $primera = false;
                     continue;
                 }
-              $asset               = $Row[0];
-              $desc                = $Row[1];
-              $date                = $Row[2];
-              $site                = $Row[3];
-              $locacion            = $Row[4];
+                // print_r($Row);
+              $asset               = trim($Row[0]);
+              $desc                = trim($Row[1]); //descripcion corta
+              $date                = trim($Row[2]);
+              $site                = trim($Row[3]);//deaprtamento
+              $empleado            = trim($Row[4]); //empleado
+              $proveedor            = trim($Row[5]); //proveedor
+              $desc_larga            = trim($Row[6]); //descripcion larga
+              $serie            = trim($Row[7]); //nuemro de serie
+              $modelo            = trim($Row[8]); //modelo
 
               $datearray = explode("/", trim($date));
               $dia = $datearray[0];
@@ -206,7 +212,7 @@ class activosController extends activosmodel
               // echo 'Asset:'.$asset . 'Desc:' . $desc .'Date:' . $newdate .'Site:'. $site.'Locacion:'. $locacion.'<br>';
 
                   // Obtenemos informacion
-                  if (isset($Row[5])) { //VERIFICAMOS QUE NO EXISTA UNA COLUMAN MAS AL DOCUMENTO
+                  if (isset($Row[9])) { //VERIFICAMOS QUE NO EXISTA UNA COLUMAN MAS AL DOCUMENTO
                     $alerta = [
                       "Alerta" => "simple",
                       "Titulo" => "Error de Archivo",
@@ -279,15 +285,23 @@ class activosController extends activosmodel
         
                   } else {
                     
-                    // echo 'Asset:'.$asset . 'Desc:' . $desc .'Date:' . $newdate .'Site:'. $site.'Locacion:'. $locacion.'<br>';
+                    // echo 'Asset:'.$asset . 'Desc:' . $desc .'Date:' . $newdate .'Site:'. $site.'--'.'<br>';
+                    // echo $empleado.'--'.$proveedor.'--'.$desc_larga.'--'.$serie.'--'.$modelo.'||||';
                     $datos_activos_reg = [
                       "asset" => $asset,
                       "description" => $desc,
                       "date_inventory" => $newdate,
                       "site" => $site,
                       "epc" => '',
-                      "locacion" => $locacion,
+                      "empleado" => $empleado,
+                      "proveedor" => $proveedor,
+                      "desc_larga" => $desc_larga,
+                      "serie" => $serie,
+                      "modelo" => $modelo
                     ];
+
+
+
                     $agregar_activo = ActivosModel::agregar_activo_masivo_modelo($datos_activos_reg);
                     if ($agregar_activo) {
                       $agregados = $agregados + 1;

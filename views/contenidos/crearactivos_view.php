@@ -26,12 +26,12 @@
     <div class="row">
         <label for="nombre">Ubicación</label>
         <div class="col">
-            <select class="form-select" name="planta_reg" aria-label="Default select example" title="Planta" required>
-                <option value="01" selected>Finsa1</option>
-                <option value="02">Finsa3</option>
-                <option value="03">Oradel</option>
-                <option value="04">CLS</option>
-            </select>
+                <select class="form-select" name="planta_reg" aria-label="Default select example" title="Planta" required>
+                    <option value="01" selected>Finsa1</option>
+                    <option value="02">Finsa3</option>
+                    <option value="03">Oradel</option>
+                    <option value="04">CLS</option>
+                </select>
         </div>-
         <div class="col">
             <select class="form-select" name="columna_reg" aria-label="Default select example" title="Columna" required>

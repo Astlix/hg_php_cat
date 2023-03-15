@@ -3,7 +3,7 @@
     $peticionAjax=true;
     require_once '../config/config.php';//para poder incluir el SERVERURL
 
-    if (isset($_POST['asset_reg']) || isset($_POST['activo_id_delete']) || isset($_POST['activo_id_upd']) || $_FILES["name_doc"]) {
+    if (isset($_POST['asset_reg']) || isset($_POST['activo_id_delete']) || isset($_POST['activo_id_upd']) || $_FILES["nombre_doc"]['name']) {
         // INCLUIR CONTROLADOR
         require_once '../controllers/activoscontroller.php';
         $ins_usuario = new activosController();
@@ -17,8 +17,8 @@
         if(isset($_POST['activo_id_upd'])){
             echo $ins_usuario->actualizar_activo_controller();
         }
-        // print_r ($_FILES["name_doc"]);
-        if(isset($_FILES["name_doc"])){//si exiaste el archivo de csv hara lo siguiente 
+        // print_r ($_FILES["nombre_doc"]['name']);
+        if(isset($_FILES["nombre_doc"]['name'])){//si exiaste el archivo de csv hara lo siguiente 
             // echo $ins_usuario->agregar_activo__masivo_controller();
             echo $ins_usuario->cargar_masivo_controller();
         }

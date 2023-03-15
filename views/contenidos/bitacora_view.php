@@ -255,7 +255,7 @@
             ?>
               <div class="col-md-12">
                     <label for="nombre">Aseet</label>
-                    <select type="text" class="form-control" id="modal_asset_reg" name="asset_reg" aria-label="Default select example" title="Asset" >
+                    <select type="text" class="form-control" id="+" name="asset_reg" aria-label="Default select example" title="Asset" >
                      <?php 
                       foreach($rsp as $dato){
                         echo '<option value="'.$dato['Asset'].'">'.$dato['Asset'].'</option>';

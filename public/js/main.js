@@ -1,21 +1,27 @@
 
 // ACTIVAR LOS INPUTS DE EDITAR ACTIVOS
-$(document).on("click", "#form_activar", function(e){
-	$("#modal_asset_upd").prop('disabled', false);
-	$("#modal_desc_upd").prop('disabled', false);
-	$("#modal_num_serial_upd").prop('disabled', false);
-	$("#modal_planta_upd").prop('disabled', false);
-	$("#modal_columna_upd").prop('disabled', false);
-	$("#modal_num_upd").prop('disabled', false);
-	$("#modal_serv_1_upd").prop('disabled', false);
-	$("#modal_serv_2_upd").prop('disabled', false);
-	$("#modal_serv_3_upd").prop('disabled', false);
-	$("#modal_serv_4_upd").prop('disabled', false);
-	$("#modal_serv_5_upd").prop('disabled', false);
-	$("#modal_inv_upd").prop('disabled', false);
-	$("#btn_act_upd").css("visibility", "visible");
+// $(document).on("click", "#form_activar", function(e){
+// 	$("#modal_asset_upd").prop('disabled', false);
+// 	$("#modal_desc_upd").prop('disabled', false);
+// 	$("#modal_num_serial_upd").prop('disabled', false);
+// 	$("#modal_planta_upd").prop('disabled', false);
+// 	$("#modal_columna_upd").prop('disabled', false);
+// 	$("#modal_num_upd").prop('disabled', false);
+// 	$("#modal_serv_1_upd").prop('disabled', false);
+// 	$("#modal_serv_2_upd").prop('disabled', false);
+// 	$("#modal_serv_3_upd").prop('disabled', false);
+// 	$("#modal_inv_upd").prop('disabled', false);
+// 	$("#modal_desc_larga_upd").prop('disabled', false);
+// 	$("#modal_empleado_upd").prop('disabled', false);
+// 	$("#modal_marca_upd").prop('disabled', false);
+// 	$("#modal_numalterno_upd").prop('disabled', false);
+// 	$("#modal_proveedor_upd").prop('disabled', false);
+// 	$("#inputimg").css("display", "flex");
 
-});
+
+// 	$("#btn_act_upd").css("visibility", "visible");
+
+// });
 
 //MODAL DE EDIAR USUARIOS
 $(document).on("click", "#editar_user", function(e){
@@ -40,6 +46,7 @@ $(document).on("click", "#editar_user", function(e){
 	let description   = $(this).data("description");
 	let epc   = $(this).data("epc");
 	let tagfind   = $(this).data("tagfind");
+	let empleado   = $(this).data("empleado");
 	let serial   = $(this).data("serial");
 	let inventario   = $(this).data("inventario");
 	let fecha   = $(this).data("fecha");
@@ -53,8 +60,9 @@ $(document).on("click", "#editar_user", function(e){
 	let s1   = $(this).data("s1");
 	let s2   = $(this).data("s2");
 	let s3   = $(this).data("s3");
-	let s4   = $(this).data("s4");
-	let s5   = $(this).data("s5");
+	let desc_larga   = $(this).data("desclarga");
+	let modelo   = $(this).data("modelo");
+	let proveedor   = $(this).data("proveedor");
 	let formato   = $(this).data("img");
 	let newruta = "";
 
@@ -89,17 +97,19 @@ $(document).on("click", "#editar_user", function(e){
 	}
     $("#modal_asset_upd").val(asset);//mandamos los valores a los input para obtenerlos en js
     $("#modal_desc_upd").val(description);
+    $("#modal_desc_larga_upd").val(desc_larga);
     $("#modal_epc_upd").val(epc);
-    $("#modal_tagfind_upd").val(tagfind);
     $("#modal_inv_upd").val(inventario);
     $("#modal_date_upd").val(fecha);
     $("#modal_num_serial_upd").val(serial);
+    $("#modal_empleado_upd").val(empleado);
+    $("#modal_proveedor_upd").val(proveedor);
+    $("#modal_marca_upd").val(modelo);
+    $("#modal_numalterno_upd").val(0);
     $("#activo_id_upd").val(id);
     $("#modal_serv_1_upd").val(s1);
     $("#modal_serv_2_upd").val(s2);
     $("#modal_serv_3_upd").val(s3);
-    $("#modal_serv_4_upd").val(s4);
-    $("#modal_serv_5_upd").val(s5);
     $("#imagen").attr("src",newruta);
 	
     $("#ver_registro").modal("show");

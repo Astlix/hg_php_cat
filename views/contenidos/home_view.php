@@ -245,13 +245,13 @@ if ($site != '') {
    // GRAFICA DONUT
    const data2 = {
             labels: [
-              'Finsa 1',
-              'Finsa 3',
-              'Oradel',
-              'CLS'
+              'RH',
+              'Ventas',
+              'Compras',
+              'Software'
             ],
             datasets: [{
-              label: 'My First Dataset',
+              label: 'Activos',
               data: [<?php echo $finsa1; ?>, <?php echo $finsa3; ?>, <?php echo $oradel; ?>, <?php echo $cls; ?>],                           
               backgroundColor: [
                 'rgb(255, 99, 132)',
